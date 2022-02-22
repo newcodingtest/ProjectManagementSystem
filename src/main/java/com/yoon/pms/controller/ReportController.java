@@ -1,5 +1,7 @@
 package com.yoon.pms.controller;
 
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -23,8 +25,8 @@ public class ReportController {
 	private final WeekReportService weekReportService;
 	
 	@GetMapping("/team/{selectedDate}")
-	public ResponseEntity<?>showMyDepartmentsReport(@PathVariable(required = false)String selectedDate){
-		
+	public ResponseEntity<?>showMyDepartmentsReport(@PathVariable Optional<String> selectedDate){
+	
 		WeekReportDTO dto = new WeekReportDTO();
 		
 		return new ResponseEntity<>(selectedDate,HttpStatus.OK);
