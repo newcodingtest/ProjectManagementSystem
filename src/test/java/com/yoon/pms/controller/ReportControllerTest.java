@@ -31,8 +31,8 @@ public class ReportControllerTest {
 	
 	
 	  @Test
-	  @DisplayName("Ã¹ hi ÄÁÆ®·Ñ·¯ Å×½ºÆ®")
-	  public void hi_¸®ÅÏ() throws Exception{
+	  @DisplayName("ì²«ë²ˆì§¸ HI ì»¨íŠ¸ë¡¤ëŸ¬ í…ŒìŠ¤íŠ¸")
+	  public void hi_ë¬¸ìì—´_ë°˜í™˜_í…ŒìŠ¤íŠ¸() throws Exception{
 		  
 		  //given
 	      String hi = "hi";
@@ -44,11 +44,11 @@ public class ReportControllerTest {
 	   }
 	  
 	  @Test
-	  @DisplayName("ÁÖ°£º¸°í¼­ ³¯Â¥ °¡Á®¿À±â Å×½ºÆ®")
-	  public void ³¯Â¥Å×½ºÆ®() throws Exception {
+	  @DisplayName("ì£¼ê°„ë³´ê³ ì„œ ë‚ ì§œ ê°€ì ¸ì˜¤ê¸° í…ŒìŠ¤íŠ¸")
+	  public void ë‚ ì§œ_ë°˜í™˜_í…ŒìŠ¤íŠ¸() throws Exception {
 		  
 		  //given
-		  String testDate = "";
+		  String testDate = "20220202";
 		  
 		  //andExpect
 		  mvc.perform(get("/report/team/"+testDate))
