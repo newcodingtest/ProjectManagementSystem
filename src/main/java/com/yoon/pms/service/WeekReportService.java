@@ -17,16 +17,26 @@ public interface WeekReportService {
 		 WeekReportDTO dto = new WeekReportDTO();
 		 
 		 need.put("thisMonday", dto.getThistMonday());
-		 need.put("thisMonday", dto.getNextSaturday());
+		 need.put("nextSatday", dto.getNextSaturday());
 		 
 		return need;
 	}
 	
-	default int compareDate(LocalDate target) {
+	default int compareThisSatDay(LocalDate end) {
 		WeekReportDTO dto = new WeekReportDTO();
-		
-		return target.compareTo(dto.getLastSunday());
+		return end.compareTo(dto.getThisSaturday());
 	}
+	
+	default int compareNextMonDay(LocalDate end) {
+		WeekReportDTO dto = new WeekReportDTO();
+		return end.compareTo(dto.getNexttMonday());
+	}
+	
+	default int compareNextSunDay(LocalDate start) {
+		WeekReportDTO dto = new WeekReportDTO();
+		return start.compareTo(dto.getNextSunday());
+	}
+	
 	
 	default List<Map<String,Object>> execute(Map<String,Object>need) {
 		
