@@ -33,38 +33,32 @@ public class WeekReport {
 	private Long taskId;
 	
 	@Column
-	private String taskType; //¾÷¹« Á¾·ù --> °³¹ß/¾÷¹«Á¦¾È/°ü¸®/±âÅ¸
+	private String taskType; //ì—…ë¬´ ì¢…ë¥˜ --> ê°œë°œ/ì—…ë¬´ì œì•ˆ/ê´€ë¦¬/ê¸°íƒ€
 	@Column
-	private String detailedTaskType; //»ó¼¼ ¾÷¹« -->°³¹ß/¹ö±×¼öÁ¤/»êÃâ¹°/Å×½ºÆ®/ÈÞ°¡/±âÅ¸ µîµî
+	private String detailedTaskType; //ìƒì„¸ ì—…ë¬´ -->ê°œë°œ/ë²„ê·¸ìˆ˜ì •/ì‚°ì¶œë¬¼/í…ŒìŠ¤íŠ¸/íœ´ê°€/ê¸°íƒ€ ë“±ë“±
 	@Column
-	private String divisionOfTask; //¾÷¹« ±¸ºÐ --> ÁÖ/Áö¿ø
+	private String divisionOfTask; //ì—…ë¬´ êµ¬ë¶„ --> ì£¼/ì§€ì›
 	@Column
-	private String contents; // ¾÷¹« ³»¿ë
+	private String contents; // ì—…ë¬´ ë‚´ìš©
 	@Column
-	private String taskTitle; //¾÷¹« Á¦¸ñ
+	private String taskTitle; //ì—…ë¬´ ì œëª©
 	@Column
-	private String writer; //ÀÛ¼ºÀÚ ¾ÆÀÌµð
+	private String writer; //ìž‘ì„±ìž ì•„ì´ë””
 	@Column
-	private String remarks; //ºñ°í
+	private String remarks; //ë¹„ê³ 
 	
 	@Column
-	private LocalDateTime taskStartDate; //¾÷¹« ½ÃÀÛÀÏ
+	private LocalDateTime taskStartDate; //ì—…ë¬´ ì‹œìž‘ì¼
 	@Column
-	private LocalDateTime taskEndDate;  //¾÷¹« Á¾·áÀÏ
+	private LocalDateTime taskEndDate;  //ì—…ë¬´ ì¢…ë£Œì¼
 	@Column
-	private LocalDateTime savedWeekDate; // ¹èÄ¡°¡ µ¹¾Æ¼­ ÀúÀåµÈ ³¯Â¥
+	private LocalDateTime savedWeekDate; // ë°°ì¹˜ê°€ ëŒì•„ì„œ ì €ìž¥ëœ ë‚ ì§œ
 	
 	@Column
-	private int progressState; //ÁøÇà »óÅÂ --> ÁøÇÚÀü/ÁøÇàÁß/¿Ï·á/Áß´Ü
+	private int progressState; //ì§„í–‰ ìƒíƒœ --> ì§„í•¸ì „/ì§„í–‰ì¤‘/ì™„ë£Œ/ì¤‘ë‹¨
 	@Column
-	private Long parent; // --> ºÎ¸ð ÀÛ¾÷ /ÀÚ½ÄÀÛ¾÷ ±¸ºÐ Å°
+	private Long parent; // --> ë¶€ëª¨ ìž‘ì—… /ìžì‹ìž‘ì—… êµ¬ë¶„ í‚¤
 	@Column
-	private int reportRegistFlag; //--> º¸°í¼­ µî·Ï ¿©ºÎ
-	
-	
-	
-	
-	
-	
+	private int reportRegistFlag; //--> ë³´ê³ ì„œ ë“±ë¡ ì—¬ë¶€
 	
 }

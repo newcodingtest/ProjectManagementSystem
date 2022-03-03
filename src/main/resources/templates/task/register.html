@@ -7,6 +7,7 @@
          <h2 class="tit-level1"> 
 			새작업
          </h2>
+         <form th:action="@{/task/register}" th:method="post">
          <div class="subConView">
             <!-- 메인 화면  -->
             		 <div class="col-md-6">
@@ -14,7 +15,7 @@
                            <label class="control-label"><label class="star01">작업명</label></label>
                            <label><span id="name_counter">(0/50)</span></label>
                            <div class="formInput">
-                              	<input type="text" name="name" class="form-control" id="name" placeholder="작업명을 입력해 주세요.">
+                              	<input type="text" name="taskTitle" class="form-control" id="name" placeholder="작업명을 입력해 주세요.">
                            </div>
                         </div>
                      </div>
@@ -24,9 +25,9 @@
                            <div class="formInput">
                               <div id="dateStart" class="dateStart">
                                  <div class="input-group input-daterange date">
-                                    <input class="form-control" name="start_date" id="start_date" >
+                                    <input class="form-control" name="taskStartDate" id="start_date" >
                                     <div class="input-group-addon"> ~ </div>
-                                    <input class="form-control" name="end_date" id="end_date" >
+                                    <input class="form-control" name="taskEndDate" id="end_date" >
                                  </div>
                               </div>
                            </div>
@@ -37,7 +38,7 @@
                            <label class="control-label"><label class="star01">단계</label></label>
                            <div class="formInput">
                               <div class="selects">
-                                 <select class="form-control" name="" id="privacy_state" onchange="changeProgress(this.options[this.selectedIndex].value)">
+                                 <select class="form-control" name="progressState" id="privacy_state" onchange="changeProgress(this.options[this.selectedIndex].value)">
                                     <option value="111">진행전</option>
                                     <option value="112">진행중</option>
                                     <option value="113">완료</option>
@@ -52,7 +53,7 @@
                      		<label class="control-label"><label class="">진행률</label></label> 
                      			<div class="formInput">
 			                          <div class="input-group unit">
-		                                 <input type="text" class="form-control" id="real_progress" value="0">
+		                                 <input type="text" class="form-control" name="realProgress" id="real_progress" value="0">
 		                                 <span class="input-group-addon">%</span>
 			                          </div>   
 		                      	</div>
@@ -63,14 +64,14 @@
                               <div class="formInput text-center">
                               <label class="control-label"><label class="">보고서 포함</label></label>
                               <div class="formInput text-center">
-                                    <input type="checkbox" id="week" style="zoom:1.6;"  checked="checked"/>
+                                    <input type="checkbox" name="reportRegistFlag" id="week" style="zoom:1.6;"  checked="checked"/>
                                  </div>
                            	   </div>
                           </div>
                      </div>
                      <div class="col-md-5">
                      	<label class="control-label mt-2"><label class="">관련 프로젝트</label></label>
-                     	<select class="form-control" name="project_id" id="project_id" >
+                     	<select class="form-control" name="projectId" id="project_id" >
                      		<option value=0  data-value=기타>기타</option>
                      	</select>
                      </div>
@@ -79,7 +80,7 @@
                            <label class="control-label"><label class="">업무 종류</label></label>
                            <div class="formInput">
                               <div class="selects">
-                                 <select class="form-control" name="" id="work_type">
+                                 <select class="form-control" name="taskType" id="work_type">
                                     <option value="개발">개발</option>
                                     <option value="업무관리">업무관리</option>
                                     <option value="제안">제안</option>
@@ -94,7 +95,7 @@
                            <label class="control-label"><label class="">상세 업무</label></label>
                            <div class="formInput">
                               <div class="selects">
-                                 <select class="form-control" name="work_detail_type" id="work_detail_type">
+                                 <select class="form-control" name="detailedTaskType" id="work_detail_type">
                                     <option value="개발">개발</option>
                                     <option value="버그수정">버그수정</option>
                                     <option value="미팅">미팅</option>
@@ -122,7 +123,7 @@
                            <label class="control-label"><label class="">업무 구분</label></label>
                            <div class="formInput">
                               <div class="selects">
-                                 <select class="form-control" name="work_division"
+                                 <select class="form-control" name="divisionOfTask"
                                     id="work_division">
                                     <option value="주 업무">주 업무</option>
                                     <option value="지원 업무">지원 업무</option>
@@ -136,7 +137,7 @@
                            <label class="control-label"><label class="">작업 내용</label></label>
                            <label><span id="contents_counter">(0/1000)</span></label>
                            <div class="formInput">
-                              <textarea class="form-control" placeholder="내용을 입력해 주세요." rows="5" name="contents" id="contents"></textarea>
+                              <textarea class="form-control" placeholder="내용을 입력해 주세요." rows="5" name="Contents" id="contents"></textarea>
                            </div>
                         </div>
                      </div>
@@ -145,13 +146,15 @@
                            <label class="control-label"><label class="">비고</label></label>
                            <label><span id="contents_comment">(0/100)</span></label>
                            <div class="formInput">
-                              <textarea class="form-control" placeholder="비고를 입력해 주세요." rows="2" name="comment" id="comment"></textarea>
+                              <textarea class="form-control" placeholder="비고를 입력해 주세요." rows="2" name="remarks" id="comment"></textarea>
                            </div>
                         </div>
                      </div>
                      <div class="col-md-12 btnArea text-right">
-                        <a class="btn btn-primary" onclick="save();">저장</a>
+                 <button type="submit" class="btn btn-primary">저장</button> 
+                 <!--         <a class="btn btn-primary" onclick="save();">저장</a> -->
                      </div>
+                        </form>
                   </div>
     </th:block>
 </th:block>
