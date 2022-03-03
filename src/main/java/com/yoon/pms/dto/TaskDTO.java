@@ -1,11 +1,16 @@
 package com.yoon.pms.dto;
 
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,33 +23,35 @@ public class TaskDTO {
 
 	private Long tid;
 	 
-	private Long projectId;  //ÇÁ·ÎÁ§Æ® ¾ÆÀÌµð
+	private Long projectId;  //í”„ë¡œì íŠ¸ ì•„ì´ë””
 	 
-	private String taskType; //¾÷¹« Á¾·ù --> °³¹ß/¾÷¹«Á¦¾È/°ü¸®/±âÅ¸
+	private String taskType; //ì—…ë¬´ ì¢…ë¥˜ --> ê°œë°œ/ì—…ë¬´ì œì•ˆ/ê´€ë¦¬/ê¸°íƒ€
 	 
-	private String detailedTaskType; //»ó¼¼ ¾÷¹« -->°³¹ß/¹ö±×¼öÁ¤/»êÃâ¹°/Å×½ºÆ®/ÈÞ°¡/±âÅ¸ µîµî
+	private String detailedTaskType; //ìƒì„¸ ì—…ë¬´ -->ê°œë°œ/ë²„ê·¸ìˆ˜ì •/ì‚°ì¶œë¬¼/í…ŒìŠ¤íŠ¸/íœ´ê°€/ê¸°íƒ€ ë“±ë“±
 	 
-	private String divisionOfTask; //¾÷¹« ±¸ºÐ --> ÁÖ/Áö¿ø
-	private String Contents; // ¾÷¹« ³»¿ë
-	private String taskTitle; //¾÷¹« Á¦¸ñ
+	private String divisionOfTask; //ì—…ë¬´ êµ¬ë¶„ --> ì£¼/ì§€ì›
+	private String Contents; // ì—…ë¬´ ë‚´ìš©
+	private String taskTitle; //ì—…ë¬´ ì œëª©
 	 
-	private String writer; //ÀÛ¼ºÀÚ ¾ÆÀÌµð
+	private String writer; //ìž‘ì„±ìž ì•„ì´ë””
 	 
-	private String remarks; //ºñ°í
+	private String remarks; //ë¹„ê³ 
 	
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") //get
+   // @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul") //post
+	private LocalDateTime taskStartDate; //ì—…ë¬´ ì‹œìž‘ì¼
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") //get
+    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul") //post
+	private LocalDateTime taskEndDate;  //ì—…ë¬´ ì¢…ë£Œì¼
 	 
-	private LocalDateTime taskStartDate; //¾÷¹« ½ÃÀÛÀÏ
+	private float realProgress; // ì‹¤ì œ ì§„í–‰ë¥  --> 1%,50%,100%
 	 
-	private LocalDateTime taskEndDate;  //¾÷¹« Á¾·áÀÏ
+	private LocalDateTime savedWeekDate; // ë°°ì¹˜ê°€ ëŒì•„ì„œ ì €ìž¥ëœ ë‚ ì§œ
 	 
-	private float realProgress; // ½ÇÁ¦ ÁøÇà·ü --> 1%,50%,100%
+	private int progressState; //ì§„í–‰ ìƒíƒœ --> ì§„í•¸ì „/ì§„í–‰ì¤‘/ì™„ë£Œ/ì¤‘ë‹¨
 	 
-	private LocalDateTime savedWeekDate; // ¹èÄ¡°¡ µ¹¾Æ¼­ ÀúÀåµÈ ³¯Â¥
+	private Long parent; // --> ë¶€ëª¨ ìž‘ì—… /ìžì‹ìž‘ì—… êµ¬ë¶„ í‚¤
 	 
-	private int progressState; //ÁøÇà »óÅÂ --> ÁøÇÚÀü/ÁøÇàÁß/¿Ï·á/Áß´Ü
-	 
-	private Long parent; // --> ºÎ¸ð ÀÛ¾÷ /ÀÚ½ÄÀÛ¾÷ ±¸ºÐ Å°
-	 
-	private int reportRegistFlag; //--> º¸°í¼­ µî·Ï ¿©ºÎ
-	
+	private int reportRegistFlag; //--> ë³´ê³ ì„œ ë“±ë¡ ì—¬ë¶€
 }

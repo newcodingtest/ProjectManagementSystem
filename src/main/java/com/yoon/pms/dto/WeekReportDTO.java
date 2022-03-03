@@ -1,6 +1,6 @@
 package com.yoon.pms.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDate; 
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class WeekReportDTO {
 	
-	private int Dayoftheweek;
+private int Dayoftheweek;
 	
 	private List<TaskDTO> getMyDeptReportList;
 	
@@ -38,15 +38,15 @@ public class WeekReportDTO {
 	private void createDate() {
 	
 		switch (getDayoftheweek()) {
-		   case 1: //ÂïÈù ³¯Â¥°¡ ¿ù¿äÀÏ ÀÌ¶ó¸é
-			   lastSaturday = LocalDate.now().minusDays(2); //Àú¹øÁÖ Åä¿äÀÏ
+		   case 1: //ì°íŒ ë‚ ì§œê°€ ì›”ìš”ì¼ ì´ë¼ë©´
+			   lastSaturday = LocalDate.now().minusDays(2); //ì €ë²ˆì£¼ í† ìš”ì¼
 			   lastSunday = LocalDate.now().minusDays(1);
-			   thistMonday = LocalDate.now();               //±İÁÖ ¿ù¿äÀÏ    
-			   thisSaturday = LocalDate.now().plusDays(5); //±İÁÖ Åä¿äÀÏ
-			   nexttMonday = LocalDate.now().plusDays(7);   //Â÷ÁÖ ¿ù¿äÀÏ
-	           nextSaturday = LocalDate.now().plusDays(12); //Â÷ÁÖ Åä¿äÀÏ	 
+			   thistMonday = LocalDate.now();               //ê¸ˆì£¼ ì›”ìš”ì¼    
+			   thisSaturday = LocalDate.now().plusDays(5); //ê¸ˆì£¼ í† ìš”ì¼
+			   nexttMonday = LocalDate.now().plusDays(7);   //ì°¨ì£¼ ì›”ìš”ì¼
+	           nextSaturday = LocalDate.now().plusDays(12); //ì°¨ì£¼ í† ìš”ì¼	 
 				break;
-			case 2: //ÂïÈù ³¯Â¥°¡ È­¿äÀÏ ÀÌ¶ó¸é
+			case 2: //ì°íŒ ë‚ ì§œê°€ í™”ìš”ì¼ ì´ë¼ë©´
 				lastSaturday = LocalDate.now().minusDays(3);
 				lastSunday = LocalDate.now().minusDays(2);
 				thistMonday = LocalDate.now().minusDays(1);
@@ -54,7 +54,7 @@ public class WeekReportDTO {
 				nexttMonday = LocalDate.now().plusDays(6);
 				nextSaturday = LocalDate.now().plusDays(11);	
 				break;
-			case 3: //ÂïÈù ³¯Â¥°¡ ¼ö¿äÀÏ ÀÌ¶ó¸é
+			case 3: //ì°íŒ ë‚ ì§œê°€ ìˆ˜ìš”ì¼ ì´ë¼ë©´
 				lastSaturday = LocalDate.now().minusDays(4);
 				lastSunday = LocalDate.now().minusDays(3);
 				thistMonday = LocalDate.now().minusDays(2);
@@ -62,7 +62,7 @@ public class WeekReportDTO {
 				nexttMonday = LocalDate.now().plusDays(5);
 				nextSaturday = LocalDate.now().plusDays(10);		
 				break;
-			case 4: //ÂïÈù ³¯Â¥°¡ ¸ñ¿äÀÏ ÀÌ¶ó¸é
+			case 4: //ì°íŒ ë‚ ì§œê°€ ëª©ìš”ì¼ ì´ë¼ë©´
 				lastSaturday = LocalDate.now().minusDays(5);
 				lastSunday = LocalDate.now().minusDays(4);
 				thistMonday = LocalDate.now().minusDays(3);
@@ -70,7 +70,7 @@ public class WeekReportDTO {
 				nexttMonday = LocalDate.now().plusDays(4);
 				nextSaturday = LocalDate.now().plusDays(9);
 				break;
-			case 5: //ÂïÈù ³¯Â¥°¡ ±À¿äÀÏ ÀÌ¶ó¸é
+			case 5: //ì°íŒ ë‚ ì§œê°€ êµ¼ìš”ì¼ ì´ë¼ë©´
 				lastSaturday = LocalDate.now().minusDays(6);
 				lastSunday = LocalDate.now().minusDays(5);
 				thistMonday = LocalDate.now().minusDays(4);
@@ -78,7 +78,7 @@ public class WeekReportDTO {
 				nexttMonday = LocalDate.now().plusDays(3);
 				nextSaturday = LocalDate.now().plusDays(8);
 				break;
-			case 6: //ÂïÈù ³¯Â¥°¡ Åä¿äÀÏ ÀÌ¶ó¸é
+			case 6: //ì°íŒ ë‚ ì§œê°€ í† ìš”ì¼ ì´ë¼ë©´
 				lastSaturday = LocalDate.now().minusDays(7);
 				lastSunday = LocalDate.now().minusDays(6);
 				thistMonday = LocalDate.now().minusDays(5);
@@ -86,7 +86,7 @@ public class WeekReportDTO {
 				nexttMonday = LocalDate.now().plusDays(2);
 				nextSaturday = LocalDate.now().plusDays(7);
 				break;
-			case 7: //ÂïÈù ³¯Â¥°¡ ÀÏ¿äÀÏ ÀÌ¶ó¸é
+			case 7: //ì°íŒ ë‚ ì§œê°€ ì¼ìš”ì¼ ì´ë¼ë©´
 				lastSaturday = LocalDate.now().minusDays(8);
 				lastSunday = LocalDate.now().minusDays(7);
 				thistMonday = LocalDate.now().minusDays(6);
