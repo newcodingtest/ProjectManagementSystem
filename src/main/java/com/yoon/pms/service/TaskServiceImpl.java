@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Service;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,10 +16,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 
-public class TaskServiceImpl {
+@Service
+public class TaskServiceImpl implements TaskService {
 
-	
-	
 	
 	
 	

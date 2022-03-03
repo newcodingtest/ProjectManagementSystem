@@ -1,0 +1,96 @@
+/****************************************************************************/
+/**         Webfont												           **/
+/****************************************************************************/
+@charset "utf-8";
+
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700");
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap');
+
+
+@font-face {
+ font-family: 'Noto Sans KR';
+ font-weight:100;
+ src: url('font/NotoSans-Light.eot');
+ src: local(※), url('font/NotoSans-Light.eot?#iefix') format('embedded-opentype'),
+   url('font/NotoSans-Light.woff') format('woff'),
+   url('font/NotoSans-Light.otf') format('truetype');
+}
+@font-face {
+ font-family: 'Noto Sans KR';
+ font-weight:200;
+ src: url('font/NotoSans-DemiLight.eot');
+ src: local(※), url('font/NotoSans-DemiLight.eot?#iefix') format('embedded-opentype'),
+   url('font/NotoSans-DemiLight.woff') format('woff'),
+   url('font/NotoSans-DemiLight.otf') format('truetype');
+}
+@font-face {
+ font-family: 'Noto Sans KR';
+ font-weight:400;
+ src: url('font/NotoSans-Regular.eot');
+ src: local(※), url('font/NotoSans-Regular.eot?#iefix') format('embedded-opentype'),
+   url('font/NotoSans-Regular.woff') format('woff'),
+   url('font/NotoSans-Regular.otf') format('truetype');
+}
+@font-face {
+ font-family: 'Noto Sans KR';
+ font-weight:700;
+ src: url('font/NotoSans-Medium.eot');
+ src: local(※), url('font/NotoSans-Medium?#iefix') format('embedded-opentype'),
+   url('font/NotoSans-Medium.woff') format('woff'),
+   url('font/NotoSans-Medium.otf') format('truetype');
+}
+/* @font-face {
+ font-family: 'Noto Sans KR';
+ font-weight:700;
+ src: url('font/NotoSans-Bold.eot');
+ src: local(※), url('font/NotoSans-Bold.eot?#iefix') format('embedded-opentype'),
+   url('font/NotoSans-Bold.woff') format('woff'),
+   url('font/NotoSans-Bold.otf') format('truetype');
+}​ 
+ */
+
+@font-face {
+    font-family: 'SamsungOne';
+    src: url("font/SamsungOneLatinWeb-400.woff2") format("woff2"),
+        url("font/SamsungOneLatinWeb-400.woff") format("woff"),
+        url("font/SamsungOneLatinWeb-400.eot");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap
+}
+
+@font-face {
+    font-family: 'SamsungOne';
+    src: url("font/SamsungOneLatinWeb-700.woff2") format("woff2"),
+        url("font/SamsungOneLatinWeb-700.woff") format("woff"),
+        url("font/SamsungOneLatinWeb-700.eot");
+    font-weight: 700;
+    font-style: bold;
+    font-display: swap
+}
+
+
+@font-face {
+    font-family: 'sGraphic';
+    src: url('font/SamsungSharpSansRg.eot');
+    src: url('font/SamsungSharpSansRg.eot?#iefix') format('embedded-opentype'),
+         /* url('font/SamsungSharpSansRg.woff2') format('woff2'), */
+         url('font/SamsungSharpSansRg.woff') format('woff'),
+         url('font/SamsungSharpSansRg.ttf') format('truetype'),
+         url('font/SamsungSharpSansRg.svg#SamsungSharpSansRg') format('svg');
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'sGraphic';
+    src: url('font/SamsungSharpSansBd.eot');
+    src: url('font/SamsungSharpSansBd.eot?#iefix') format('embedded-opentype'),
+        /* url('font/SamsungSharpSansBd.woff2') format('woff2'),*/
+         url('font/SamsungSharpSansBd.woff') format('woff'),
+         url('font/SamsungSharpSansBd.ttf') format('truetype'),
+         url('font/SamsungSharpSansBd.svg#SamsungSharpSansBd') format('svg');
+	 font-weight: 700;
+    font-style: normal;
+}

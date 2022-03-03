@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="setContent(content)">
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div id="wrapper">
+		<nav class="navbar-default navbar-static-side" role="navigation">
+			<div class="sidebar-collapse">
+				<ul class="nav metismenu" id="side-menu">
+					<li class="active"><a href="#"><i class="mnImg02"></i><span class="nav-label">내작업</span><span class="arrow01"></span></a>
+						<ul class="nav nav-second-level">
+							<li class="active"><a href="#">전체</a></li>
+							<li><a href="#">진행전  </a></li>
+							<li><a href="#">진행중</a></li>
+							<li><a href="#">중단</a></li>
+							<li><a href="#">완료</a></li>
+						</ul>
+					</li>
+					<li><a href="#"><i class="mnImg01"></i> <span class="nav-label">보고서</span><span class="arrow01"></span></a>
+						<ul class="nav nav-second-level">
+							<li class=""><a href="#">내부서</a></li>
+							<li><a href="#">프로젝트별</a></li>
+						</ul>
+					</li> 
+					<li><a href="#"><i class="mnImg04"></i> <span class="nav-label">프로젝트</span> <span class="arrow01"></span></a>
+					</li>
+					<li><a href="#"><i class="mnImg05"></i> <span class="nav-label">시스템관리</span> <span class="arrow01"></span></a>
+						<ul class="nav nav-second-level">
+							<li><a href="#">프로젝트 관리</a></li>
+						</ul>
+					</li>
+				</s:authorize>
+				</ul>
+			</div>
+		</nav>
+		<!-- #gnb e -->
+<div id="page-wrapper">
+	<div class="subConView">
+		<div class="conWrap">
+			<div class="sectionCon">
+				<div class="board_top mainSearch">
+						<div class="col-md-3"  style="padding-left: 0px;">
+							<div class="selects">
+								<select class="project_title" name="type" id="project_title" >
+								<option value="all" data-value="all" value="전체">전체</option>
+								<option value="기타" data-value="기타">기타</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-2" style="padding-left: 0px;">
+							<form id="actionForm" action="job/list" method="get"> 
+								<input type="submit" value="검색" id="search"  class="btn btn-info" />
+								<input type="hidden" id="title"> 
+							</form>	 
+						</div>
+						<div class="col-md-7 text-right"  style="padding-left: 0px;">
+							<a href="#" class="btn btn-info" title=""><i class="ti-plus"></i>&nbsp;&nbsp;새작업</a>
+						</div>
+					<!-- 버튼 끝 -->
+				</div>
+				<div class="workStaion">
+					<div class="workListArea">
+						<div class="workList workBefore col-md-4">
+							<div class="workListWrap">
+							<!-- ============================ 프로젝트 진행 전인 숫자들 목록 표시 ============================ -->
+								<h3>
+									진행 전<span><c:out value="${beforeCnt}" /></span>
+								</h3>
+							<!-- ============================ 프로젝트 진행 전인 숫자들 목록 표시 ============================ -->
+			
+							</div>
+						</div>
+						<div class="workList workIng col-md-4">
+							<div class="workListWrap">
+								<h3>
+									진행 중<span><c:out value="${ingCnt}" /></span>
+								</h3>
+				
+							  </div>
+							</div>
+
+						<div class="workList workEnd col-md-4">
+							<div class="workListWrap">
+								<h3>
+									완료(최근2개월)<span><c:out value="${endCnt}" /></span>
+								</h3>
+				 				<c:forEach var="end" items="${endlistBefore2Months}"> 
+								<!-- ====================== 완료 시작 ================================= -->
+								<div class="workListDetail">
+										<c:choose>
+											<c:when test="${end.wbs_id!=0}">
+			                                     <div class="station" style="background: #FFFFCC;">
+			                                  </c:when>
+			                                   <c:when test="${end.wbs_id==0}">
+			                                      <div class="station">
+			                                  </c:when>
+		                                  </c:choose>
+											<c:if test="${end.project_id ne 0}"><a href="/project/main?id=<c:out value="${end.project_id}" />" title="프로젝트명 "> </c:if>
+											<div class="cate">
+												<c:out value="${end.project.project_nickname eq null ? '기타' : end.project.project_nickname}" /> 
+												<c:out value="${end.project.project_nickname eq null ? '' : end.order_id}" />
+												<c:choose>
+					                                  <c:when test="${end.week==1}">
+					                                      <i class="far fas fa-star"  title="주간보고서 포함"></i>
+					                                  </c:when>
+					                                  <c:when test="${end.week!=1}">
+					                                      <i class="far fa-star"></i>
+					                                  </c:when>
+				                               </c:choose>
+											</div>
+											</a>
+											<a href="/job/submodify?id=<c:out value="${end.id}" />">
+											<h4>
+												<c:out value="${end.name}" /><span></span>
+											</h4>
+											(<c:out value="${end.real_start_date}"/>~<c:out value="${end.real_end_date}"/>)
+											<div class="ingTxt">
+											<fmt:formatNumber value="${end.real_progress*100}" type="number" var="numberType" />
+											<span><c:out value="${numberType}"/>%</span>
+											</div>
+											</a>
+										</div>
+								</div>
+						<!-- ====================== 완료 끝 ================================= -->
+								 </c:forEach>	 
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+
+
+		</div>
+</body>
+</html>
+<script>
+
+</script>
