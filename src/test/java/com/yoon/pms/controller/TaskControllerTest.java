@@ -50,5 +50,14 @@ public class TaskControllerTest {
 	         .andExpect(status().isOk());    
 	   }
 	  
+	  @Test
+	  @DisplayName("register 페이지 테스트")
+	  public void register_페이지_이동() throws Exception{
+	        
+	      //andExpect
+	      mvc.perform(get("/task/register"))
+	         .andExpect(status().isOk());    
+	   }
+	  
 
 }

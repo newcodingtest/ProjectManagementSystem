@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8"/>
+<th:block th:replace="~{/layout/header :: setContent(~{this::content} )}">
+ <th:block th:fragment="content">
+
+         <h2 class="tit-level1"> 
+			새작업
+         </h2>
+         <div class="subConView">
+            <!-- 메인 화면  -->
+            		 <div class="col-md-6">
+                        <div class="form-group">
+                           <label class="control-label"><label class="star01">작업명</label></label>
+                           <label><span id="name_counter">(0/50)</span></label>
+                           <div class="formInput">
+                              	<input type="text" name="name" class="form-control" id="name" placeholder="작업명을 입력해 주세요.">
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-4">
+                        <div class="form-group">
+                           <label class="control-label"><label class="star01">기간</label></label>
+                           <div class="formInput">
+                              <div id="dateStart" class="dateStart">
+                                 <div class="input-group input-daterange date">
+                                    <input class="form-control" name="start_date" id="start_date" >
+                                    <div class="input-group-addon"> ~ </div>
+                                    <input class="form-control" name="end_date" id="end_date" >
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-1">
+                        <div class="form-group">
+                           <label class="control-label"><label class="star01">단계</label></label>
+                           <div class="formInput">
+                              <div class="selects">
+                                 <select class="form-control" name="" id="privacy_state" onchange="changeProgress(this.options[this.selectedIndex].value)">
+                                    <option value="111">진행전</option>
+                                    <option value="112">진행중</option>
+                                    <option value="113">완료</option>
+                                    <option value="110">중단</option> 
+                                 </select>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                      <div class="col-md-1">
+                     		<div class="form-group">
+                     		<label class="control-label"><label class="">진행률</label></label> 
+                     			<div class="formInput">
+			                          <div class="input-group unit">
+		                                 <input type="text" class="form-control" id="real_progress" value="0">
+		                                 <span class="input-group-addon">%</span>
+			                          </div>   
+		                      	</div>
+		                  </div>
+                     </div>
+                     <div class="col-md-1">
+                        <div class="form-group">
+                              <div class="formInput text-center">
+                              <label class="control-label"><label class="">보고서 포함</label></label>
+                              <div class="formInput text-center">
+                                    <input type="checkbox" id="week" style="zoom:1.6;"  checked="checked"/>
+                                 </div>
+                           	   </div>
+                          </div>
+                     </div>
+                     <div class="col-md-5">
+                     	<label class="control-label mt-2"><label class="">관련 프로젝트</label></label>
+                     	<select class="form-control" name="project_id" id="project_id" >
+                     		<option value=0  data-value=기타>기타</option>
+                     	</select>
+                     </div>
+                     <div class="col-md-2">
+                        <div class="form-group">
+                           <label class="control-label"><label class="">업무 종류</label></label>
+                           <div class="formInput">
+                              <div class="selects">
+                                 <select class="form-control" name="" id="work_type">
+                                    <option value="개발">개발</option>
+                                    <option value="업무관리">업무관리</option>
+                                    <option value="제안">제안</option>
+                                    <option value="기타">기타</option>
+                                 </select>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-2">
+                        <div class="form-group">
+                           <label class="control-label"><label class="">상세 업무</label></label>
+                           <div class="formInput">
+                              <div class="selects">
+                                 <select class="form-control" name="work_detail_type" id="work_detail_type">
+                                    <option value="개발">개발</option>
+                                    <option value="버그수정">버그수정</option>
+                                    <option value="미팅">미팅</option>
+                                    <option value="보고">보고</option>
+                                    <option value="출장">출장</option>
+                                    <option value="산출물">산출물</option>
+                                    <option value="테스트">테스트</option>
+                                    <option value="작성">작성</option>
+                                    <option value="보완">보완</option>
+                                    <option value="사업관리">사업관리</option>
+                                    <option value="신규개발">신규개발</option>
+                                    <option value="신규(분석)">신규(분석)</option>
+                                    <option value="신규(설계)">신규(설계)</option>
+                                    <option value="자기계발">자기계발</option>
+                                    <option value="건강검진">건강검진</option>
+                                    <option value="휴가">휴가</option>
+                                    <option value="기타">기타</option>
+                                 </select>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-2">
+                        <div class="form-group">
+                           <label class="control-label"><label class="">업무 구분</label></label>
+                           <div class="formInput">
+                              <div class="selects">
+                                 <select class="form-control" name="work_division"
+                                    id="work_division">
+                                    <option value="주 업무">주 업무</option>
+                                    <option value="지원 업무">지원 업무</option>
+                                 </select>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-12" style="margin-top: 10px;">
+                        <div class="form-group form-group-block">
+                           <label class="control-label"><label class="">작업 내용</label></label>
+                           <label><span id="contents_counter">(0/1000)</span></label>
+                           <div class="formInput">
+                              <textarea class="form-control" placeholder="내용을 입력해 주세요." rows="5" name="contents" id="contents"></textarea>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-12" style="margin-top: 10px;">
+                        <div class="form-group form-group-block">
+                           <label class="control-label"><label class="">비고</label></label>
+                           <label><span id="contents_comment">(0/100)</span></label>
+                           <div class="formInput">
+                              <textarea class="form-control" placeholder="비고를 입력해 주세요." rows="2" name="comment" id="comment"></textarea>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-12 btnArea text-right">
+                        <a class="btn btn-primary" onclick="save();">저장</a>
+                     </div>
+                  </div>
+    </th:block>
+</th:block>
+
+<!-- toTop start -->
+<div id="gototop">go to top</div>
+<!--// toTop end -->
+
+<script>
+$(document).ready(function() {
+	$('#conFirmDelete').click(function () {
+		swal({
+			title: "등록하시겠습니까?",
+			text: "확인버튼 클릭후 저장됩니다.",
+			type: "info",
+			showCancelButton: true,
+			confirmButtonText: "확인",
+			closeOnConfirm: false
+		}, function () {
+			swal("Suceess", "등록이 완료되었습니다.", "success");
+		});
+	});
+
+});
+</script>
+
+
+
+<script src="../js/lib/loadAnimation.js"></script>
+
+
+
+</body>
+</html>

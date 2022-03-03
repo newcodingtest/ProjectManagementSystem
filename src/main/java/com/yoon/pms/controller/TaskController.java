@@ -5,10 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.yoon.pms.dto.PageRequestDTO;
+import com.yoon.pms.dto.TaskDTO;
 import com.yoon.pms.service.TaskService;
 
 import lombok.RequiredArgsConstructor;
@@ -30,6 +33,12 @@ public class TaskController {
 	@GetMapping("/register")
 	public void moveRegister(Model model) {
 		log.info("TaskController-moveRegister()");
+	}
+	
+	@PostMapping("/register")
+	public String register(TaskDTO dto,RedirectAttributes redirectAttributes) {
+		
+		return "redirect:/task/list";
 	}
 	
 	
