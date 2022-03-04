@@ -39,7 +39,9 @@ public class TaskController {
 	
 	@PostMapping("/register")
 	public String register(TaskDTO dto,RedirectAttributes redirectAttributes) {
-		log.info(dto.toString());
+		log.info("TaskController-register()");
+		//taskService.register(dto);
+		
 		return "redirect:/task/list";
 		
 	}

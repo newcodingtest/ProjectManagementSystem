@@ -37,12 +37,12 @@ public class TaskDTO {
 	 
 	private String remarks; //비고
 	
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") //get
-   // @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul") //post
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") //get
+   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul") //post
 	private LocalDateTime taskStartDate; //업무 시작일
     
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") //get
-    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul") //post
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") //get
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul") //post
 	private LocalDateTime taskEndDate;  //업무 종료일
 	 
 	private float realProgress; // 실제 진행률 --> 1%,50%,100%
@@ -53,5 +53,5 @@ public class TaskDTO {
 	 
 	private Long parent; // --> 부모 작업 /자식작업 구분 키
 	 
-	private int reportRegistFlag; //--> 보고서 등록 여부
+	private String reportRegistFlag; //--> 보고서 등록 여부
 }
