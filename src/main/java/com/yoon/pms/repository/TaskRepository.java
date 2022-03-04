@@ -11,4 +11,5 @@ import com.yoon.pms.entity.WeekReport;
 public interface TaskRepository extends  JpaRepository<Task, Long> {
 	
 	
+	
 }

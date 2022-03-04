@@ -2,32 +2,44 @@ package com.yoon.pms.controller;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.springframework.batch.core.step.NoWorkFoundStepExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.thymeleaf.standard.expression.AndExpression;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yoon.pms.dto.TaskDTO;
+import com.yoon.pms.entity.Task;
+import com.yoon.pms.repository.TaskRepository;
 import com.yoon.pms.service.TaskService;
+import com.yoon.pms.service.TaskServiceImpl;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers = {TaskController.class})
@@ -37,7 +49,10 @@ public class TaskControllerTest {
 	private MockMvc mvc;
 	
 	@MockBean
-	private TaskService taskService;
+	private TaskServiceImpl taskService;
+	
+	@MockBean
+	private TaskRepository taskRepository;
 	
 	@Autowired
 	protected ObjectMapper objectMapper;
@@ -71,33 +86,49 @@ public class TaskControllerTest {
 	  
 	  @Test
 	  @DisplayName("register taskDTO 생성테스트")
-	  public void register_taskDTO_생성테스트() throws Exception {
-		  
-		  LocalDateTime test = LocalDateTime.now();
-		  
+	  public void Posts_등록된다() throws Exception {
+		 
+		String test = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+		   LocalDateTime changeTest = LocalDateTime.parse(test,DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss") );
 		  //given
 		  TaskDTO dto = TaskDTO.builder()
 				  .taskTitle("테스트 제목")
-				  .progressState(4)
+				  .progressState((int)4)
 				  .realProgress(3)
-				  .reportRegistFlag(2)
+				  .reportRegistFlag("2")
 				  .projectId((long) 1.0)
-				  .taskStartDate(test)
-				  .taskEndDate(test)
+				  .taskStartDate(changeTest)
+				  .taskEndDate(changeTest)
 				  .taskType("종류")
 				  .detailedTaskType("상세")
 				  .divisionOfTask("분류")
-				  .Contents("테스트 내용")
 				  .remarks("비고")
 				  .build();
+		  
+		  String expectedTitle="테스트 제목";
 
 		  //when
-		  final ResultActions resultActions =  mvc.perform(post("/task/register")
-				  .contentType("application/x-www-form-urlencoded")
-				  .accept("application/x-www-form-urlencoded")
-		  .content(objectMapper.writeValueAsString(dto)))
-		  .andDo(print());
+		  	final ResultActions result=	mvc.perform(post("/task/register")
+		  				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				  .param("taskTitle", dto.getTaskTitle())
+				  .param("progressState","1")
+				  .param("realProgress", "1")
+				  .param("reportRegistFlag", "1")
+				  .param("projectId", "1")
+				  .param("taskStartDate", test.toString())
+				  .param("taskEndDate", test.toString())
+				  .param("taskType", "1")
+				  .param("detailedTaskType", "1")
+				  .param("divisionOfTask", "1")
+				  .param("remarks", "1"))
+		  		.andDo(print());
+		  	
+		  		
+		  		
+		  	result.andExpect(redirectedUrl("/task/list"));
 	  }
+	  
+
 	 
 	  
 

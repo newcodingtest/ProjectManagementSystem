@@ -59,5 +59,5 @@ public class Task extends BaseEntity {
 	@Column
 	private Long parent; // --> 부모 작업 /자식작업 구분 키
 	@Column
-	private int reportRegistFlag; //--> 보고서 등록 여부
+	private String reportRegistFlag; //--> 보고서 등록 여부
 }
