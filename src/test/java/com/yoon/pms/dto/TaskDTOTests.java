@@ -14,10 +14,13 @@ public class TaskDTOTests {
 	@Test
 	@DisplayName("TaskDTO 생성 테스트")
 	public void DTO_생성_테스트() {
+		
+		//given
 		TaskDTO dto = TaskDTO.builder()
 				.taskTitle("테스트제목")
 				.build();
 		
+		//andExpect
 		assertEquals(dto.getTaskTitle(), "테스트제목");
 	}
 	
