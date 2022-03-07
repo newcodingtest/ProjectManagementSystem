@@ -128,6 +128,10 @@ public class TaskControllerTest {
 		  //then		
 		  result.andExpect(redirectedUrl("/task/list"));
 		  result.andExpect(view().name("redirect:/task/list"));
+		  //모델 확인 테스트
+		  //result.andExpect(model().attributeExists("test"));
+
+	
 		 
 	  }
 	  
