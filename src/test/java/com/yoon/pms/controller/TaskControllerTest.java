@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -89,7 +90,7 @@ public class TaskControllerTest {
 	  public void Posts_등록된다() throws Exception {
 		 
 		String test = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-		   LocalDateTime changeTest = LocalDateTime.parse(test,DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss") );
+		LocalDateTime changeTest = LocalDateTime.parse(test,DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss") );
 		  //given
 		  TaskDTO dto = TaskDTO.builder()
 				  .taskTitle("테스트 제목")
@@ -111,21 +112,27 @@ public class TaskControllerTest {
 		  	final ResultActions result=	mvc.perform(post("/task/register")
 		  				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				  .param("taskTitle", dto.getTaskTitle())
-				  .param("progressState","1")
-				  .param("realProgress", "1")
-				  .param("reportRegistFlag", "1")
-				  .param("projectId", "1")
+				  .param("progressState",String.valueOf(dto.getProgressState()))
+				  .param("realProgress", String.valueOf(dto.getRealProgress()))
+				  .param("reportRegistFlag", String.valueOf(dto.getReportRegistFlag()))
+				  .param("projectId", String.valueOf(dto.getProjectId()) )
 				  .param("taskStartDate", test.toString())
 				  .param("taskEndDate", test.toString())
-				  .param("taskType", "1")
-				  .param("detailedTaskType", "1")
-				  .param("divisionOfTask", "1")
-				  .param("remarks", "1"))
+				  .param("taskType", String.valueOf(dto.getTaskType()))
+				  .param("detailedTaskType", String.valueOf(dto.getDetailedTaskType()))
+				  .param("divisionOfTask", String.valueOf(dto.getDivisionOfTask()))
+				  .param("remarks", String.valueOf(dto.getRemarks())))
 		  		.andDo(print());
 		  	
-		  		
-		  		
-		  	result.andExpect(redirectedUrl("/task/list"));
+		  	
+		  //then		
+		  result.andExpect(redirectedUrl("/task/list"));
+		  result.andExpect(view().name("redirect:/task/list"));
+		  //모델 확인 테스트
+		  //result.andExpect(model().attributeExists("test"));
+
+	
+		 
 	  }
 	  
 
