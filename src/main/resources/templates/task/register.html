@@ -7,7 +7,8 @@
          <h2 class="tit-level1"> 
 			새작업
          </h2>
-         <form th:action="@{/task/register}" th:method="post">
+         <!-- -->
+         <form th:action="@{/task/register}" th:method="post" onsubmit="return onSubmitForm(this)" > 
          <div class="subConView">
             <!-- 메인 화면  -->
             		 <div class="col-md-6">
@@ -25,9 +26,9 @@
                            <div class="formInput">
                               <div id="dateStart" class="dateStart">
                                  <div class="input-group input-daterange date">
-                                    <input class="form-control" name="taskStartDate" id="start_date" >
+                                    <input class="form-control" name="taskStartDate" id="start_date" type="date">
                                     <div class="input-group-addon"> ~ </div>
-                                    <input class="form-control" name="taskEndDate" id="end_date" >
+                                    <input class="form-control" name="taskEndDate" id="end_date" type="date">
                                  </div>
                               </div>
                            </div>
@@ -38,7 +39,7 @@
                            <label class="control-label"><label class="star01">단계</label></label>
                            <div class="formInput">
                               <div class="selects">
-                                 <select class="form-control" name="progressState" id="privacy_state" onchange="changeProgress(this.options[this.selectedIndex].value)">
+                                 <select class="form-control" name="progressState" id="privacy_state">
                                     <option value="111">진행전</option>
                                     <option value="112">진행중</option>
                                     <option value="113">완료</option>
@@ -53,7 +54,7 @@
                      		<label class="control-label"><label class="">진행률</label></label> 
                      			<div class="formInput">
 			                          <div class="input-group unit">
-		                                 <input type="text" class="form-control" name="realProgress" id="real_progress" value="0">
+		                                 <input type="text" class="form-control" name="realProgress" id="real_progress" value="0.0f">
 		                                 <span class="input-group-addon">%</span>
 			                          </div>   
 		                      	</div>
@@ -151,10 +152,10 @@
                         </div>
                      </div>
                      <div class="col-md-12 btnArea text-right">
-                 <button type="submit" class="btn btn-primary">저장</button> 
+                 <button type="submit" class="btn btn-primary" id="save">저장</button> 
                  <!--         <a class="btn btn-primary" onclick="save();">저장</a> -->
                      </div>
-                        </form>
+                         </form> 
                   </div>
     </th:block>
 </th:block>
@@ -164,19 +165,65 @@
 <!--// toTop end -->
 
 <script>
+function onSubmitForm(frm) {
+    console.log(frm.taskType.value);
+    console.log(frm.progressState.value);
+    console.log(frm.detailedTaskType.value);
+    console.log("작업명",frm.taskTitle.value);
+    console.log(frm.taskStartDate.value);
+    console.log(frm.taskendDate.value);
+    
+    var taskStartDate = frm.taskStartDate.value;
+    var taskendDate = frm.taskendDate.value;
+    
+    var regexStart = taskStartDate.replace('T',' ');
+    var regexEnd = taskStartDate.replace('T',' ');
+    console.log(regexStart);
+    console.log(regexEnd); 
+    
+    frm.taskStartDate.value = regexStart;
+    frm.taskendDate.value = regexEnd;
+    
+    return true;
+}
+
 $(document).ready(function() {
-	$('#conFirmDelete').click(function () {
-		swal({
-			title: "등록하시겠습니까?",
-			text: "확인버튼 클릭후 저장됩니다.",
-			type: "info",
-			showCancelButton: true,
-			confirmButtonText: "확인",
-			closeOnConfirm: false
-		}, function () {
-			swal("Suceess", "등록이 완료되었습니다.", "success");
-		});
-	});
+
+/* 
+ btn.addEventListener("click",()=>{
+	var xhr = new XMLHttpRequest();
+	var formData = new FormData();
+	
+	
+	var start = document.getElementById('start_date').value;
+	var end = document.getElementById('end_date').value;
+	var changeStart = start.replace('T',' ');
+	var changeEnd = end.replace('T',' ');
+	
+	formData.append('taskStartDate',changeStart);
+	formData.append('taskEndDate',changeEnd);
+	
+	console.log(JSON.stringify(formData));
+
+	console.log("시작일",changeStart);
+	
+ 	xhr.open('post', '/task/register',true);
+	xhr.responseType='json';
+	xhr.setRequestHeader('Content-type','application/json');
+	xhr.send(JSON.stringify(formData));
+	
+	xhr.onload = () => {
+           if (request.status === 200 || request.status === 301) {	// send 정상적으로 완료했을 경우
+               var result = request.responseText;	//	comment_container.html 코드
+               console.log(result);
+               //sevent.target.closest(".comment_wrap").querySelector(".comment_box").innerHTML = result;		// 박스 안 HTML코드 교체
+           } else {
+               console.error(request.responseText);
+           }
+       } 
+	
+	
+});  */
 
 });
 </script>
