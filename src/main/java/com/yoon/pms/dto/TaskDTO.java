@@ -1,7 +1,9 @@
 package com.yoon.pms.dto;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -37,21 +39,31 @@ public class TaskDTO {
 	 
 	private String remarks; //비고
 	
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") //get
-   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul") //post
-	private LocalDateTime taskStartDate; //업무 시작일
+    //@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") //get
+    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul") //post
+	//private LocalDateTime taskStartDate; //업무 시작일
+	private String taskStartDate;
     
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") //get
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul") //post
-	private LocalDateTime taskEndDate;  //업무 종료일
-	 
+    //@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") //get
+    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul") //post
+	//private LocalDateTime taskEndDate;  //업무 종료일
+	private String taskEndDate;
+	
 	private float realProgress; // 실제 진행률 --> 1%,50%,100%
 	 
-	private LocalDateTime savedWeekDate; // 배치가 돌아서 저장된 날짜
+	private String savedWeekDate; // 배치가 돌아서 저장된 날짜
 	 
 	private int progressState; //진행 상태 --> 진핸전/진행중/완료/중단
 	 
 	private Long parent; // --> 부모 작업 /자식작업 구분 키
 	 
 	private String reportRegistFlag; //--> 보고서 등록 여부
+	
+	public LocalDateTime stringToLocalDateTime(String inputDate) {
+		
+		LocalDateTime dateTime = LocalDateTime.parse(inputDate,DateTimeFormatter.ISO_DATE);
+		
+		return dateTime;
+		
+	}
 }
