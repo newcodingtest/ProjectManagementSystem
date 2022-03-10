@@ -435,8 +435,17 @@
 <div id="gototop">go to top</div>
 <!--// toTop end -->
 
-<script>
+<script th:inline="javascript">
 $(document).ready(function() {
+	 var msg = [[${msg}]]
+     console.log(msg);
+
+     if(msg){
+         $(".modal").modal();
+     }
+	
+	
+	
 	$('.dateStart .input-group.date').datepicker({
 		todayBtn: "linked"
 	});

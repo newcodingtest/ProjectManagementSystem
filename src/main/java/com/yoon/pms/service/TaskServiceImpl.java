@@ -32,13 +32,14 @@ public class TaskServiceImpl implements TaskService {
 
 	private final TaskRepository taskRepository;
 	
-	
 	@Override
-	public void register(TaskDTO taskDTO) {
+	public Long register(TaskDTO taskDTO) {
 		Map<String, Object> entityMap = dtoToEntity(taskDTO);
 		Task task = (Task) entityMap.get("task");
 		
 		taskRepository.save(task);
+		
+		return task.getTid();
 	}
 
 	

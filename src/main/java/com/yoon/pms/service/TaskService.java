@@ -29,6 +29,7 @@ public interface TaskService {
 		 LocalDateTime startDate = taskDTO.stringToLocalDateTime(taskDTO.getTaskStartDate());
 		 LocalDateTime endDate = taskDTO.stringToLocalDateTime(taskDTO.getTaskEndDate());
 		 
+		 System.out.println(startDate);
 	        Task task = Task.builder()
 	              .progressState(taskDTO.getProgressState())
 	              .parent(taskDTO.getParent())
@@ -51,6 +52,6 @@ public interface TaskService {
 	        return entityMap;
 	}
 
-	void register(TaskDTO taskDTO);
+	Long register(TaskDTO taskDTO);
 	
 }

@@ -6,9 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
-
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;import org.hibernate.boot.jaxb.mapping.spi.JaxbNamedAttributeNode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +20,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.yoon.pms.dto.TaskDTO;
 import com.yoon.pms.repository.TaskRepository;
 import com.yoon.pms.service.TaskServiceImpl;
@@ -71,7 +72,7 @@ public class TaskControllerTest {
 	   }
 	  
 	  @Test
-	  @DisplayName("regist메서드 post 테스트")
+	  @DisplayName("formData post 테스트")
 	  public void Posts_등록된다() throws Exception {
 		 
 		String test = "2022-03-08";
@@ -108,6 +109,44 @@ public class TaskControllerTest {
 				  .param("remarks", String.valueOf(dto.getRemarks())))
 		  		.andDo(print());
 		  	
+		  	
+		  //then		
+		  result.andExpect(redirectedUrl("/task/list"));
+		  result.andExpect(view().name("redirect:/task/list"));
+		  //모델 확인 테스트
+		  //result.andExpect(model().attributeExists("test"));
+	  }
+	  
+	  @Test
+	  @DisplayName("JSON post 테스트")
+	  public void Posts_등록된다1() throws Exception {
+		 
+		String test = "2022-03-08";
+		//LocalDateTime dateTime = LocalDateTime.parse(test,DateTimeFormatter.ISO_DATE);
+		
+		  //given
+		  TaskDTO dto = TaskDTO.builder()
+				  .taskTitle("테스트 제목")
+				  .progressState((int)4)
+				  .realProgress(3)
+				  .reportRegistFlag("2")
+				  .projectId((long)1)
+				  .taskStartDate(test)
+				  .taskEndDate(test)
+				  .taskType("종류")
+				  .detailedTaskType("상세")
+				  .divisionOfTask("분류")
+				  .remarks("비고")
+				  .build();
+		  
+
+		  
+		  //when
+		  	final ResultActions result=	mvc.perform(post("/task/register")
+		  				.contentType(MediaType.APPLICATION_JSON)
+		  				.accept(MediaType.APPLICATION_FORM_URLENCODED)
+		  				.content(objectMapper.writeValueAsString(dto)))
+		  			.andDo(print());
 		  	
 		  //then		
 		  result.andExpect(redirectedUrl("/task/list"));
