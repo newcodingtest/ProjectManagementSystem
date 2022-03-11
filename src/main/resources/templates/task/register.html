@@ -10,13 +10,14 @@
         
         
          <div class="subConView">
+         <form th:action="@{/task/register}" th:method="post" onsubmit="return onSubmitForm(this)" > 
             <!-- 메인 화면  -->
             		 <div class="col-md-6">
                         <div class="form-group">
                            <label class="control-label"><label class="star01">작업명</label></label>
                            <label><span id="name_counter">(0/50)</span></label>
                            <div class="formInput">
-                              	<input type="text"  class="form-control" id="taskTitle" placeholder="작업명을 입력해 주세요." required="required">
+                              	<input type="text"  class="form-control" id="taskTitle"  name="taskTitle" placeholder="작업명을 입력해 주세요." required="required">
                            </div>
                         </div>
                      </div>
@@ -26,9 +27,9 @@
                            <div class="formInput">
                               <div id="dateStart" class="dateStart">
                                  <div class="input-group input-daterange date">
-                                    <input class="form-control"  id="taskStartDate" type="date">
+                                    <input class="form-control"  id="taskStartDate"  name="taskStartDate" type="datetime-local" required="required">
                                     <div class="input-group-addon"> ~ </div>
-                                    <input class="form-control"  id="taskEndDate" type="date">
+                                    <input class="form-control"  id="taskEndDate" name="taskEndDate" type="datetime-local" required="required">
                                  </div>
                               </div>
                            </div>
@@ -39,7 +40,7 @@
                            <label class="control-label"><label class="star01">단계</label></label>
                            <div class="formInput">
                               <div class="selects">
-                                 <select class="form-control"  id="progressState">
+                                 <select class="form-control"  id="progressState" name="progressState">
                                     <option value="111">진행전</option>
                                     <option value="112">진행중</option>
                                     <option value="113">완료</option>
@@ -54,7 +55,7 @@
                      		<label class="control-label"><label class="">진행률</label></label> 
                      			<div class="formInput">
 			                          <div class="input-group unit">
-		                                 <input type="number" class="form-control" min='0' max='100' step='5'  id="realProgress" value="0">
+		                                 <input type="number" class="form-control" min='0' max='100' step='5'  id="realProgress" name="realProgress" value="0">
 		                                 <span class="input-group-addon">%</span>
 			                          </div>   
 		                      	</div>
@@ -65,14 +66,14 @@
                               <div class="formInput text-center">
                               <label class="control-label"><label class="">보고서 포함</label></label>
                               <div class="formInput text-center">
-                                    <input type="checkbox"  id="reportRegistFlag" style="zoom:1.6;" value="1"  checked="checked"/>
+                                    <input type="checkbox"  id="reportRegistFlag" name="reportRegistFlag" style="zoom:1.6;" value="1"  checked="checked"/>
                                  </div>
                            	   </div>
                           </div>
                      </div>
                      <div class="col-md-5">
                      	<label class="control-label mt-2"><label class="">관련 프로젝트</label></label>
-                     	<select class="form-control" id="projectId" >
+                     	<select class="form-control" id="projectId" name="projectId" >
                      		<option value="0">기타</option>
                      	</select>
                      </div>
@@ -81,7 +82,7 @@
                            <label class="control-label"><label class="">업무 종류</label></label>
                            <div class="formInput">
                               <div class="selects">
-                                 <select class="form-control"  id="taskType">
+                                 <select class="form-control"  id="taskType" name="taskType">
                                     <option value="개발">개발</option>
                                     <option value="업무관리">업무관리</option>
                                     <option value="제안">제안</option>
@@ -96,7 +97,7 @@
                            <label class="control-label"><label class="">상세 업무</label></label>
                            <div class="formInput">
                               <div class="selects">
-                                 <select class="form-control" id="detailedTaskType">
+                                 <select class="form-control" id="detailedTaskType" name="detailedTaskType">
                                     <option value="개발">개발</option>
                                     <option value="버그수정">버그수정</option>
                                     <option value="미팅">미팅</option>
@@ -125,7 +126,7 @@
                            <div class="formInput">
                               <div class="selects">
                                  <select class="form-control"
-                                    id="divisionOfTask">
+                                    id="divisionOfTask" name="divisionOfTask">
                                     <option value="주 업무">주 업무</option>
                                     <option value="지원 업무">지원 업무</option>
                                  </select>
@@ -138,7 +139,7 @@
                            <label class="control-label"><label class="">작업 내용</label></label>
                            <label><span id="contents_counter">(0/1000)</span></label>
                            <div class="formInput">
-                              <textarea class="form-control" placeholder="내용을 입력해 주세요." rows="5"  id="Contents" value=""></textarea>
+                              <textarea class="form-control" placeholder="내용을 입력해 주세요." rows="5" name="Contents" id="Contents" value=""></textarea>
                            </div>
                         </div>
                      </div>
@@ -147,15 +148,16 @@
                            <label class="control-label"><label class="">비고</label></label>
                            <label><span id="contents_comment">(0/100)</span></label>
                            <div class="formInput">
-                              <textarea class="form-control" placeholder="비고를 입력해 주세요." rows="2"  id="remarks" value=""></textarea>
+                              <textarea class="form-control" placeholder="비고를 입력해 주세요." rows="2" name="remarks" id="remarks" value=""></textarea>
                            </div>
                         </div>
                      </div>
+                     
                      <div class="col-md-12 btnArea text-right">
                  <button type="submit" class="btn btn-primary" id="save">저장</button> 
                  <!--         <a class="btn btn-primary" onclick="save();">저장</a> -->
                      </div>
-                      
+                      </form>
                   </div>
     </th:block>
 </th:block>
@@ -166,19 +168,21 @@
 
 <script>
 //[시작일], [종료일]의 Default는 현재 시간 =====================================================	
-	document.getElementById('taskStartDate').value = new Date().toISOString().substring(0, 10);
+document.getElementById('taskStartDate').value = new Date().toISOString().substring(0, 10);
 document.getElementById('taskEndDate').value = new Date().toISOString().substring(0, 10);
 	
 function onSubmitForm(frm) {
     
-    var regexStart = taskStartDate.replace('T',' ');
-    var regexEnd = taskStartDate.replace('T',' ');
-    console.log(regexStart);
-    console.log(regexEnd); 
+    var savedReportFlag = frm.reportRegistFlag.checked;
+    console.log(savedReportFlag);
     
-    frm.taskStartDate.value = regexStart;
-    frm.taskendDate.value = regexEnd;
+    if(savedReportFlag){
+    	frm.reportRegistFlag.value=1;
+    }else{
+    	frm.reportRegistFlag.value=0;
+    }
     
+    console.log(frm.reportRegistFlag.value);
     return true;
 }
 
@@ -231,8 +235,8 @@ function ajaxSend(){
 	var realProgress =  document.getElementById('realProgress').value;
 	var progressState =  document.getElementById('progressState').value;
     var reportRegistFlag = checkedReportRegistFlag();
-    var taskStartDate =  document.getElementById('taskStartDate').value;
-	var taskEndDate =  document.getElementById('taskEndDate').value;
+    var taskStartDate =  document.getElementById('taskStartDate').value.replace('T'," ");
+	var taskEndDate =  document.getElementById('taskEndDate').value.replace('T'," ");
 	
 	//첫번째 방법.
 	var data = {
@@ -268,16 +272,22 @@ function ajaxSend(){
        }   */
 }
 
+//저장전 유효성 체크
 function saveBtn(){
     var btn = document.getElementById('save');
     
     btn.addEventListener("click", () =>{
-        var realProgress = document.getElementById('realProgress').value;
+    	event.preventDefault();
+    	
+        var savedReportFlag = document.getElementById('reportRegistFlag').checked;
+        
+        if(savedReportFlag){
+        	document.getElementById('reportRegistFlag').value=1;
+        }else{
+        	document.getElementById('reportRegistFlag').value=0;
+        }
 		
-    	alert("퍼센트: " + realProgress);
-    if(isNumberKey(realProgress) && validAndThen()){
-    	ajaxSend();
-    }
+		btn.submit();
 
      });
 }
@@ -285,12 +295,10 @@ function saveBtn(){
 
 document.addEventListener("DOMContentLoaded", function(){
 //'저장' 이벤트 발생=========================================================================	
-	saveBtn();
+	//saveBtn();
 
 }); // End DOMContentLoaded
 </script>
-
-
 
 <script src="../js/lib/loadAnimation.js"></script>
 
