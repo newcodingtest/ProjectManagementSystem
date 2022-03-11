@@ -30,6 +30,8 @@ public interface TaskService {
 		 LocalDateTime endDate = taskDTO.stringToLocalDateTime(taskDTO.getTaskEndDate());
 		 
 		 System.out.println(startDate);
+		 System.out.println(startDate);
+		 
 	        Task task = Task.builder()
 	              .progressState(taskDTO.getProgressState())
 	              .parent(taskDTO.getParent())

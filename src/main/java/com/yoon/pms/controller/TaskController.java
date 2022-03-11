@@ -38,13 +38,12 @@ public class TaskController {
 	}
 	
 	@PostMapping("/register")
-	public String register(@RequestBody TaskDTO dto,RedirectAttributes redirectAttributes) {
+	public String register(TaskDTO dto,RedirectAttributes redirectAttributes) {
 		log.info("TaskController-register()");
 		log.info("TaskDTO: "+dto);
+		//Long tid = taskService.register(dto);
 		
-		Long tid = taskService.register(dto);
-		
-		redirectAttributes.addFlashAttribute("msg", tid);
+		//redirectAttributes.addFlashAttribute("msg", tid);
 		
 		return "redirect:/task/list";
 		

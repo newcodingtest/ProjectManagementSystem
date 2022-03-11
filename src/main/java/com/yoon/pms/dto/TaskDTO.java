@@ -63,7 +63,7 @@ public class TaskDTO {
 	
 	public LocalDateTime stringToLocalDateTime(String inputDate) {
 		
-		LocalDateTime dateTime = LocalDateTime.parse(inputDate,DateTimeFormatter.ISO_DATE);
+		LocalDateTime dateTime = LocalDateTime.parse(inputDate,DateTimeFormatter.ISO_DATE_TIME);
 		
 		return dateTime;
 		

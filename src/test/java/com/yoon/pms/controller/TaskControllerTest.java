@@ -6,7 +6,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;import org.hibernate.boot.jaxb.mapping.spi.JaxbNamedAttributeNode;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import org.hibernate.boot.jaxb.mapping.spi.JaxbNamedAttributeNode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -154,6 +160,13 @@ public class TaskControllerTest {
 		  //모델 확인 테스트
 		  //result.andExpect(model().attributeExists("test"));
 	  }
+	  
+	  @Test
+	  public void 변환() {
+		  LocalDateTime date = LocalDateTime.parse("2014-02-18T12:10", DateTimeFormatter.ISO_DATE_TIME);
+	        System.out.println(date);
+	  }
+	
 	  
 		  
 
