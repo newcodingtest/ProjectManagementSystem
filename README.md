@@ -2,5 +2,5 @@
 ## TDD
 테스트 코드를 기반으로 개발을 진행해본다.
 ## 리펙토링 + 새로운 기술 적용
-기존 Spring(레거시)+mybatis  =>  SpringBoot + JPA
+기존 Spring(레거시)+mybatis  =>  SpringBoot + JPA <br>
 구현에만 치중된 스파게티 코드 => 리펙토링, TDD 개발방법론 적용
