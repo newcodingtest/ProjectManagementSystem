@@ -1,19 +1,7 @@
 package com.yoon.pms.dto;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
-
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,7 +15,7 @@ public class TaskDTO {
 
 	private Long tid;
 	 
-	private Long projectId;  //프로젝트 아이디
+	private Long pid;  //프로젝트 아이디
 	 
 	private String taskType; //업무 종류 --> 개발/업무제안/관리/기타
 	 
@@ -61,11 +49,9 @@ public class TaskDTO {
 	 
 	private String reportRegistFlag; //--> 보고서 등록 여부
 	
+	//20220317T10:30
 	public LocalDateTime stringToLocalDateTime(String inputDate) {
-		
 		LocalDateTime dateTime = LocalDateTime.parse(inputDate,DateTimeFormatter.ISO_DATE_TIME);
-		
 		return dateTime;
-		
 	}
 }

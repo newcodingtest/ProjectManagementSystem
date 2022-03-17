@@ -1,7 +1,8 @@
 package com.yoon.pms.controller;
 
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get; 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;  
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import org.hibernate.boot.jaxb.mapping.spi.JaxbNamedAttributeNode;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -80,17 +81,15 @@ public class TaskControllerTest {
 	  @Test
 	  @DisplayName("formData post 테스트")
 	  public void Posts_등록된다() throws Exception {
-		 
+		//given
 		String test = "2022-03-08";
-		//LocalDateTime dateTime = LocalDateTime.parse(test,DateTimeFormatter.ISO_DATE);
 		
-		  //given
-		  TaskDTO dto = TaskDTO.builder()
+		 TaskDTO dto = TaskDTO.builder()
 				  .taskTitle("테스트 제목")
 				  .progressState((int)4)
 				  .realProgress(3)
 				  .reportRegistFlag("2")
-				  .projectId((long) 1.0)
+				  .pid((long) 1.0)
 				  .taskStartDate(test)
 				  .taskEndDate(test)
 				  .taskType("종류")
@@ -106,7 +105,7 @@ public class TaskControllerTest {
 				  .param("progressState",String.valueOf(dto.getProgressState()))
 				  .param("realProgress", String.valueOf(dto.getRealProgress()))
 				  .param("reportRegistFlag", String.valueOf(dto.getReportRegistFlag()))
-				  .param("projectId", String.valueOf(dto.getProjectId()) )
+				  .param("projectId", String.valueOf(dto.getPid()) )
 				  .param("taskStartDate", dto.getTaskStartDate())
 				  .param("taskEndDate",dto.getTaskEndDate())
 				  .param("taskType", String.valueOf(dto.getTaskType()))
@@ -136,7 +135,7 @@ public class TaskControllerTest {
 				  .progressState((int)4)
 				  .realProgress(3)
 				  .reportRegistFlag("2")
-				  .projectId((long)1)
+				  .pid((long)1)
 				  .taskStartDate(test)
 				  .taskEndDate(test)
 				  .taskType("종류")
@@ -144,8 +143,6 @@ public class TaskControllerTest {
 				  .divisionOfTask("분류")
 				  .remarks("비고")
 				  .build();
-		  
-
 		  
 		  //when
 		  	final ResultActions result=	mvc.perform(post("/task/register")
@@ -159,15 +156,6 @@ public class TaskControllerTest {
 		  result.andExpect(view().name("redirect:/task/list"));
 		  //모델 확인 테스트
 		  //result.andExpect(model().attributeExists("test"));
-	  }
-	  
-	  @Test
-	  public void 변환() {
-		  LocalDateTime date = LocalDateTime.parse("2014-02-18T12:10", DateTimeFormatter.ISO_DATE_TIME);
-	        System.out.println(date);
-	  }
-	
-	  
-		  
+	  }  	  
 
 }
