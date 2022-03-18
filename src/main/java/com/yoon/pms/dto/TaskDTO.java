@@ -2,6 +2,12 @@ package com.yoon.pms.dto;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.yoon.pms.entity.Project;
+import com.yoon.pms.entity.Task;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -53,5 +59,32 @@ public class TaskDTO {
 	public LocalDateTime stringToLocalDateTime(String inputDate) {
 		LocalDateTime dateTime = LocalDateTime.parse(inputDate,DateTimeFormatter.ISO_DATE_TIME);
 		return dateTime;
+	}
+	
+	
+	public Task createEntity(){
+		 Map<String,Object> entityMap = new HashMap();
+
+		 LocalDateTime startDate = stringToLocalDateTime(this.taskStartDate);
+		 LocalDateTime endDate = stringToLocalDateTime(this.taskEndDate);
+		 
+	        Task task = Task.builder()
+	        		.tid(this.tid)
+	              .statusCode(this.progressState)
+	              .parent(this.parent)
+	              .projects(Project.builder().id(this.pid).build())
+	              .realProgress(this.realProgress)
+	              .remarks(this.remarks)
+	              .reportRegistFlag(this.reportRegistFlag)
+	              .taskType(this.taskType)
+	              .taskTitle(this.taskTitle)
+	              .taskStartDate(startDate)
+	              .taskEndDate(endDate)
+	              .detailedTaskType(this.detailedTaskType)
+	              .divisionOfTask(this.divisionOfTask)
+	              .writer(this.writer)
+	              .build();
+	 
+	        return task;
 	}
 }

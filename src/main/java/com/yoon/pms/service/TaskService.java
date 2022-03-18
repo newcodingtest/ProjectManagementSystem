@@ -54,7 +54,7 @@ public interface TaskService {
 	        return entityMap;
 	}
 
-	Long register(TaskDTO taskDTO);
+	Task register(TaskDTO taskDTO);
 	
 	List<Task> getStatusBeforeList();
 	List<Task> getStatusIngList();
