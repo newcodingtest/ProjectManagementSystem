@@ -35,7 +35,7 @@ public interface TaskService {
 	        		.tid(taskDTO.getTid())
 	              .statusCode(taskDTO.getProgressState())
 	              .parent(taskDTO.getParent())
-	              .projects(Project.builder().id(taskDTO.getPid()).build())
+	              .projectId(taskDTO.getProjectId())
 	              .realProgress(taskDTO.getRealProgress())
 	              .remarks(taskDTO.getRemarks())
 	              .reportRegistFlag(taskDTO.getReportRegistFlag())

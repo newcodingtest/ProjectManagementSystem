@@ -1,7 +1,12 @@
 package com.yoon.pms.entity;
 
-import java.time.LocalDateTime; 
+import java.time.LocalDateTime;
+
+import javax.persistence.AttributeConverter;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Converter;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -55,28 +60,31 @@ public class Task extends BaseEntity {
 	private LocalDateTime savedWeekDate; // 배치가 돌아서 저장된 날짜
 	
 	@Column(nullable = false)
-	private int statusCode; //진행 상태 --> 진핸전/진행중/완료/중단
+	@Convert(converter = GenderAttributeConverter.class)
+	private String statusCode; //진행 상태 --> 진핸전/진행중/완료/중단
 	@Column
 	private Long parent; // --> 부모 작업 /자식작업 구분 키
 	@Column
 	private String reportRegistFlag; //--> 보고서 등록 여부
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="PROJECT_ID")
-	private Project projects; 
+	///@ManyToOne(fetch = FetchType.LAZY)
+	//@JoinColumn(name="PROJECT_ID")
+	@Column
+	private int projectId; 
 
-	public void setProject(Project projects) {
-		if(this.projects!=null) {
-			this.projects.getTask().remove(this);
-		}
-		this.projects = projects;
-		projects.getTask().add(this);
-	}
+	/*
+	 * public void setProject(Project projects) { if(this.projects!=null) {
+	 * this.projects.getTask().remove(this); } this.projects = projects;
+	 * projects.getTask().add(this); }
+	 */
 	
 	public void changeContents(String title,String contents) {
 		this.taskTitle = title;
 		this.contents = contents;
 	}
+	
+	
+
 }
 
 

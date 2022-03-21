@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import com.yoon.pms.dto.TaskDTO;
 import com.yoon.pms.entity.Task;
 import com.yoon.pms.repository.TaskRepository;
+
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,18 +20,18 @@ public class TaskServiceImpl implements TaskService {
 	
 	@Override
 	public Long register(TaskDTO taskDTO) {
-		Map<String, Object> entityMap = dtoToEntity(taskDTO);
-		Task task = (Task) entityMap.get("task");
 		
-		taskRepository.save(task);
+		Task target = taskDTO.createEntity(taskDTO);
 		
-		return task.getTid();
+		Task savedTask = taskRepository.save(target);
+		
+		return savedTask.getTid();
 	}
 
 	@Override
 	public List<Task> getStatusBeforeList() {
 		// TODO Auto-generated method stub
-		return null;
+		return taskRepository.findAll();
 	}
 
 	@Override
@@ -42,5 +44,9 @@ public class TaskServiceImpl implements TaskService {
 	public List<Task> getStatusEndList() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public int test() {
+		return 2;
 	}
 }

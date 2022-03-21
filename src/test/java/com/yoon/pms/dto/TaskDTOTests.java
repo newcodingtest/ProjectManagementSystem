@@ -36,7 +36,7 @@ public class TaskDTOTests {
 	public void 날짜변환테스트() {
 		//given
 		TaskDTO dto = TaskDTO.builder()
-				.taskStartDate("2022-03-08")
+				.taskStartDate("2022-03-08T10:10")
 				.build();
 		
 		//when

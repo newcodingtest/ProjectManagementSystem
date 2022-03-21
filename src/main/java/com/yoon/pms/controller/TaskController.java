@@ -33,7 +33,7 @@ public class TaskController {
 		//model.addAttribute("",);
 		//model.addAttribute("",);
 		//진행전 리스트+개수
-		//model.addAttribute("beforeList",);
+		model.addAttribute("beforeList",taskService.getStatusBeforeList());
 		//model.addAttribute("beforeCnt",);
 		//진행중 리스트+개수
 		//model.addAttribute("ingList",);
