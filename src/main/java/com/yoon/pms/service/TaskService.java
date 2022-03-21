@@ -35,7 +35,7 @@ public interface TaskService {
 	        		.tid(taskDTO.getTid())
 	              .statusCode(taskDTO.getProgressState())
 	              .parent(taskDTO.getParent())
-	              .projects(Project.builder().id(taskDTO.getPid()).build())
+	              .projectId(taskDTO.getProjectId())
 	              .realProgress(taskDTO.getRealProgress())
 	              .remarks(taskDTO.getRemarks())
 	              .reportRegistFlag(taskDTO.getReportRegistFlag())
@@ -54,7 +54,7 @@ public interface TaskService {
 	        return entityMap;
 	}
 
-	Task register(TaskDTO taskDTO);
+	Long register(TaskDTO taskDTO);
 	
 	List<Task> getStatusBeforeList();
 	List<Task> getStatusIngList();

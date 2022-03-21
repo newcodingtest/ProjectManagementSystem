@@ -19,19 +19,19 @@ public class TaskServiceImpl implements TaskService {
 	private final TaskRepository taskRepository;
 	
 	@Override
-	public Task register(TaskDTO taskDTO) {
-		Map<String, Object> entityMap = dtoToEntity(taskDTO);
-		Task target = (Task) entityMap.get("task");
+	public Long register(TaskDTO taskDTO) {
+		
+		Task target = taskDTO.createEntity(taskDTO);
 		
 		Task savedTask = taskRepository.save(target);
 		
-		return savedTask;
+		return savedTask.getTid();
 	}
 
 	@Override
 	public List<Task> getStatusBeforeList() {
 		// TODO Auto-generated method stub
-		return null;
+		return taskRepository.findAll();
 	}
 
 	@Override

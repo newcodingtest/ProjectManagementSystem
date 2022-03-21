@@ -56,8 +56,10 @@ public class Project extends BaseEntity{
 	@Column
 	private String manager;
 	
-	@OneToMany(mappedBy = "projects")
-	private List<Task> task = new ArrayList();
+	
+	/*
+	 * @OneToMany(mappedBy = "projects") private List<Task> task = new ArrayList();
+	 */
 	
 	public void changeMananger(String name) {
 		this.manager = name;

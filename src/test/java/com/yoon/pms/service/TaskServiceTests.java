@@ -38,7 +38,7 @@ class TaskServiceTests {
 	TaskServiceImpl service;
 	
 	
-	// @Mock: 대체할 모듈   -> service는 repository를 호출하여 사용하기 때문
+	//@Mock: 대체할 모듈   -> service는 repository를 호출하여 사용하기 때문
 	@Mock
 	TaskRepository repository;
 	
@@ -52,14 +52,14 @@ class TaskServiceTests {
 		//mocking
 		BDDMockito
 			.given(repository.save(any())).
-			willReturn(craeteDTO.createEntity());
+			willReturn(craeteDTO.createEntity(craeteDTO));
 				
 		//when
-		Task result = service.register(craeteDTO);
+		Long result = service.register(craeteDTO);
 		
 		//then
 		//결과값
-		Assertions.assertThat(result.getContents()).isEqualTo(craeteDTO.createEntity().getContents());
+		Assertions.assertThat(result).isEqualTo(craeteDTO.getTid());
 		//호출횟수
 		BDDMockito.verify(repository,times(1)).save(any());
 	}

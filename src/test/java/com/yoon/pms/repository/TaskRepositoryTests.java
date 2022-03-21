@@ -1,5 +1,7 @@
 package com.yoon.pms.repository;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.longThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
@@ -34,6 +36,35 @@ public class TaskRepositoryTests{
 	private TaskRepository repository;
 	
 	@Test
+	@DisplayName("단일 읽기 테스트")
+	void findById_테스트() {
+		//given
+		Long givenId = 1L;
+		//when
+		Optional<Task> result = repository.findById(givenId);
+		
+		//then
+		result.ifPresent(x->{
+			Assertions.assertThat(x).isNotNull();
+			System.out.println(x);
+		});
+	}
+	
+	@Test
+	@DisplayName("리스트 읽기 테스트")
+	void findByAll_테스트() {
+		//when
+		List<Task> result = repository.findAll();
+		
+		//then
+		result.forEach(x->{
+			System.out.println(x);
+		});
+	}
+	
+	
+	
+	@Test
 	@DisplayName("@ManyToONE 적용 전")
 	void task_등록_테스트() {
 		  //given
@@ -64,10 +95,10 @@ public class TaskRepositoryTests{
 		  //given
 		  Task task = Task.builder()
 				  .taskTitle("테스트 제목")
-				  .statusCode((int)4)
+				  .statusCode("진행전")
 				  .realProgress(3)
 				  .reportRegistFlag("2")
-				  .projects(Project.builder().id((long)1).build())
+				  .projectId(1)
 				  .taskStartDate(LocalDateTime.now())
 				  .taskEndDate(LocalDateTime.now())
 				  .taskType("종류")

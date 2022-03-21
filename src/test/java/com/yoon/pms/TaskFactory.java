@@ -22,7 +22,7 @@ public class TaskFactory {
 				 .tid((long)100)
 				  .taskTitle("서비스단 테스트 제목")
 				  .Contents("서비스단 테스트 내용")
-				  .progressState((int)4)
+				  .progressState("진행전")
 				  .realProgress(3)
 				  .reportRegistFlag("2")
 				  .pid((long)1)

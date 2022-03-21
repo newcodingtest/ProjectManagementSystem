@@ -49,12 +49,13 @@ public class TaskDTO {
 	 
 	private String savedWeekDate; // 배치가 돌아서 저장된 날짜
 	 
-	private int progressState; //진행 상태 --> 진핸전/진행중/완료/중단
+	private String progressState; //진행 상태 --> 진핸전/진행중/완료/중단
 	 
 	private Long parent; // --> 부모 작업 /자식작업 구분 키
 	 
 	private String reportRegistFlag; //--> 보고서 등록 여부
 	
+	private int projectId;
 	//20220317T10:30
 	public LocalDateTime stringToLocalDateTime(String inputDate) {
 		LocalDateTime dateTime = LocalDateTime.parse(inputDate,DateTimeFormatter.ISO_DATE_TIME);
@@ -62,27 +63,26 @@ public class TaskDTO {
 	}
 	
 	
-	public Task createEntity(){
-		 Map<String,Object> entityMap = new HashMap();
+	public Task createEntity(TaskDTO dto){
 
-		 LocalDateTime startDate = stringToLocalDateTime(this.taskStartDate);
-		 LocalDateTime endDate = stringToLocalDateTime(this.taskEndDate);
+		 LocalDateTime startDate = stringToLocalDateTime(dto.getTaskStartDate());
+		 LocalDateTime endDate = stringToLocalDateTime(dto.getTaskEndDate());
 		 
 	        Task task = Task.builder()
-	        		.tid(this.tid)
-	              .statusCode(this.progressState)
-	              .parent(this.parent)
-	              .projects(Project.builder().id(this.pid).build())
-	              .realProgress(this.realProgress)
-	              .remarks(this.remarks)
-	              .reportRegistFlag(this.reportRegistFlag)
-	              .taskType(this.taskType)
-	              .taskTitle(this.taskTitle)
+	        	  .tid(dto.getTid())
+	              .statusCode(dto.getProgressState())
+	              .parent(dto.getParent())
+	              .projectId(dto.getProjectId())
+	              .realProgress(dto.getRealProgress())
+	              .remarks(dto.getRemarks())
+	              .reportRegistFlag(dto.getReportRegistFlag())
+	              .taskType(dto.getTaskType())
+	              .taskTitle(dto.getTaskTitle())
 	              .taskStartDate(startDate)
 	              .taskEndDate(endDate)
-	              .detailedTaskType(this.detailedTaskType)
-	              .divisionOfTask(this.divisionOfTask)
-	              .writer(this.writer)
+	              .detailedTaskType(dto.getDetailedTaskType())
+	              .divisionOfTask(dto.getDetailedTaskType())
+	              .writer(dto.getWriter())
 	              .build();
 	 
 	        return task;
