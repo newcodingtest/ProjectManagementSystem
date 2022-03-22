@@ -306,55 +306,15 @@
 								<div class="workList workBefore">
 									<div class="workListWrap">
 										<h3>진행 전<span>20</span></h3>
+									 <tr th:each="dto : ${beforeList}" >
 										<div class="workListDetail">
 											<div class="station">
-												<div class="cate">IBS<span>1134</span></div>
-												<h4>디비 구축<span>(2)</span></h4>
-												<div class="ingTxt">50<span>%</span></div>
-											</div>
-
-											<div class="station">
-												<div class="cate">IBS<span>1134</span></div>
-												<h4>디비 구축<span>(2)</span></h4>
-												<div class="ingTxt">20<span>%</span></div>
-											</div>
-
-											<div class="station">
-												<div class="cate">IBS<span>1134</span></div>
-												<h4>디비 구축<span>(2)</span></h4>
-												<div class="ingTxt">30<span>%</span></div>
-											</div>
-
-											<div class="station">
-												<div class="cate">IBS<span>1134</span></div>
-												<h4>디비 구축<span>(2)</span></h4>
-												<div class="ingTxt">10<span>%</span></div>
-											</div>
-
-											 <div class="station">
-												<div class="cate">IBS<span>1134</span></div>
-												<h4>디비 구축<span>(2)</span></h4>
-												<div class="ingTxt">30<span>%</span></div>
-											</div>
-
-											<div class="station">
-												<div class="cate">IBS<span>1134</span></div>
-												<h4>디비 구축<span>(2)</span></h4>
-												<div class="ingTxt">10<span>%</span></div>
-											</div>
-
-											<div class="station">
-												<div class="cate">IBS<span>1134</span></div>
-												<h4>디비 구축<span>(2)</span></h4>
-												<div class="ingTxt">30<span>%</span></div>
-											</div>
-
-											<div class="station">
-												<div class="cate">IBS<span>1134</span></div>
-												<h4>디비 구축<span>(2)</span></h4>
-												<div class="ingTxt">10<span>%</span></div>
+												<div class="cate">IBS<span>  [[${dto.projectId}]]</span></div>
+												<h4>[[${dto.taskTitle}]]<span>(2)</span></h4>
+												<div class="ingTxt"><span>%</span></div>
 											</div>
 										</div>
+									</tr>
 									</div>
 								</div>
 

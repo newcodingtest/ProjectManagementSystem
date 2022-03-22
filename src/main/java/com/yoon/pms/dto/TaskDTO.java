@@ -56,6 +56,11 @@ public class TaskDTO {
 	private String reportRegistFlag; //--> 보고서 등록 여부
 	
 	private int projectId;
+	
+	private LocalDateTime regDate;
+
+	private LocalDateTime modDate;
+	
 	//20220317T10:30
 	public LocalDateTime stringToLocalDateTime(String inputDate) {
 		LocalDateTime dateTime = LocalDateTime.parse(inputDate,DateTimeFormatter.ISO_DATE_TIME);
