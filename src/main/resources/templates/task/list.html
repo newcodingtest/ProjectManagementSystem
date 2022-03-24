@@ -310,8 +310,10 @@
 										<div class="workListDetail">
 											<div class="station">
 												<div class="cate">IBS<span>  [[${dto.projectId}]]</span></div>
-												<h4>[[${dto.taskTitle}]]<span>(2)</span></h4>
-												<div class="ingTxt"><span>%</span></div>
+												<a th:href="@{/task/read(id=${dto.tid})}">
+												<h4>[[${dto.taskTitle}]]<span>[[${dto.tid}]]</span></h4>
+												<div class="ingTxt">[[${dto.realProgress}]]<span>%</span></div>
+												</a>
 											</div>
 										</div>
 									</tr>

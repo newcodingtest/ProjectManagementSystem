@@ -19,10 +19,10 @@ public class TaskFactory {
 	
 	public static TaskDTO makeTaskDTO() {
 		 return TaskDTO.builder()
-				 .tid((long)100)
+				 .tid((long)5)
 				  .taskTitle("서비스단 테스트 제목")
 				  .Contents("서비스단 테스트 내용")
-				  .progressState("진행전")
+				  .statusCode("진행전")
 				  .realProgress(3)
 				  .reportRegistFlag("2")
 				  .pid((long)1)
@@ -44,9 +44,9 @@ public class TaskFactory {
 		 
 	        Task task = Task.builder()
 	        		.tid(taskDTO.getTid())
-	              .statusCode(taskDTO.getProgressState())
+	              .statusCode(taskDTO.getStatusCode())
 	              .parent(taskDTO.getParent())
-	              .projects(Project.builder().id(taskDTO.getPid()).build())
+	              .projectId(taskDTO.getPid())
 	              .realProgress(taskDTO.getRealProgress())
 	              .remarks(taskDTO.getRemarks())
 	              .reportRegistFlag(taskDTO.getReportRegistFlag())

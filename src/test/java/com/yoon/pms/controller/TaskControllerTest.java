@@ -1,7 +1,6 @@
 package com.yoon.pms.controller;
 
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;  
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -9,11 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,22 +15,21 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import com.yoon.pms.TaskFactory;
 import com.yoon.pms.dto.TaskDTO;
 import com.yoon.pms.repository.TaskRepository;
 import com.yoon.pms.service.TaskServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(controllers = {TaskController.class})
+@MockBean(JpaMetamodelMappingContext.class)
 public class TaskControllerTest {
 
 	@Autowired
@@ -84,9 +77,9 @@ public class TaskControllerTest {
 		//given
 		String test = "2022-03-08";
 		
-		 TaskDTO dto = TaskDTO.builder()
+		 TaskDTO givenDTO = TaskDTO.builder()
 				  .taskTitle("테스트 제목")
-				  .progressState((int)4)
+				  .statusCode("진행전")
 				  .realProgress(3)
 				  .reportRegistFlag("2")
 				  .pid((long) 1.0)
@@ -101,17 +94,17 @@ public class TaskControllerTest {
 		  //when
 		  	final ResultActions result=	mvc.perform(post("/task/register")
 		  				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
-				  .param("taskTitle", dto.getTaskTitle())
-				  .param("progressState",String.valueOf(dto.getProgressState()))
-				  .param("realProgress", String.valueOf(dto.getRealProgress()))
-				  .param("reportRegistFlag", String.valueOf(dto.getReportRegistFlag()))
-				  .param("projectId", String.valueOf(dto.getPid()) )
-				  .param("taskStartDate", dto.getTaskStartDate())
-				  .param("taskEndDate",dto.getTaskEndDate())
-				  .param("taskType", String.valueOf(dto.getTaskType()))
-				  .param("detailedTaskType", String.valueOf(dto.getDetailedTaskType()))
-				  .param("divisionOfTask", String.valueOf(dto.getDivisionOfTask()))
-				  .param("remarks", String.valueOf(dto.getRemarks())))
+				  .param("taskTitle", givenDTO.getTaskTitle())
+				  .param("statusCode",String.valueOf(givenDTO.getStatusCode()))
+				  .param("realProgress", String.valueOf(givenDTO.getRealProgress()))
+				  .param("reportRegistFlag", String.valueOf(givenDTO.getReportRegistFlag()))
+				  .param("projectId", String.valueOf(givenDTO.getPid()) )
+				  .param("taskStartDate", givenDTO.getTaskStartDate())
+				  .param("taskEndDate",givenDTO.getTaskEndDate())
+				  .param("taskType", String.valueOf(givenDTO.getTaskType()))
+				  .param("detailedTaskType", String.valueOf(givenDTO.getDetailedTaskType()))
+				  .param("divisionOfTask", String.valueOf(givenDTO.getDivisionOfTask()))
+				  .param("remarks", String.valueOf(givenDTO.getRemarks())))
 		  		.andDo(print());
 		  	
 		  	
@@ -130,9 +123,9 @@ public class TaskControllerTest {
 		//LocalDateTime dateTime = LocalDateTime.parse(test,DateTimeFormatter.ISO_DATE);
 		
 		  //given
-		  TaskDTO dto = TaskDTO.builder()
+		  TaskDTO givenDTO = TaskDTO.builder()
 				  .taskTitle("테스트 제목")
-				  .progressState((int)4)
+				  .statusCode("진행전")
 				  .realProgress(3)
 				  .reportRegistFlag("2")
 				  .pid((long)1)
@@ -148,7 +141,7 @@ public class TaskControllerTest {
 		  	final ResultActions result=	mvc.perform(post("/task/register")
 		  				.contentType(MediaType.APPLICATION_JSON)
 		  				.accept(MediaType.APPLICATION_FORM_URLENCODED)
-		  				.content(objectMapper.writeValueAsString(dto)))
+		  				.content(objectMapper.writeValueAsString(givenDTO)))
 		  			.andDo(print());
 		  	
 		  //then		
@@ -156,6 +149,63 @@ public class TaskControllerTest {
 		  result.andExpect(view().name("redirect:/task/list"));
 		  //모델 확인 테스트
 		  //result.andExpect(model().attributeExists("test"));
-	  }  	  
+	  }  
+	  
+	  @Test
+	  @DisplayName("수정 테스트")
+	  public void modify_수정된다() throws Exception {
+		//given
+		  TaskDTO givenDTO = TaskFactory.makeTaskDTO();
+		  
+		//when
+		  final ResultActions result = mvc.perform(post("/task/modify")
+				  .accept(MediaType.APPLICATION_FORM_URLENCODED)
+				  .param("tid", String.valueOf(givenDTO.getTid()))
+				  .param("taskTitle", givenDTO.getTaskTitle())
+				  .param("statusCode",givenDTO.getStatusCode())
+				  .param("realProgress", String.valueOf(givenDTO.getRealProgress()))
+				  .param("reportRegistFlag", givenDTO.getReportRegistFlag())
+				  .param("projectId", String.valueOf(givenDTO.getPid())) 
+				  .param("taskStartDate", givenDTO.getTaskStartDate())
+				  .param("taskEndDate",givenDTO.getTaskEndDate())
+				  .param("taskType", givenDTO.getTaskType())
+				  .param("detailedTaskType", givenDTO.getDetailedTaskType())
+				  .param("divisionOfTask", givenDTO.getDivisionOfTask())
+				  .param("remarks", givenDTO.getRemarks())
+				  ).andDo(print()); 
+		//then
+		result.andExpect(redirectedUrl("/task/list"));
+		  result.andExpect(view().name("redirect:/task/list"));
+		
+	  }
+	  
+	  @Test
+	  @DisplayName("삭제 테스트")
+	  public void remove_삭제된다() throws Exception {
+		//given
+		  TaskDTO givenDTO = TaskFactory.makeTaskDTO();
+		  
+		//when
+		  final ResultActions result = mvc.perform(post("/task/remove")
+				  .accept(MediaType.APPLICATION_FORM_URLENCODED)
+				  .param("tid", String.valueOf(givenDTO.getTid()))
+				  .param("taskTitle", givenDTO.getTaskTitle())
+				  .param("statusCode",givenDTO.getStatusCode())
+				  .param("realProgress", String.valueOf(givenDTO.getRealProgress()))
+				  .param("reportRegistFlag", givenDTO.getReportRegistFlag())
+				  .param("projectId", String.valueOf(givenDTO.getPid())) 
+				  .param("taskStartDate", givenDTO.getTaskStartDate())
+				  .param("taskEndDate",givenDTO.getTaskEndDate())
+				  .param("taskType", givenDTO.getTaskType())
+				  .param("detailedTaskType", givenDTO.getDetailedTaskType())
+				  .param("divisionOfTask", givenDTO.getDivisionOfTask())
+				  .param("remarks", givenDTO.getRemarks())
+				  ).andDo(print()); 
+		//then
+		  result.andExpect(redirectedUrl("/task/list"));
+		  result.andExpect(view().name("redirect:/task/list"));
+		  
+	  }
+	  
 
 }
