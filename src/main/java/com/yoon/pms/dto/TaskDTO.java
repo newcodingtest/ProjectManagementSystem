@@ -49,13 +49,11 @@ public class TaskDTO {
 	 
 	private String savedWeekDate; // 배치가 돌아서 저장된 날짜
 	 
-	private String progressState; //진행 상태 --> 진핸전/진행중/완료/중단
+	private String statusCode; //진행 상태 --> 진핸전/진행중/완료/중단
 	 
 	private Long parent; // --> 부모 작업 /자식작업 구분 키
 	 
 	private String reportRegistFlag; //--> 보고서 등록 여부
-	
-	private int projectId;
 	
 	private LocalDateTime regDate;
 
@@ -67,29 +65,7 @@ public class TaskDTO {
 		return dateTime;
 	}
 	
-	
-	public Task createEntity(TaskDTO dto){
 
-		 LocalDateTime startDate = stringToLocalDateTime(dto.getTaskStartDate());
-		 LocalDateTime endDate = stringToLocalDateTime(dto.getTaskEndDate());
-		 
-	        Task task = Task.builder()
-	        	  .tid(dto.getTid())
-	              .statusCode(dto.getProgressState())
-	              .parent(dto.getParent())
-	              .projectId(dto.getProjectId())
-	              .realProgress(dto.getRealProgress())
-	              .remarks(dto.getRemarks())
-	              .reportRegistFlag(dto.getReportRegistFlag())
-	              .taskType(dto.getTaskType())
-	              .taskTitle(dto.getTaskTitle())
-	              .taskStartDate(startDate)
-	              .taskEndDate(endDate)
-	              .detailedTaskType(dto.getDetailedTaskType())
-	              .divisionOfTask(dto.getDetailedTaskType())
-	              .writer(dto.getWriter())
-	              .build();
-	 
-	        return task;
-	}
+	
+
 }

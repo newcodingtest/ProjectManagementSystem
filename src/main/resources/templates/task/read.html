@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8"/>
+<th:block th:replace="~{/layout/header :: setContent(~{this::content} )}">
+ <th:block th:fragment="content">
+
+         <h2 class="tit-level1"> 
+			새작업
+         </h2>
+        
+        
+         <div class="subConView">
+         <form th:action="@{/task/modify}" th:method="post" id="actionForm" onsubmit="return onSubmitForm(this)" > 
+            <!-- 메인 화면  -->
+            		 <div class="col-md-6">
+                        <div class="form-group">
+                           <label class="control-label"><label class="star01">작업명</label></label>
+                           <label><span id="name_counter">(0/50)</span></label>
+                           <div class="formInput">
+                           		<input type="hidden" name="tid" th:value="${dto.tid}">
+                              	<input type="text"  class="form-control" id="taskTitle"  th:value="${dto.taskTitle}" name="taskTitle" placeholder="작업명을 입력해 주세요." required="required">
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-4">
+                        <div class="form-group">
+                           <label class="control-label"><label class="star01">기간</label></label>
+                           <div class="formInput">
+                              <div id="dateStart" class="dateStart">
+                                 <div class="input-group input-daterange date">
+                                    <input class="form-control"  id="taskStartDate" th:value="${dto.taskStartDate}" name="taskStartDate" type="datetime-local" required="required">
+                                    <div class="input-group-addon"> ~ </div>
+                                    <input class="form-control"  id="taskEndDate" th:value="${dto.taskEndDate}" name="taskEndDate" type="datetime-local" required="required">
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-1">
+                        <div class="form-group">
+                           <label class="control-label"><label class="star01">단계</label></label>
+                           <div class="formInput">
+                              <div class="selects">
+                                 <select class="form-control"  id="statusCode" name="statusCode" th:value="${dto.statusCode}">
+                                    <option th:selected="${dto.statusCode} =='진행전'" value="진행전">진행전</option>
+                                    <option th:selected="${dto.statusCode}=='진행중'" value="진행중">진행중</option>
+                                    <option th:selected="${dto.statusCode}=='완료'" value="완료">완료</option>
+                                    <option th:selected="${dto.statusCode}=='중단'" value="중단">중단</option> 
+                                 </select>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                      <div class="col-md-1">
+                     		<div class="form-group">
+                     		<label class="control-label"><label class="">진행률</label></label> 
+                     			<div class="formInput">
+			                          <div class="input-group unit">
+		                                 <input type="number" class="form-control" min='0' max='100' step='5'  id="realProgress" name="realProgress" value="0">
+		                                 <span class="input-group-addon">%</span>
+			                          </div>   
+		                      	</div>
+		                  </div>
+                     </div>
+                     <div class="col-md-1">
+                        <div class="form-group">
+                              <div class="formInput text-center">
+                              <label class="control-label"><label class="">보고서 포함</label></label>
+                              <div class="formInput text-center">
+                                    <input type="checkbox"  id="reportRegistFlag" name="reportRegistFlag" style="zoom:1.6;" value="1"  checked="checked"/>
+                                 </div>
+                           	   </div>
+                          </div>
+                     </div>
+                     <div class="col-md-5">
+                     	<label class="control-label mt-2"><label class="">관련 프로젝트</label></label>
+                     	<select class="form-control" id="projectId" name="projectId" >
+                     		<option value="1">기타</option>
+                     	</select>
+                     </div>
+                     <div class="col-md-2">
+                        <div class="form-group">
+                           <label class="control-label"><label class="">업무 종류</label></label>
+                           <div class="formInput">
+                              <div class="selects">
+                                 <select class="form-control"  id="taskType" name="taskType" th:value="${dto.taskType}">
+                                    <option th:selected="${dto.taskType}=='개발'" value="개발"  >개발</option>
+                                    <option th:selected="${dto.taskType}=='업무관리'" value="업무관리">업무관리</option>
+                                    <option th:selected="${dto.taskType}=='제안'" value="제안">제안</option>
+                                    <option th:selected="${dto.taskType}=='기타'" value="기타">기타</option>
+                                 </select>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-2">
+                        <div class="form-group">
+                           <label class="control-label"><label class="">상세 업무</label></label>
+                           <div class="formInput">
+                              <div class="selects">
+                                 <select class="form-control" id="detailedTaskType" name="detailedTaskType" th:value="${dto.detailedTaskType}">
+                                    <option th:selected="${dto.detailedTaskType}=='개발'" value="개발">개발</option>
+                                    <option th:selected="${dto.detailedTaskType}=='버그수정'" value="버그수정">버그수정</option>
+                                    <option th:selected="${dto.detailedTaskType}=='미팅'" value="미팅">미팅</option>
+                                    <option th:selected="${dto.detailedTaskType}=='보고'" value="보고">보고</option>
+                                    <option th:selected="${dto.detailedTaskType}=='출장'" value="출장">출장</option>
+                                    <option th:selected="${dto.detailedTaskType}=='산출물'" value="산출물">산출물</option>
+                                    <option th:selected="${dto.detailedTaskType}=='테스트'" value="테스트">테스트</option>
+                                    <option th:selected="${dto.detailedTaskType}=='작성'" value="작성">작성</option>
+                                    <option th:selected="${dto.detailedTaskType}=='보완'" value="보완">보완</option>
+                                    <option th:selected="${dto.detailedTaskType}=='사업관리'" value="사업관리">사업관리</option>
+                                    <option th:selected="${dto.detailedTaskType}=='신규개발'" value="신규개발">신규개발</option>
+                                    <option th:selected="${dto.detailedTaskType}=='신규(분석)'" value="신규(분석)">신규(분석)</option>
+                                    <option th:selected="${dto.detailedTaskType}=='신규(설계)'" value="신규(설계)">신규(설계)</option>
+                                    <option th:selected="${dto.detailedTaskType}=='자기계발'" value="자기계발">자기계발</option>
+                                    <option th:selected="${dto.detailedTaskType}=='건강검진'" value="건강검진">건강검진</option>
+                                    <option th:selected="${dto.detailedTaskType}=='휴가'" value="휴가">휴가</option>
+                                    <option th:selected="${dto.detailedTaskType}=='기타'" value="기타">기타</option>
+                                 </select>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-2">
+                        <div class="form-group">
+                           <label class="control-label"><label class="">업무 구분</label></label>
+                           <div class="formInput">
+                              <div class="selects">
+                                 <select class="form-control"
+                                    id="divisionOfTask" name="divisionOfTask" th:value=${dto.divisionOfTask}>
+                                    <option th:selected="${dto.divisionOfTask}=='주 업무'" value="주 업무">주 업무</option>
+                                    <option th:selected="${dto.divisionOfTask}=='지원 업무'" value="지원 업무">지원 업무</option>
+                                 </select>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-12" style="margin-top: 10px;">
+                        <div class="form-group form-group-block">
+                           <label class="control-label"><label class="">작업 내용</label></label>
+                           <label><span id="contents_counter">(0/1000)</span></label>
+                           <div class="formInput">
+                              <textarea class="form-control" placeholder="내용을 입력해 주세요." rows="5" name="contents" id="Contents" th:value="${dto.contents}">[[${dto.contents}]]</textarea>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-12" style="margin-top: 10px;">
+                        <div class="form-group form-group-block">
+                           <label class="control-label"><label class="">비고</label></label>
+                           <label><span id="contents_comment">(0/100)</span></label>
+                           <div class="formInput">
+                              <textarea class="form-control" placeholder="비고를 입력해 주세요." rows="2" name="remarks" id="remarks">[[${dto.remarks}]]</textarea>
+                           </div>
+                        </div>
+                     </div>
+                     
+                     <div class="col-md-12 btnArea text-right">
+                 <button type="submit" class="btn btn-primary" id="save">저장</button> 
+                 <button type="button" class="btn btn-primary" id="delete" onclick="deleteBtn()">삭제</button>
+                     </div>
+                      </form>
+                  </div>
+    </th:block>
+</th:block>
+
+<!-- toTop start -->
+<div id="gototop">go to top</div>
+<!--// toTop end -->
+
+<script th:inline="javascript">
+//[시작일], [종료일]의 Default는 현재 시간 =====================================================	
+
+
+
+	
+	
+	
+//저장전 유효성 체크
+function saveBtn(){
+    var btn = document.getElementById('save');
+    
+    btn.addEventListener("click", () =>{
+    	event.preventDefault();
+    	
+        var savedReportFlag = document.getElementById('reportRegistFlag').checked;
+        
+        if(savedReportFlag){
+        	document.getElementById('reportRegistFlag').value=1;
+        }else{
+        	document.getElementById('reportRegistFlag').value=0;
+        }
+		
+		btn.submit();
+
+     });
+}
+
+function deleteBtn(){
+	event.preventDefault();
+	
+	var form = document.getElementById('actionForm');
+	form.action="/task/remove";
+	form.submit();
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+//'저장' 이벤트 발생=========================================================================	
+	//saveBtn();
+
+}); // End DOMContentLoaded
+</script>
+
+<script src="../js/lib/loadAnimation.js"></script>
+
+
+
+</body>
+</html>

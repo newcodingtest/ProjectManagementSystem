@@ -15,6 +15,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.DynamicUpdate;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Builder.Default;
@@ -29,6 +32,7 @@ import lombok.ToString;
 @Builder
 @Getter
 @ToString
+@DynamicUpdate
 public class Task extends BaseEntity {
 
 	@Id
@@ -70,19 +74,13 @@ public class Task extends BaseEntity {
 	///@ManyToOne(fetch = FetchType.LAZY)
 	//@JoinColumn(name="PROJECT_ID")
 	@Column
-	private int projectId; 
+	private Long projectId; 
 
 	/*
 	 * public void setProject(Project projects) { if(this.projects!=null) {
 	 * this.projects.getTask().remove(this); } this.projects = projects;
 	 * projects.getTask().add(this); }
 	 */
-	
-	public void changeContents(String title,String contents) {
-		this.taskTitle = title;
-		this.contents = contents;
-	}
-	
 	
 
 }

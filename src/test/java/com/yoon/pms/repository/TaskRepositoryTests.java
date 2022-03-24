@@ -70,10 +70,10 @@ public class TaskRepositoryTests{
 		  //given
 		  Task task = Task.builder()
 				  .taskTitle("테스트 제목")
-				  .statusCode((int)4)
+				  .statusCode("진행전")
 				  .realProgress(3)
 				  .reportRegistFlag("2")
-				  .projects((long)1)
+				  .projectId((long)1)
 				  .taskStartDate(LocalDateTime.now())
 				  .taskEndDate(LocalDateTime.now())
 				  .taskType("종류")
@@ -98,7 +98,7 @@ public class TaskRepositoryTests{
 				  .statusCode("진행전")
 				  .realProgress(3)
 				  .reportRegistFlag("2")
-				  .projectId(1)
+				  .projectId((long) 1)
 				  .taskStartDate(LocalDateTime.now())
 				  .taskEndDate(LocalDateTime.now())
 				  .taskType("종류")
@@ -112,6 +112,8 @@ public class TaskRepositoryTests{
 		  //then
 		  Assertions.assertThat(savedTask.getTaskTitle())
 		  .isEqualTo(task.getTaskTitle());
+		  Assertions.assertThat(savedTask.getStatusCode())
+		  .isEqualTo(task.getStatusCode());
 	}
 	
 	
@@ -119,12 +121,15 @@ public class TaskRepositoryTests{
 	@DisplayName("task 수정 테스트")
 	@Transactional
 	void task_수정_테스트() {
+		//given
+		Long givenId = 2L;
 		//when
-		Optional<Task>createEntity = repository.findById(2L);
+		Optional<Task>createEntity = repository.findById(givenId);
 		
 		//then
 		createEntity.ifPresent(expectedEntity->{
-			 expectedEntity.changeContents("제목을 수정","내용을 수정했어요");
+			//change 메서드 존재시
+			//expectedEntity.changeContents("변경");
 			 Task updatedEntity = repository.save(expectedEntity);
 			 
 			 Assertions.assertThat(updatedEntity.getContents())
@@ -138,8 +143,11 @@ public class TaskRepositoryTests{
 	@Test
 	@DisplayName("task 삭제 테스트")
 	void task_삭제_테스트() {
-		//given. when
-		Optional<Task>entity = repository.findById(3L);
+		//given
+		Long givenId = 3L;
+		
+		//when
+		Optional<Task>entity = repository.findById(givenId);
 		
 		//then
 		entity.ifPresent(selectResult->{

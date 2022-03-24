@@ -24,40 +24,55 @@ import lombok.ToString;
 
 
 public interface TaskService {
-	
-	default Map<String,Object> dtoToEntity(TaskDTO taskDTO){
-		 Map<String,Object> entityMap = new HashMap();
-
-		 LocalDateTime startDate = taskDTO.stringToLocalDateTime(taskDTO.getTaskStartDate());
-		 LocalDateTime endDate = taskDTO.stringToLocalDateTime(taskDTO.getTaskEndDate());
-		 
-	        Task task = Task.builder()
-	        		.tid(taskDTO.getTid())
-	              .statusCode(taskDTO.getProgressState())
-	              .parent(taskDTO.getParent())
-	              .projectId(taskDTO.getProjectId())
-	              .realProgress(taskDTO.getRealProgress())
-	              .remarks(taskDTO.getRemarks())
-	              .reportRegistFlag(taskDTO.getReportRegistFlag())
-	              .taskType(taskDTO.getTaskType())
-	              .taskTitle(taskDTO.getTaskTitle())
-	              .taskStartDate(startDate)
-	              .taskEndDate(endDate)
-	              .detailedTaskType(taskDTO.getDetailedTaskType())
-	              .divisionOfTask(taskDTO.getDivisionOfTask())
-	              .writer(taskDTO.getWriter())
-	              .build();
-	             
-	        entityMap.put("task",task);
-
-	 
-	        return entityMap;
-	}
-
-	Long register(TaskDTO taskDTO);
+	long register(TaskDTO taskDTO);
+	TaskDTO getTaskOne(Long id);
+	long modify(TaskDTO dto);
+	void remove(TaskDTO dto);
 	
 	List<Task> getStatusBeforeList();
 	List<Task> getStatusIngList();
 	List<Task> getStatusEndList();
+	
+	default TaskDTO entityToDTO(Task entity) {
+		return TaskDTO.builder()
+		      	  .tid(entity.getTid())
+	        	  .pid(entity.getProjectId())
+	              .statusCode(entity.getStatusCode())
+	              .parent(entity.getParent())
+	              .realProgress(entity.getRealProgress())
+	              .remarks(entity.getRemarks())
+	              .reportRegistFlag(entity.getReportRegistFlag())
+	              .taskType(entity.getTaskType())
+	              .taskTitle(entity.getTaskTitle())
+	              .taskStartDate(entity.getTaskStartDate().toString())
+	              .taskEndDate(entity.getTaskEndDate().toString())
+	              .detailedTaskType(entity.getDetailedTaskType())
+	              .divisionOfTask(entity.getDivisionOfTask())
+	              .writer(entity.getWriter())
+				.build();
+	}
+	
+	default Task dtoToEntity(TaskDTO dto){
+
+		 LocalDateTime startDate = dto.stringToLocalDateTime(dto.getTaskStartDate());
+		 LocalDateTime endDate = dto.stringToLocalDateTime(dto.getTaskEndDate());
+		 
+	     return Task.builder()
+	        	  .tid(dto.getTid())
+	        	  .projectId(dto.getPid())
+	              .statusCode(dto.getStatusCode())
+	              .parent(dto.getParent())
+	              .realProgress(dto.getRealProgress())
+	              .remarks(dto.getRemarks())
+	              .reportRegistFlag(dto.getReportRegistFlag())
+	              .taskType(dto.getTaskType())
+	              .taskTitle(dto.getTaskTitle())
+	              .taskStartDate(startDate)
+	              .taskEndDate(endDate)
+	              .detailedTaskType(dto.getDetailedTaskType())
+	              .divisionOfTask(dto.getDivisionOfTask())
+	              .writer(dto.getWriter())
+	              .build();
+	}
 	
 }
