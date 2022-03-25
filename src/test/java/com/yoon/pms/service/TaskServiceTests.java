@@ -43,7 +43,7 @@ class TaskServiceTests {
 		//mocking
 		BDDMockito
 			.given(repository.save(any())).
-			willReturn(service.dtoToEntity(givenDTO));
+			willReturn(givenDTO.dtoToEntity(givenDTO));
 				
 		//when
 		Long result = service.register(givenDTO);
@@ -71,7 +71,7 @@ class TaskServiceTests {
 		System.out.println(result);
 		//then
 		//결과값
-		Assertions.assertThat(result).isEqualTo(service.entityToDTO(givenTask));
+		Assertions.assertThat(result).isEqualTo(result.entityToDTO(givenTask));
 		//호출횟수
 		BDDMockito.verify(repository,times(1)).findById(givenId);
 	}

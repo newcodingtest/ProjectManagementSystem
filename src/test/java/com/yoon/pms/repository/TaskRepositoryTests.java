@@ -1,18 +1,15 @@
 package com.yoon.pms.repository;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat; 
 import static org.mockito.ArgumentMatchers.longThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
-
 import javax.transaction.Transactional;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -46,7 +43,7 @@ public class TaskRepositoryTests{
 		//then
 		result.ifPresent(x->{
 			Assertions.assertThat(x).isNotNull();
-			System.out.println(x);
+			log.info("findById={}",x);
 		});
 	}
 	
@@ -58,7 +55,7 @@ public class TaskRepositoryTests{
 		
 		//then
 		result.forEach(x->{
-			System.out.println(x);
+			log.info("findByAll={}",x);
 		});
 	}
 	
@@ -159,15 +156,47 @@ public class TaskRepositoryTests{
 	}
 	
 	@Test
-	@DisplayName("상태코드에 따라서 Task 그리고 관련된 프로젝트 가져오기")
-	void Query_어노테이션_테스트() {
-		//given (110: 진행전 111: 진행중 112: 완료)
-		final int statusCode = 1;
+	@DisplayName("Qdsl Task 전체count 테스트")
+	void count_테스트() {
+		//when
+		long result = repository.getTaskList();
 		
-		repository.getListByStatusCode(statusCode).forEach(test ->{
-			System.out.println(test.toString());
-		});
+		log.info("result={}", result);
+		//then
+		Assertions.assertThat(result).isNotNull();
 	}
 	
+	@Test
+	@DisplayName("Qdsl 진행전 리스트 출력 테스트")
+	void 진행전_리스트_가져오기_테스트() {
+		//when
+		List<Task>result = repository.getNotStartList();
+		
+		log.info("result={}, size={}", result, result.size());
+		//then
+		Assertions.assertThat(result.size()).isGreaterThanOrEqualTo(0);
+	}
+	
+	@Test
+	@DisplayName("Qdsl 진행중 리스트 출력 테스트")
+	void 진행중_리스트_가져오기_테스트() {
+		//when
+		List<Task>result = repository.getOnGoingList();
+		
+		log.info("result={}, size={}", result, result.size());
+		//then
+		Assertions.assertThat(result.size()).isGreaterThanOrEqualTo(0);
+	}
+	
+	@Test
+	@DisplayName("Qdsl 완료 리스트 출력 테스트")
+	void 완료_리스트_가져오기_테스트() {
+		//when
+		List<Task>result = repository.getEndedList();
+		
+		log.info("result={}, size={}", result, result.size());
+		//then
+		Assertions.assertThat(result.size()).isGreaterThanOrEqualTo(0);
+	}
 	
 }

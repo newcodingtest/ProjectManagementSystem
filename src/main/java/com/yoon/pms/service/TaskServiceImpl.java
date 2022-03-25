@@ -23,9 +23,9 @@ public class TaskServiceImpl implements TaskService {
 	private final TaskRepository taskRepository;
 	
 	@Override
-	public long register(TaskDTO taskDTO) {
+	public long register(TaskDTO dto) {
 		
-		Task target = dtoToEntity(taskDTO);
+		Task target = dto.dtoToEntity(dto);
 		
 		Task savedTask = taskRepository.save(target);
 		
@@ -33,29 +33,30 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<Task> getStatusBeforeList() {
-		// TODO Auto-generated method stub
-		return taskRepository.findAll();
+	public List<TaskDTO> getStatusBeforeList() {
+		List<Task>target = taskRepository.getNotStartList();
+				
+		
+		return ;
 	}
 
 	@Override
-	public List<Task> getStatusIngList() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<TaskDTO> getStatusIngList() {
+		return taskRepository.getOnGoingList();
 	}
 
 	@Override
-	public List<Task> getStatusEndList() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<TaskDTO> getStatusEndList() {
+		return taskRepository.getEndedList();
 	}
 	
 
 	@Override
 	public TaskDTO getTaskOne(Long id) {
-		
+		TaskDTO dto = new TaskDTO();
 		Optional<Task> target = taskRepository.findById(id);
-		return entityToDTO(target.get());
+		
+		return dto.entityToDTO(target.get());
 	}
 
 	@Override
@@ -64,7 +65,7 @@ public class TaskServiceImpl implements TaskService {
 		Optional<Task> origin =taskRepository.findById(dto.getTid());
 		origin.orElseThrow(NoSuchElementException::new);
 		
-		Task target = dtoToEntity(dto);
+		Task target = dto.dtoToEntity(dto);
 		Task updated = taskRepository.save(target);
 		
 		return updated.getTid();
@@ -75,7 +76,7 @@ public class TaskServiceImpl implements TaskService {
 		Optional<Task> origin =taskRepository.findById(dto.getTid());
 		origin.orElseThrow(NoSuchElementException::new);
 		
-		Task target = dtoToEntity(dto);
+		Task target =  dto.dtoToEntity(dto);
 		taskRepository.delete(target);
 		
 	}
