@@ -1,18 +1,13 @@
 package com.yoon.pms.dto;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals; 
 
 import java.time.LocalDateTime;
-import java.util.List;
-
-import javax.persistence.EntityManager;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 
 @ExtendWith(MockitoExtension.class)
 public class TaskDTOTests {

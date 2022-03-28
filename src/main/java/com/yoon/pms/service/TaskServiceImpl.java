@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import com.yoon.pms.dto.TaskDTO;
+import com.yoon.pms.dto.TaskResponseDto;
 import com.yoon.pms.entity.Task;
 import com.yoon.pms.repository.TaskRepository;
 
@@ -34,29 +35,35 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public List<TaskDTO> getStatusBeforeList() {
-		List<Task>target = taskRepository.getNotStartList();
-				
 		
-		return ;
+		List<Task> target = taskRepository.getNotStartList();
+		
+		return TaskResponseDto.ListEntityToDto(target);
+		
 	}
 
 	@Override
 	public List<TaskDTO> getStatusIngList() {
-		return taskRepository.getOnGoingList();
+		
+		List<Task> target = taskRepository.getOnGoingList();
+		
+		return TaskResponseDto.ListEntityToDto(target);
 	}
 
 	@Override
 	public List<TaskDTO> getStatusEndList() {
-		return taskRepository.getEndedList();
+		
+		List<Task> target = taskRepository.getEndedList();
+		
+		return TaskResponseDto.ListEntityToDto(target);
 	}
 	
 
 	@Override
 	public TaskDTO getTaskOne(Long id) {
-		TaskDTO dto = new TaskDTO();
 		Optional<Task> target = taskRepository.findById(id);
 		
-		return dto.entityToDTO(target.get());
+		return TaskDTO.entityToDTO(target.get());
 	}
 
 	@Override
@@ -76,7 +83,7 @@ public class TaskServiceImpl implements TaskService {
 		Optional<Task> origin =taskRepository.findById(dto.getTid());
 		origin.orElseThrow(NoSuchElementException::new);
 		
-		Task target =  dto.dtoToEntity(dto);
+		Task target =  TaskDTO.dtoToEntity(dto);
 		taskRepository.delete(target);
 		
 	}

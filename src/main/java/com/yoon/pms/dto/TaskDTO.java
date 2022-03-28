@@ -66,7 +66,7 @@ public class TaskDTO {
 	}
 	
 
-	public Task dtoToEntity(TaskDTO dto){
+	public static Task dtoToEntity(TaskDTO dto){
 
 		 LocalDateTime startDate = dto.stringToLocalDateTime(dto.getTaskStartDate());
 		 LocalDateTime endDate = dto.stringToLocalDateTime(dto.getTaskEndDate());
@@ -89,7 +89,7 @@ public class TaskDTO {
 	              .build();
 	}
 	
-	public TaskDTO entityToDTO(Task entity) {
+	public static TaskDTO entityToDTO(Task entity) {
 		return TaskDTO.builder()
 		      	  .tid(entity.getTid())
 	        	  .pid(entity.getProjectId())
