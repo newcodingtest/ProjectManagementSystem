@@ -18,6 +18,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.yoon.pms.dto.TaskDTO;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Builder.Default;
@@ -81,7 +83,7 @@ public class Task extends BaseEntity {
 	 * this.projects.getTask().remove(this); } this.projects = projects;
 	 * projects.getTask().add(this); }
 	 */
-	
+
 
 }
 

@@ -4,6 +4,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
@@ -37,18 +39,18 @@ class TaskServiceTests {
 	@DisplayName("register 동작 테스트")
 	public void 등록_테스트(){
 		
-		//given 
+		//Given 
 		TaskDTO givenDTO = TaskFactory.makeTaskDTO();
 		
-		//mocking
+		//Mocking
 		BDDMockito
 			.given(repository.save(any())).
-			willReturn(service.dtoToEntity(givenDTO));
+			willReturn(givenDTO.dtoToEntity(givenDTO));
 				
-		//when
+		//When
 		Long result = service.register(givenDTO);
 		
-		//then
+		//Then
 		//결과값
 		Assertions.assertThat(result).isEqualTo(givenDTO.getTid());
 		//호출횟수
@@ -59,19 +61,22 @@ class TaskServiceTests {
 	@DisplayName("getTaskOne 기능 동작 테스트")
 	public void getTaskOne_테스트(){
 		
-		//given 
+		//Given 
 		Long givenId = 1L;
 		Task givenTask = TaskFactory.makeTaskEntity();
-		//mocking
+		
+		//Mocking
 		BDDMockito
 			.given(repository.findById(anyLong())).
 			willReturn(Optional.of(givenTask));
 
+		//When
 		TaskDTO result = service.getTaskOne(givenId);
 		System.out.println(result);
-		//then
+		
+		//Then
 		//결과값
-		Assertions.assertThat(result).isEqualTo(service.entityToDTO(givenTask));
+		Assertions.assertThat(result).isEqualTo(result.entityToDTO(givenTask));
 		//호출횟수
 		BDDMockito.verify(repository,times(1)).findById(givenId);
 	}
@@ -80,11 +85,11 @@ class TaskServiceTests {
 	@DisplayName("modify 기능 동작 테스트")
 	public void modify_테스트(){
 		
-		//given 
+		//Given 
 		Task givenEntity = TaskFactory.makeTaskEntity();
 		TaskDTO givenDTO = TaskFactory.makeTaskDTO();
 		
-		//mocking
+		//Mocking
 		BDDMockito
 			.given(repository.findById(givenEntity.getTid())).
 			willReturn(Optional.of(givenEntity));
@@ -92,12 +97,87 @@ class TaskServiceTests {
 			.given(repository.save(givenEntity)).
 			willReturn(givenEntity);
 
-		//when
+		//When
 		long result = service.modify(givenDTO);
 		
-		//then
+		//Then
 		Assertions.assertThat(result).isEqualTo(givenEntity.getTid());
 		BDDMockito.verify(repository,times(1)).save(givenEntity);
 	}
+	
+	@Test
+	@DisplayName("getStatusBeforeList 기능 동작 테스트")
+	public void 상태가_진행전인_Task_리스트_가져와() {
+		
+		//Given
+		Task givenEntity = TaskFactory.makeTaskEntity();
+		
+		List<Task> givenArr = Arrays.asList(givenEntity,givenEntity,givenEntity);
+		
+		//Mocking
+		BDDMockito
+		.given(repository.getNotStartList())
+		.willReturn(givenArr);
+		
+		//When
+		List<TaskDTO>expected = service.getStatusBeforeList();
+		
+		//Then
+		Assertions.assertThat(expected.get(0).getStatusCode())
+					.isEqualTo(givenArr.get(0).getStatusCode());
+		BDDMockito.verify(repository,times(1)).getNotStartList();
+		
+	}
+	
+	@Test
+	@DisplayName("getStatusIngList 기능 동작 테스트")
+	public void 상태가_진행중인_Task_리스트_가져와() {
+		
+		//Given
+		Task givenEntity = TaskFactory.makeTaskEntity();
+		
+		List<Task> givenArr = Arrays.asList(givenEntity,givenEntity,givenEntity);
+		
+		//Mocking
+		BDDMockito
+		.given(repository.getOnGoingList())
+		.willReturn(givenArr);
+		
+		//When
+		List<TaskDTO>expected = service.getStatusIngList();
+		
+		//Then
+		Assertions.assertThat(expected.get(0).getStatusCode())
+					.isEqualTo(givenArr.get(0).getStatusCode());
+		BDDMockito.verify(repository,times(1)).getOnGoingList();
+		
+	}
+	
+	@Test
+	@DisplayName("getStatusEndList 기능 동작 테스트")
+	public void 상태가_완료된_Task_리스트_가져와() {
+		
+		//Given
+		Task givenEntity = TaskFactory.makeTaskEntity();
+		
+		List<Task> givenArr = Arrays.asList(givenEntity,givenEntity,givenEntity);
+		
+		//Mocking
+		BDDMockito
+		.given(repository.getEndedList())
+		.willReturn(givenArr);
+		
+		//When
+		List<TaskDTO>expected = service.getStatusEndList();
+		
+		//Then
+		Assertions.assertThat(expected.get(0).getStatusCode())
+					.isEqualTo(givenArr.get(0).getStatusCode());
+		BDDMockito.verify(repository,times(1)).getEndedList();
+		
+	}
+	
+	
+	
 	
 }
