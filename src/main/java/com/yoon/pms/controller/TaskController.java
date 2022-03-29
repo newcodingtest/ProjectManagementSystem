@@ -1,22 +1,13 @@
 package com.yoon.pms.controller;
 
-import java.security.Provider.Service;
 
-import org.springframework.http.HttpStatus;  
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import com.yoon.pms.dto.PageRequestDTO;
 import com.yoon.pms.dto.TaskDTO;
-import com.yoon.pms.service.ProjectService;
 import com.yoon.pms.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,13 +28,13 @@ public class TaskController {
 		//model.addAttribute("",);
 		//진행전 리스트+개수
 		model.addAttribute("beforeList",taskService.getStatusBeforeList());
-		//model.addAttribute("beforeCnt",);
+		model.addAttribute("beforeCnt",taskService.getStatusBeforeList().size());
 		//진행중 리스트+개수
-		//model.addAttribute("ingList",);
-		//model.addAttribute("ingCnt",);
+		model.addAttribute("ingList",taskService.getStatusIngList());
+		model.addAttribute("ingCnt",taskService.getStatusIngList().size());
 		//완료 리스트+개수
-		//model.addAttribute("endList",);
-		//model.addAttribute("endCnd",);
+		model.addAttribute("endList",taskService.getStatusEndList());
+		model.addAttribute("endCnt",taskService.getStatusEndList().size());
 	}
 	
 	@GetMapping("/register")
