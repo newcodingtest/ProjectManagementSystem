@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8"/>
+<th:block th:replace="~{/layout/header :: setContent(~{this::content} )}">
+ <th:block th:fragment="content">
+
+         <h2 class="tit-level1"> 
+			새작업
+         </h2>
+        
+        
+         <div class="subConView">
+         <form th:action="@{/task/register}" th:method="post" onsubmit="return onSubmitForm(this)" > 
+            <!-- 메인 화면  -->
+            		 <div class="col-md-6">
+                        <div class="form-group">
+                           <label class="control-label"><label class="star01">작업명</label></label>
+                           <label><span id="name_counter">(0/50)</span></label>
+                           <div class="formInput">
+                              	<input type="text"  class="form-control" id="taskTitle"  name="taskTitle" placeholder="작업명을 입력해 주세요." required="required">
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-4">
+                        <div class="form-group">
+                           <label class="control-label"><label class="star01">기간</label></label>
+                           <div class="formInput">
+                              <div id="dateStart" class="dateStart">
+                                 <div class="input-group input-daterange date">
+                                    <input class="form-control"  id="taskStartDate"  name="taskStartDate" type="datetime-local" required="required">
+                                    <div class="input-group-addon"> ~ </div>
+                                    <input class="form-control"  id="taskEndDate" name="taskEndDate" type="datetime-local" required="required">
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-1">
+                        <div class="form-group">
+                           <label class="control-label"><label class="star01">단계</label></label>
+                           <div class="formInput">
+                              <div class="selects">
+                                 <select class="form-control"  id="statusCode" name="statusCode">
+                                    <option value="진행전">진행전</option>
+                                    <option value="진행중">진행중</option>
+                                    <option value="완료">완료</option>
+                                    <option value="중단">중단</option> 
+                                 </select>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                      <div class="col-md-1">
+                     		<div class="form-group">
+                     		<label class="control-label"><label class="">진행률</label></label> 
+                     			<div class="formInput">
+			                          <div class="input-group unit">
+		                                 <input type="number" class="form-control" min='0' max='100' step='5'  id="realProgress" name="realProgress" value="0">
+		                                 <span class="input-group-addon">%</span>
+			                          </div>   
+		                      	</div>
+		                  </div>
+                     </div>
+                     <div class="col-md-1">
+                        <div class="form-group">
+                              <div class="formInput text-center">
+                              <label class="control-label"><label class="">보고서 포함</label></label>
+                              <div class="formInput text-center">
+                                    <input type="checkbox"  id="reportRegistFlag" name="reportRegistFlag" style="zoom:1.6;" value="1"  checked="checked"/>
+                                 </div>
+                           	   </div>
+                          </div>
+                     </div>
+                     <div class="col-md-5">
+                     	<label class="control-label mt-2"><label class="">관련 프로젝트</label></label>
+                     	<select class="form-control" id="projectId" name="projectId" >
+                     		<option value="1">기타</option>
+                     	</select>
+                     </div>
+                     <div class="col-md-2">
+                        <div class="form-group">
+                           <label class="control-label"><label class="">업무 종류</label></label>
+                           <div class="formInput">
+                              <div class="selects">
+                                 <select class="form-control"  id="taskType" name="taskType">
+                                    <option value="개발">개발</option>
+                                    <option value="업무관리">업무관리</option>
+                                    <option value="제안">제안</option>
+                                    <option value="기타">기타</option>
+                                 </select>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-2">
+                        <div class="form-group">
+                           <label class="control-label"><label class="">상세 업무</label></label>
+                           <div class="formInput">
+                              <div class="selects">
+                                 <select class="form-control" id="detailedTaskType" name="detailedTaskType">
+                                    <option value="개발">개발</option>
+                                    <option value="버그수정">버그수정</option>
+                                    <option value="미팅">미팅</option>
+                                    <option value="보고">보고</option>
+                                    <option value="출장">출장</option>
+                                    <option value="산출물">산출물</option>
+                                    <option value="테스트">테스트</option>
+                                    <option value="작성">작성</option>
+                                    <option value="보완">보완</option>
+                                    <option value="사업관리">사업관리</option>
+                                    <option value="신규개발">신규개발</option>
+                                    <option value="신규(분석)">신규(분석)</option>
+                                    <option value="신규(설계)">신규(설계)</option>
+                                    <option value="자기계발">자기계발</option>
+                                    <option value="건강검진">건강검진</option>
+                                    <option value="휴가">휴가</option>
+                                    <option value="기타">기타</option>
+                                 </select>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-2">
+                        <div class="form-group">
+                           <label class="control-label"><label class="">업무 구분</label></label>
+                           <div class="formInput">
+                              <div class="selects">
+                                 <select class="form-control"
+                                    id="divisionOfTask" name="divisionOfTask">
+                                    <option value="주 업무">주 업무</option>
+                                    <option value="지원 업무">지원 업무</option>
+                                 </select>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-12" style="margin-top: 10px;">
+                        <div class="form-group form-group-block">
+                           <label class="control-label"><label class="">작업 내용</label></label>
+                           <label><span id="contents_counter">(0/1000)</span></label>
+                           <div class="formInput">
+                              <textarea class="form-control" placeholder="내용을 입력해 주세요." rows="5" name="taskContents" id="taskContents" value=""></textarea>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-12" style="margin-top: 10px;">
+                        <div class="form-group form-group-block">
+                           <label class="control-label"><label class="">비고</label></label>
+                           <label><span id="contents_comment">(0/100)</span></label>
+                           <div class="formInput">
+                              <textarea class="form-control" placeholder="비고를 입력해 주세요." rows="2" name="remarks" id="remarks" value=""></textarea>
+                           </div>
+                        </div>
+                     </div>
+                     
+                     <div class="col-md-12 btnArea text-right">
+                 <button type="submit" class="btn btn-primary" id="save">저장</button> 
+                 <!--         <a class="btn btn-primary" onclick="save();">저장</a> -->
+                     </div>
+                      </form>
+                  </div>
+    </th:block>
+</th:block>
+
+<!-- toTop start -->
+<div id="gototop">go to top</div>
+<!--// toTop end -->
+
+<script>
+//[시작일], [종료일]의 Default는 현재 시간 =====================================================	
+document.getElementById('taskStartDate').value = new Date().toISOString().substring(0, 10);
+document.getElementById('taskEndDate').value = new Date().toISOString().substring(0, 10);
+	
+function onSubmitForm(frm) {
+    
+    var savedReportFlag = frm.reportRegistFlag.checked;
+    console.log(savedReportFlag);
+    
+    if(savedReportFlag){
+    	frm.reportRegistFlag.value=1;
+    }else{
+    	frm.reportRegistFlag.value=0;
+    }
+    
+    console.log(frm.reportRegistFlag.value);
+    return true;
+}
+
+function isNumberKey(value){
+    if(0<=value && value<=100){
+        return true;
+    }
+     alert("0~100 범위에 맞는 진행률을 작성해주세요");
+     return false;
+}
+
+//유효성 확인1 [제목], [시작일], [종료일] =========================================================	
+function checkNullValid(){
+	var taskTitle = document.getElementById('taskTitle').value;
+	var taskStartDate = document.getElementById('taskStartDate').value;
+	var taskEndDate = document.getElementById('taskEndDate').value;
+	
+	if(taskTitle!=="" && taskTitle!== undefined && taskStartDate!=="" && taskStartDate!== undefined && taskEndDate!=="" && taskEndDate!== undefined){
+		return true;
+	}
+	return false;
+}
+//유효성 확인2.
+function validAndThen(){
+	if(!checkNullValid()){
+		alert("[제목] 또는 [시작일] 또는 [종료일] 을 작성해주세요");
+		return false;
+	}
+	return true;
+}
+//유효성 3
+function checkedReportRegistFlag(){
+	   if(document.getElementById('reportRegistFlag').checked==true){
+	    	return 1;
+	    }else if(parent_week_check==false){
+	    	return 0;
+	    }
+}
+//post 방식 전송 ==============================================================================
+function ajaxSend(){
+	var xhr = new XMLHttpRequest();
+	
+	var projectId = document.getElementById('projectId').value;
+	var taskType =  document.getElementById('taskType').value;
+	var detailedTaskType =  document.getElementById('detailedTaskType').value;
+	var divisionOfTask =  document.getElementById('divisionOfTask').value;
+	var taskTitle =  document.getElementById('taskTitle').value;
+	var Contents =  document.getElementById('Contents').value;
+	var remarks =  document.getElementById('remarks').value;
+	var realProgress =  document.getElementById('realProgress').value;
+	var progressState =  document.getElementById('progressState').value;
+    var reportRegistFlag = checkedReportRegistFlag();
+    var taskStartDate =  document.getElementById('taskStartDate').value.replace('T'," ");
+	var taskEndDate =  document.getElementById('taskEndDate').value.replace('T'," ");
+	
+	//첫번째 방법.
+	var data = {
+			projectId : projectId,
+			taskType : taskType,
+			detailedTaskType : detailedTaskType,
+			divisionOfTask : divisionOfTask,
+			taskTitle : taskTitle,
+			Contents : Contents,
+			remarks : remarks,
+			realProgress : realProgress,
+			progressState : progressState,
+			reportRegistFlag : reportRegistFlag,
+			taskStartDate : taskStartDate,
+			taskEndDate : taskEndDate
+	}
+	//두번재 방법
+	//formData.append('taskStartDate',changeStart);
+	//formData.append('taskEndDate',changeEnd);
+	
+ 	xhr.open('post', '/task/register',true);
+	xhr.setRequestHeader('Content-type','application/json');
+	xhr.send(JSON.stringify(data));
+	
+/* 	xhr.onload = () => {
+           if (request.status === 200 || request.status === 301) {	// send 정상적으로 완료했을 경우
+               var result = request.responseText;	//	comment_container.html 코드
+               console.log(result);
+               //sevent.target.closest(".comment_wrap").querySelector(".comment_box").innerHTML = result;		// 박스 안 HTML코드 교체
+           } else {
+               console.error(request.responseText);
+           }
+       }   */
+}
+
+//저장전 유효성 체크
+function saveBtn(){
+    var btn = document.getElementById('save');
+    
+    btn.addEventListener("click", () =>{
+    	event.preventDefault();
+    	
+        var savedReportFlag = document.getElementById('reportRegistFlag').checked;
+        
+        if(savedReportFlag){
+        	document.getElementById('reportRegistFlag').value=1;
+        }else{
+        	document.getElementById('reportRegistFlag').value=0;
+        }
+		
+		btn.submit();
+
+     });
+}
+
+
+document.addEventListener("DOMContentLoaded", function(){
+//'저장' 이벤트 발생=========================================================================	
+	//saveBtn();
+
+}); // End DOMContentLoaded
+</script>
+
+<script src="../js/lib/loadAnimation.js"></script>
+
+
+
+</body>
+</html>

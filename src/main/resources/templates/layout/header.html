@@ -67,7 +67,12 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
 
-
+<!-- 시트 관련 필수 파일 -->
+<script type="text/javascript" src="../product/sheet/ib.util.js"></script>
+<script type="text/javascript" src="../product/sheet/ib.common.js"></script>
+<script type="text/javascript" src="../product/sheet/ibsheetinfo.js"></script>
+<script type="text/javascript" src="../product/sheet/ibsheet.js"></script>
+<script type="text/javascript" src="../product/sheet/ibleaders.js"></script>
 
 <!-- layout css -->
 <link rel="stylesheet" type="text/css" href="../css/layout.css">
@@ -156,53 +161,34 @@
 				
 				<ul class="gnb">
 					<li>
-						<div class="first-menu " >
-							<a href="javascript:;"><span>보고서</span></a>
-						</div>
-						<ul class="sub-menu">
-							<li><a href="#"><span>컨텐츠관리1</span></a></li>
-							<li><a href="#"><span>컨텐츠관리1</span></a></li>
-							<li><a href="#"><span>컨텐츠관리1</span></a></li>
-						</ul>
-					</li>
-					<li>
 						<div class="first-menu">
 							<a href="javascript:;"><span>내작업</span></a>
 						</div>
 						<ul class="sub-menu">
-							<li><a href="#"><span>컨텐츠관리1</span></a></li>
-							<li><a href="#"><span>컨텐츠관리1</span></a></li>
-							<li><a href="#"><span>컨텐츠관리1</span></a></li>
+							<li><a href="#"><span>전체</span></a></li>
+							<li><a href="#"><span>진행전</span></a></li>
+							<li><a href="#"><span>진행중</span></a></li>
+							<li><a href="#"><span>완료</span></a></li>
+							<li><a href="#"><span>중단</span></a></li>
 						</ul>
 					</li>
-					<li>
-						<div class="first-menu">
-							<a href="javascript:;"><span>진행 프로젝트</span></a>
+						<li>
+						<div class="first-menu " >
+							<a href="javascript:;"><span>보고서</span></a>
 						</div>
 						<ul class="sub-menu">
-							<li><a href="#"><span>컨텐츠관리1</span></a></li>
-							<li><a href="#"><span>컨텐츠관리1</span></a></li>
-							<li><a href="#"><span>컨텐츠관리1</span></a></li>
+							<li><a href="#"><span>내 부서</span></a></li>
+							<li><a href="#"><span>프로젝트 별</span></a></li>
 						</ul>
 					</li>
-					<li>
-						<div class="first-menu">
-							<a href="javascript:;"><span>종료 프로젝트</span></a>
-						</div>
-						<ul class="sub-menu">
-							<li><a href="#"><span>컨텐츠관리1</span></a></li>
-							<li><a href="#"><span>컨텐츠관리1</span></a></li>
-							<li><a href="#"><span>컨텐츠관리1</span></a></li>
-						</ul>
-					</li>
+					
 					<li>
 						<div class="first-menu">
 							<a href="javascript:;"><span>시스템관리</span></a>
 						</div>
 						<ul class="sub-menu">
-							<li><a href="#"><span>컨텐츠관리1</span></a></li>
-							<li><a href="#"><span>컨텐츠관리1</span></a></li>
-							<li><a href="#"><span>컨텐츠관리1</span></a></li>
+							<li><a href="#"><span>사용자 관리</span></a></li>
+							<li><a href="#"><span>프로젝트 관리</span></a></li>
 						</ul>
 					</li>
 				</ul>
@@ -222,13 +208,6 @@
 		<nav class="navbar-default navbar-static-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav metismenu" id="side-menu">
-		          <li class="active">
-                        <a href="#"><i class="mnImg01"></i> <span class="nav-label">보고서</span> <span class="arrow01"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li class="active"><a href="#">내부서</a></li>
-                            <li><a href="#">프로젝트별</a></li>
-                        </ul>
-                    </li>
                     <li>
                         <a href="#"><i class="mnImg02"></i> <span class="nav-label">내작업</span> <span class="arrow01"></span></a>
                         <ul class="nav nav-second-level">
@@ -239,26 +218,17 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#"><i class="mnImg03"></i> <span class="nav-label">진행 프로젝트</span> <span class="arrow01"></span></a>
+                        <a href="#"><i class="mnImg03"></i> <span class="nav-label">보고서</span> <span class="arrow01"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="#">IB 업무관리 시스템</a></li>
-                            <li><a href="#">IB 항공 시스템</a></li>
-                            <li><a href="#">IB 항공보안</a></li>
-                        </ul>
-                    </li>
-					 <li>
-                        <a href="#"><i class="mnImg04"></i> <span class="nav-label">종료 프로젝트</span> <span class="arrow01"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li><a href="#">2021년</a></li>
-                            <li><a href="#">2020년</a></li>
-                            <li><a href="#">2019년</a></li>
+                            <li><a href="#">내 부서</a></li>
+                            <li><a href="#">프로젝트 별</a></li>
                         </ul>
                     </li>
 					<li>
                         <a href="#"><i class="mnImg05"></i> <span class="nav-label">시스템관리</span> <span class="arrow01"></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="#">사용자 관리</a></li>
-                            <li><a href="#">프로젝트 관리</a></li>
+                            <li><a th:href="@{/project/list}">프로젝트 관리</a></li>
                         </ul>
                     </li>					         
                 </ul>

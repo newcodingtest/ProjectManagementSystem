@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import com.yoon.pms.dto.TaskDTO;
-import com.yoon.pms.dto.TaskResponseDto;
+import com.yoon.pms.dto.TaskResponseDTO;
 import com.yoon.pms.entity.Task;
 import com.yoon.pms.repository.TaskRepository;
 
@@ -35,7 +35,7 @@ public class TaskServiceImpl implements TaskService {
 		
 		List<Task> target = taskRepository.getNotStartList();
 		
-		return TaskResponseDto.ListEntityToDto(target);
+		return TaskResponseDTO.ListEntityToDto(target);
 	}
 	
 	
@@ -45,7 +45,7 @@ public class TaskServiceImpl implements TaskService {
 		
 		List<Task> target = taskRepository.getOnGoingList();
 		
-		return TaskResponseDto.ListEntityToDto(target);
+		return TaskResponseDTO.ListEntityToDto(target);
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class TaskServiceImpl implements TaskService {
 		
 		List<Task> target = taskRepository.getEndedList();
 		
-		return TaskResponseDto.ListEntityToDto(target);
+		return TaskResponseDTO.ListEntityToDto(target);
 	}
 
 	@Override
