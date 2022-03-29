@@ -32,6 +32,8 @@ public class TaskRepositoryImpl implements TaskRepositoryCustom {
 				.from(task).where(task.statusCode.eq("진행전"))
 				.fetch();
 	}
+	
+	
 
 	@Override
 	public List<Task> getOnGoingList() {
@@ -46,6 +48,8 @@ public class TaskRepositoryImpl implements TaskRepositoryCustom {
 				.from(task).where(task.statusCode.eq("완료"))
 				.fetch();
 	}
+	
+	
 	
 
 }

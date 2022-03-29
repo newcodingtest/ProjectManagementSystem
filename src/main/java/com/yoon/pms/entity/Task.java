@@ -48,7 +48,7 @@ public class Task extends BaseEntity {
 	@Column
 	private String divisionOfTask; //업무 구분 --> 주/지원
 	@Column
-	private String contents; // 업무 내용
+	private String taskContents; // 업무 내용
 	@Column
 	private String taskTitle; //업무 제목
 	@Column
