@@ -1,18 +1,15 @@
 package com.yoon.pms.service;
 
-import java.util.List;
-import java.util.Map;
+import java.util.List; 
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import com.yoon.pms.dto.TaskDTO;
 import com.yoon.pms.dto.TaskResponseDto;
 import com.yoon.pms.entity.Task;
 import com.yoon.pms.repository.TaskRepository;
 
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,8 +36,9 @@ public class TaskServiceImpl implements TaskService {
 		List<Task> target = taskRepository.getNotStartList();
 		
 		return TaskResponseDto.ListEntityToDto(target);
-		
 	}
+	
+	
 
 	@Override
 	public List<TaskDTO> getStatusIngList() {
@@ -57,7 +55,6 @@ public class TaskServiceImpl implements TaskService {
 		
 		return TaskResponseDto.ListEntityToDto(target);
 	}
-	
 
 	@Override
 	public TaskDTO getTaskOne(Long id) {
@@ -65,6 +62,7 @@ public class TaskServiceImpl implements TaskService {
 		
 		return TaskDTO.entityToDTO(target.get());
 	}
+	
 
 	@Override
 	public long modify(TaskDTO dto) {
@@ -87,5 +85,7 @@ public class TaskServiceImpl implements TaskService {
 		taskRepository.delete(target);
 		
 	}
+
+
 	
 }

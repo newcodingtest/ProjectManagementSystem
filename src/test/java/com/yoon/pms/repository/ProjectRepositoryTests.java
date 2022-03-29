@@ -1,20 +1,12 @@
 package com.yoon.pms.repository;
 
-import java.util.Optional;
-
+import java.util.Optional; 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
 import com.yoon.pms.dto.ProjectDTO;
 import com.yoon.pms.entity.Project;
-import com.yoon.pms.entity.Task;
 
 @SpringBootTest
 public class ProjectRepositoryTests {

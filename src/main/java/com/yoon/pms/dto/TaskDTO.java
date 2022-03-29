@@ -28,7 +28,7 @@ public class TaskDTO {
 	private String detailedTaskType; //상세 업무 -->개발/버그수정/산출물/테스트/휴가/기타 등등
 	 
 	private String divisionOfTask; //업무 구분 --> 주/지원
-	private String Contents; // 업무 내용
+	private String taskContents; // 업무 내용
 	private String taskTitle; //업무 제목
 	 
 	private String writer; //작성자 아이디
@@ -81,6 +81,7 @@ public class TaskDTO {
 	              .reportRegistFlag(dto.getReportRegistFlag())
 	              .taskType(dto.getTaskType())
 	              .taskTitle(dto.getTaskTitle())
+	              .taskContents(dto.getTaskContents())
 	              .taskStartDate(startDate)
 	              .taskEndDate(endDate)
 	              .detailedTaskType(dto.getDetailedTaskType())
@@ -100,6 +101,7 @@ public class TaskDTO {
 	              .reportRegistFlag(entity.getReportRegistFlag())
 	              .taskType(entity.getTaskType())
 	              .taskTitle(entity.getTaskTitle())
+	              .taskContents(entity.getTaskContents())
 	              .taskStartDate(entity.getTaskStartDate().toString())
 	              .taskEndDate(entity.getTaskEndDate().toString())
 	              .detailedTaskType(entity.getDetailedTaskType())
