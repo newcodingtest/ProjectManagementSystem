@@ -305,11 +305,11 @@
 							<div class="workListArea">
 								<div class="workList workBefore">
 									<div class="workListWrap">
-										<h3>진행 전<span>20</span></h3>
+										<h3>진행 전<span>[[${beforeCnt}]]</span></h3>
 									 <tr th:each="dto : ${beforeList}" >
 										<div class="workListDetail">
 											<div class="station">
-												<div class="cate">IBS<span>  [[${dto.projectId}]]</span></div>
+												<div class="cate">IBS<span>  [[${dto.pid}]]</span></div>
 												<a th:href="@{/task/read(id=${dto.tid})}">
 												<h4>[[${dto.taskTitle}]]<span>[[${dto.tid}]]</span></h4>
 												<div class="ingTxt">[[${dto.realProgress}]]<span>%</span></div>
@@ -322,51 +322,35 @@
 
 								<div class="workList workIng">
 									<div class="workListWrap">
-										<h3>진행 중<span>20</span></h3>
+										<h3>진행 중<span>[[${ingCnt}]]</span></h3>
+									<tr th:each="dto : ${ingList}" >
 										<div class="workListDetail">
 											<div class="station">
-												<div class="cate">IBS<span>1134</span></div>
-												<h4>디비 구축<span>(2)</span></h4>
-												<div class="ingTxt">50<span>%</span></div>
-											</div>
-
-											<div class="station">
-												<div class="cate">IBS<span>1134</span></div>
-												<h4>디비 구축<span>(2)</span></h4>
-												<div class="ingTxt">20<span>%</span></div>
+												<div class="cate">IBS<span>  [[${dto.pid}]]</span></div>
+												<a th:href="@{/task/read(id=${dto.tid})}">
+												<h4>[[${dto.taskTitle}]]<span>[[${dto.tid}]]</span></h4>
+												<div class="ingTxt">[[${dto.realProgress}]]<span>%</span></div>
+												</a>
 											</div>
 										</div>
+									</tr>
 									</div>
 								</div>
 
 								<div class="workList workEnd">
 									<div class="workListWrap">
-										<h3>완료<span>20</span></h3>
+										<h3>완료<span>[[${endCnt}]]</span></h3>
+										<tr th:each="dto : ${endList}" >
 										<div class="workListDetail">
 											<div class="station">
-												<div class="cate">IBS<span>1134</span></div>
-												<h4>디비 구축<span>(2)</span></h4>
-												<div class="ingTxt">50<span>%</span></div>
-											</div>
-
-											<div class="station">
-												<div class="cate">IBS<span>1134</span></div>
-												<h4>디비 구축<span>(2)</span></h4>
-												<div class="ingTxt">20<span>%</span></div>
-											</div>
-
-											<div class="station">
-												<div class="cate">IBS<span>1134</span></div>
-												<h4>디비 구축<span>(2)</span></h4>
-												<div class="ingTxt">30<span>%</span></div>
-											</div>
-
-											<div class="station">
-												<div class="cate">IBS<span>1134</span></div>
-												<h4>디비 구축<span>(2)</span></h4>
-												<div class="ingTxt">10<span>%</span></div>
+												<div class="cate">IBS<span>  [[${dto.pid}]]</span></div>
+												<a th:href="@{/task/read(id=${dto.tid})}">
+												<h4>[[${dto.taskTitle}]]<span>[[${dto.tid}]]</span></h4>
+												<div class="ingTxt">[[${dto.realProgress}]]<span>%</span></div>
+												</a>
 											</div>
 										</div>
+									</tr>
 									</div>
 								</div>
 

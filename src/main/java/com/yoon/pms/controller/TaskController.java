@@ -37,13 +37,13 @@ public class TaskController {
 		//model.addAttribute("",);
 		//진행전 리스트+개수
 		model.addAttribute("beforeList",taskService.getStatusBeforeList());
-		//model.addAttribute("beforeCnt",);
+		model.addAttribute("beforeCnt",taskService.getStatusBeforeList().size());
 		//진행중 리스트+개수
-		//model.addAttribute("ingList",);
-		//model.addAttribute("ingCnt",);
+		model.addAttribute("ingList",taskService.getStatusIngList());
+		model.addAttribute("ingCnt",taskService.getStatusIngList().size());
 		//완료 리스트+개수
-		//model.addAttribute("endList",);
-		//model.addAttribute("endCnd",);
+		model.addAttribute("endList",taskService.getStatusEndList());
+		model.addAttribute("endCnt",taskService.getStatusEndList().size());
 	}
 	
 	@GetMapping("/register")

@@ -10,48 +10,62 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yoon.pms.TaskFactory;
+import com.yoon.pms.config.QuerydslConfig;
 import com.yoon.pms.dto.TaskDTO;
 import com.yoon.pms.repository.TaskRepository;
-import com.yoon.pms.service.TaskServiceImpl;
+import com.yoon.pms.service.TaskService;
 
-@ExtendWith(MockitoExtension.class)
-@WebMvcTest(controllers = {TaskController.class})
+@RunWith(SpringRunner.class) 
+@WebMvcTest(controllers = {TaskController.class}) 
 @MockBean(JpaMetamodelMappingContext.class)
 public class TaskControllerTest {
 
 	@Autowired
 	private MockMvc mvc;
 	
-	@MockBean
-	private TaskServiceImpl taskService;
+	@MockBean //spring-boot-test 에서 제공하는 어노테이션, 개발자가 직접 반환값을 컨트롤이 가능
+	private TaskService taskService;
 	
 	@MockBean
 	private TaskRepository taskRepository;
 	
+	@MockBean
+	private QuerydslConfig config;
+	
 	@Autowired
 	protected ObjectMapper objectMapper;
+	
+	private ModelAndView mv;
 	
 	  @Test
 	  @DisplayName("list 페이지 테스트")
 	  public void list_페이지_이동() throws Exception{
-	        
 	      //andExpect
 	      mvc.perform(get("/task/list").content("application/json"))
-	         .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()));    
+	         .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
+	      	 .andExpect(MockMvcResultMatchers.model().attributeExists("beforeList"))
+	      	 .andExpect(MockMvcResultMatchers.model().attributeExists("ingList"))
+	      	 .andExpect(MockMvcResultMatchers.model().attributeExists("endList"))
+	      	 .andExpect(MockMvcResultMatchers.model().attributeExists("beforeCnt"))
+	      	 .andExpect(MockMvcResultMatchers.model().attributeExists("ingCnt"))
+	      	 .andExpect(MockMvcResultMatchers.model().attributeExists("endCnt"));
 	   }
+	  
 	  
 	  @Test
 	  @DisplayName("list 페이지 테스트1")
@@ -74,7 +88,7 @@ public class TaskControllerTest {
 	  @Test
 	  @DisplayName("formData post 테스트")
 	  public void Posts_등록된다() throws Exception {
-		//given
+		//Given
 		String test = "2022-03-08";
 		
 		 TaskDTO givenDTO = TaskDTO.builder()
@@ -91,7 +105,7 @@ public class TaskControllerTest {
 				  .remarks("비고")
 				  .build();
 		  
-		  //when
+		  //When
 		  	final ResultActions result=	mvc.perform(post("/task/register")
 		  				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				  .param("taskTitle", givenDTO.getTaskTitle())
@@ -108,7 +122,7 @@ public class TaskControllerTest {
 		  		.andDo(print());
 		  	
 		  	
-		  //then		
+		  //Then		
 		  result.andExpect(redirectedUrl("/task/list"));
 		  result.andExpect(view().name("redirect:/task/list"));
 		  //모델 확인 테스트
@@ -122,7 +136,7 @@ public class TaskControllerTest {
 		String test = "2022-03-08";
 		//LocalDateTime dateTime = LocalDateTime.parse(test,DateTimeFormatter.ISO_DATE);
 		
-		  //given
+		  //Given
 		  TaskDTO givenDTO = TaskDTO.builder()
 				  .taskTitle("테스트 제목")
 				  .statusCode("진행전")
@@ -137,14 +151,14 @@ public class TaskControllerTest {
 				  .remarks("비고")
 				  .build();
 		  
-		  //when
+		  //When
 		  	final ResultActions result=	mvc.perform(post("/task/register")
 		  				.contentType(MediaType.APPLICATION_JSON)
 		  				.accept(MediaType.APPLICATION_FORM_URLENCODED)
 		  				.content(objectMapper.writeValueAsString(givenDTO)))
 		  			.andDo(print());
 		  	
-		  //then		
+		  //Then		
 		  result.andExpect(redirectedUrl("/task/list"));
 		  result.andExpect(view().name("redirect:/task/list"));
 		  //모델 확인 테스트
@@ -154,10 +168,10 @@ public class TaskControllerTest {
 	  @Test
 	  @DisplayName("수정 테스트")
 	  public void modify_수정된다() throws Exception {
-		//given
+		//Given
 		  TaskDTO givenDTO = TaskFactory.makeTaskDTO();
 		  
-		//when
+		//When
 		  final ResultActions result = mvc.perform(post("/task/modify")
 				  .accept(MediaType.APPLICATION_FORM_URLENCODED)
 				  .param("tid", String.valueOf(givenDTO.getTid()))
@@ -182,10 +196,10 @@ public class TaskControllerTest {
 	  @Test
 	  @DisplayName("삭제 테스트")
 	  public void remove_삭제된다() throws Exception {
-		//given
+		//Given
 		  TaskDTO givenDTO = TaskFactory.makeTaskDTO();
 		  
-		//when
+		//When
 		  final ResultActions result = mvc.perform(post("/task/remove")
 				  .accept(MediaType.APPLICATION_FORM_URLENCODED)
 				  .param("tid", String.valueOf(givenDTO.getTid()))
@@ -201,10 +215,9 @@ public class TaskControllerTest {
 				  .param("divisionOfTask", givenDTO.getDivisionOfTask())
 				  .param("remarks", givenDTO.getRemarks())
 				  ).andDo(print()); 
-		//then
+		//Then
 		  result.andExpect(redirectedUrl("/task/list"));
 		  result.andExpect(view().name("redirect:/task/list"));
-		  
 	  }
 	  
 
