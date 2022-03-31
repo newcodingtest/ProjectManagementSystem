@@ -60,7 +60,7 @@ public class TaskDTO {
 	private LocalDateTime modDate;
 	
 	//20220317T10:30
-	public LocalDateTime stringToLocalDateTime(String inputDate) {
+	public static LocalDateTime stringToLocalDateTime(String inputDate) {
 		LocalDateTime dateTime = LocalDateTime.parse(inputDate,DateTimeFormatter.ISO_DATE_TIME);
 		return dateTime;
 	}

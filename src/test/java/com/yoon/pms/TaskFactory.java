@@ -1,8 +1,6 @@
 package com.yoon.pms;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.LocalDateTime; 
 import com.yoon.pms.dto.TaskDTO;
 import com.yoon.pms.entity.Task;
  
@@ -10,13 +8,13 @@ public class TaskFactory {
 	public static Task makeTaskEntity() {
 		TaskDTO dto = makeTaskDTO();
 		
-		return (Task)dtoToEntity(dto).get("task"); 
+		return dtoToEntity(dto);
 		
 	}
 	
 	public static TaskDTO makeTaskDTO() {
 		 return TaskDTO.builder()
-				 .tid((long)5)
+				  .tid((long) 1)
 				  .taskTitle("서비스단 테스트 제목")
 				  .taskContents("서비스단 테스트 내용")
 				  .statusCode("진행전")
@@ -33,14 +31,13 @@ public class TaskFactory {
 		
 	}
 	
-	static Map<String,Object> dtoToEntity(TaskDTO taskDTO){
-		 Map<String,Object> entityMap = new HashMap();
+	static Task dtoToEntity(TaskDTO taskDTO){
 
-		 LocalDateTime startDate = taskDTO.stringToLocalDateTime(taskDTO.getTaskStartDate());
-		 LocalDateTime endDate = taskDTO.stringToLocalDateTime(taskDTO.getTaskEndDate());
+		 LocalDateTime startDate = TaskDTO.stringToLocalDateTime(taskDTO.getTaskStartDate());
+		 LocalDateTime endDate = TaskDTO.stringToLocalDateTime(taskDTO.getTaskEndDate());
 		 
 	        Task task = Task.builder()
-	        		.tid(taskDTO.getTid())
+	        	  .projectId((long)1)
 	              .statusCode(taskDTO.getStatusCode())
 	              .parent(taskDTO.getParent())
 	              .projectId(taskDTO.getPid())
@@ -56,11 +53,8 @@ public class TaskFactory {
 	              .divisionOfTask(taskDTO.getDivisionOfTask())
 	              .writer(taskDTO.getWriter())
 	              .build();
-	             
-	        entityMap.put("task",task);
-
 	 
-	        return entityMap;
+	        return task;
 	}
 
 }

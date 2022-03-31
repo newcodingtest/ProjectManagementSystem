@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.yoon.pms.entity.Project;
 
 @Repository
-public interface ProjectRepository extends JpaRepository<Project, Long>{
+public interface ProjectRepository extends JpaRepository<Project, Long>, ProjectRepositoryCustom{
 
 }
