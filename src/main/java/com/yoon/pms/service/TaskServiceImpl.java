@@ -1,21 +1,17 @@
 package com.yoon.pms.service;
 
-import java.util.List; 
+import java.util.List;  
 import java.util.NoSuchElementException;
 import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 import com.yoon.pms.dto.TaskDTO;
 import com.yoon.pms.dto.TaskResponseDTO;
 import com.yoon.pms.entity.Task;
 import com.yoon.pms.repository.TaskRepository;
-
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class TaskServiceImpl implements TaskService {
 
 	private final TaskRepository taskRepository;
@@ -23,7 +19,7 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public long register(TaskDTO dto) {
 		
-		Task target = dto.dtoToEntity(dto);
+		Task target = TaskDTO.dtoToEntity(dto);
 		
 		Task savedTask = taskRepository.save(target);
 		
@@ -70,7 +66,7 @@ public class TaskServiceImpl implements TaskService {
 		Optional<Task> origin =taskRepository.findById(dto.getTid());
 		origin.orElseThrow(NoSuchElementException::new);
 		
-		Task target = dto.dtoToEntity(dto);
+		Task target = TaskDTO.dtoToEntity(dto);
 		Task updated = taskRepository.save(target);
 		
 		return updated.getTid();
