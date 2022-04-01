@@ -51,11 +51,19 @@ public class ProjectServiceImpl implements ProjectService {
 		ProjectResponseDTO dto = new ProjectResponseDTO();
 		List<Project> target = projectRepository.getProjectListByStatusCode();
 		
-		List<ProjectDTO> result =  dto.ListEntityToDto(target);
+		List<ProjectDTO> result =  ProjectResponseDTO.ListEntityToDto(target);
 		dto.setData(result);
 		
 		return dto;
 		
+	}
+
+	@Override
+	public ProjectDTO getProjectOneById(Long id) {
+		
+		 Optional<Project> target = projectRepository.findById(id);
+		 
+		return ProjectDTO.entityToDTO(target.get());
 	}
 
 }

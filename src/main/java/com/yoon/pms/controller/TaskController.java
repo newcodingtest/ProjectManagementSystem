@@ -39,14 +39,14 @@ public class TaskController {
 	
 	@GetMapping("/register")
 	public void moveRegister(Model model) {
-		log.info("----------register----------");
+		log.info("----------moveRegister----------");
 	}
 	
 	
 	
 	@PostMapping("/register")
-	public String register(TaskDTO dto,RedirectAttributes redirectAttributes) {
-		log.info("----------register----------");
+	public String doRegister(TaskDTO dto,RedirectAttributes redirectAttributes) {
+		log.info("----------doRegister----------");
 		log.info("TaskDTO: "+dto);
 		Long tid = taskService.register(dto);
 		
@@ -56,8 +56,8 @@ public class TaskController {
 	}
 	
 	@GetMapping("/read")
-	public void read(long id, Model model) {
-		log.info("----------read----------");
+	public void moveReadPage(long id, Model model) {
+		log.info("----------moveReadPage----------");
 		log.info("tid: "+id);
 		TaskDTO dto = taskService.getTaskOne(id);
 		log.info("dto: "+dto);
@@ -66,8 +66,8 @@ public class TaskController {
 	}
 	
 	@PostMapping("/modify")
-	public String modify(TaskDTO dto,RedirectAttributes redirectAttributes) {
-		log.info("----------modify----------");
+	public String doModify(TaskDTO dto,RedirectAttributes redirectAttributes) {
+		log.info("----------doModify----------");
 		log.info("tid: "+dto.getTid());
 		
 		taskService.modify(dto);
@@ -77,8 +77,8 @@ public class TaskController {
 	}
 	
 	@PostMapping("/remove")
-	public String remove(TaskDTO dto,RedirectAttributes redirectAttributes) {
-		log.info("----------remove----------");
+	public String doRemove(TaskDTO dto,RedirectAttributes redirectAttributes) {
+		log.info("----------doRemove----------");
 		log.info("tid: "+dto.getTid());
 		
 		taskService.remove(dto);

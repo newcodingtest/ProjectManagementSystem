@@ -42,12 +42,36 @@
 			</div>
 		</div>
 	</div>
+	
+	 <!-- ============================== 몇번째 글이 등록되었는지 알림해주는 모달창 ==============================  -->
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">프로젝트가 등록되었습니다.</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     </th:block>
 </th:block>
 
 <!-- 시트 관련 필수 파일 -->
+<script th:inline="javascript">
+var msg = [[${msg}]]
+console.log(msg);
 
+if(msg){
+    $(".modal").modal();
+}
+</script>
 <script>
 	/*Sheet 기본 설정 */
 	function LoadPage() {
@@ -124,7 +148,8 @@
 			mySheet.DoSearch("/project/sheet/list");
 			
 	}
-			function doAction(sAction) {
+	
+	function doAction(sAction) {
 				switch (sAction) {
 				case "search": //조회
 				mySheet.LoadSearchData(total);//조회 데이터(xml or json)를 함수의 인자로 전달 받아 아이비시트에 로딩한다.
@@ -138,9 +163,19 @@
 				
 				console.log(data); break;
 				}
-			}
+	}
+	
+	function mySheet_OnClick(Row, Col, Value, CellX, CellY, CellW, CellH) {
+		
+		if (mySheet.ColSaveName(Col)) {
+			var project_id = mySheet.GetCellValue(Row,"pid");
+			location.href ='/project/read?pid='+project_id;
+		}
+	
+	}
 
-		window.addEventListener("onload", LoadPage());
+
+	window.addEventListener("onload", LoadPage());
 </script>
 </body>
 </html>

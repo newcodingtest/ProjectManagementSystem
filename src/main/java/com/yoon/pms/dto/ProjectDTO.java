@@ -21,11 +21,11 @@ public class ProjectDTO {
 
 	private String manager;
 	
-	private String projectNickname;
-	
 	private String projectTitle;
 	
-	private String content;
+	private String projectNickname;
+	
+	private String contents;
 	
 	private String remarks;
 	
@@ -49,7 +49,7 @@ public class ProjectDTO {
 	    		 .id(dto.getPid())
 	    		 .projectTitle(dto.getProjectTitle())
 	    		 .projectNickname(dto.getProjectNickname())
-	    		 .contents(dto.content)
+	    		 .contents(dto.contents)
 	    		 .startDate(startDate)
 	    		 .endDate(endDate)
 	    		 .statusCode(dto.getStatusCode())
@@ -62,7 +62,7 @@ public class ProjectDTO {
 				 .pid(entity.getId())
 	    		 .projectTitle(entity.getProjectTitle())
 	    		 .projectNickname(entity.getProjectNickname())
-	    		 .content(entity.getContents())
+	    		 .contents(entity.getContents())
 	    		 .startDate(entity.getStartDate().toString())
 	    		 .endDate(entity.getEndDate().toString())
 	    		 .statusCode(entity.getStatusCode())

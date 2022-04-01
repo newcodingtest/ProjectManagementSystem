@@ -5,160 +5,125 @@
  <th:block th:fragment="content">
 
          <h2 class="tit-level1"> 
-			새작업
+			프로젝트 등록
          </h2>
-        
-        
-         <div class="subConView">
-         <form th:action="@{/task/register}" th:method="post" onsubmit="return onSubmitForm(this)" > 
-            <!-- 메인 화면  -->
-            		 <div class="col-md-6">
-                        <div class="form-group">
-                           <label class="control-label"><label class="star01">작업명</label></label>
-                           <label><span id="name_counter">(0/50)</span></label>
-                           <div class="formInput">
-                              	<input type="text"  class="form-control" id="taskTitle"  name="taskTitle" placeholder="작업명을 입력해 주세요." required="required">
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-md-4">
-                        <div class="form-group">
-                           <label class="control-label"><label class="star01">기간</label></label>
-                           <div class="formInput">
-                              <div id="dateStart" class="dateStart">
-                                 <div class="input-group input-daterange date">
-                                    <input class="form-control"  id="taskStartDate"  name="taskStartDate" type="datetime-local" required="required">
+     <div class="subConView">
+					<!-- 메인 화면  -->
+					<form th:action="@{/project/register}" th:method="post" onsubmit="return onSubmitForm(this)" >
+					<div class="col-md-6">
+						<div class="form-group">
+							 <span class="star01">프로젝트명</span>
+							 <span id="project_title-no" style="display: none; color: #d92742; font-weight: bold;">입력해주세요</span>
+							<div class="formInput">
+								<input id="project_title" type="text" class="form-control"  name="projectTitle" required="required">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							  <span class="star01">프로젝트 별칭</span>
+							  <span id="project_nickname-no" style="display: none; color: #d92742; font-weight: bold;">입력해주세요</span>
+							<div class="formInput">
+							  <input id="project_nickname" type="text" class="form-control" name="projectNickname" required="required">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+	                  <div class="form-group">
+	                       <span class="star01">기간</span>
+	                       <span id="start_date-no" style="display: none; color: #d92742; font-weight: bold;">입력해주세요</span>
+	                     <div class="formInput">
+	                        <div id="dateStart" class="dateStart">
+	                           <div class="input-group input-daterange date">
+	                       <input class="form-control"  id="taskStartDate"  name="startDate" type="datetime-local" required="required">
                                     <div class="input-group-addon"> ~ </div>
-                                    <input class="form-control"  id="taskEndDate" name="taskEndDate" type="datetime-local" required="required">
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-md-1">
-                        <div class="form-group">
-                           <label class="control-label"><label class="star01">단계</label></label>
-                           <div class="formInput">
+                                    <input class="form-control"  id="taskEndDate" name="endDate" type="datetime-local" required="required">
+	                           </div>
+	                        </div>
+	                     </div>
+	                  </div>
+	               </div>
+	               <div class="col-md-3">
+						<div class="form-group">
+							<span class="">담당자</span>
+							<div class="formInput">
+							   <select id="manager" name="manager" class="form-control">
+							   	<option value="윤주영">윤주영</option>
+							   </select>	 
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<span class="">주관부서</span>
+							<div class="formInput">
+							   <select id="team" class="form-control">
+						   			<option value="120">미정</option>
+									<option value="">--전략사업본부--</option>
+									<option value="121">컨설팅사업팀</option>
+									<option value="122">스마트CNS팀</option>
+									<option value="123">항공정보팀</option>
+									<option value="124">항공기술사업팀</option>
+									<option value="">--영업본부--</option>
+									<option value="125">SI영업팀</option>
+									<option value="126">솔루션영업팀</option>
+									<option value="127">영업지원팀</option>
+									<option value="">--IT사업본부--</option>
+									<option value="128">SW개발사업팀</option>
+									<option value="129">솔루션사업팀</option>
+									<option value="">--기술연구소--</option>
+									<option value="130">연구개발1팀</option>
+									<option value="131">연구개발2팀</option>
+									<option value="">--경영관리본부--</option>
+									<option value="132">경영관리팀</option>
+									<option value="">--기타--</option>
+									<option value="133">기타</option>
+							   </select>	 
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<span class="">계약금액(원, 부가세제외)</span>
+							<span id="payment-no" style="display: none; color: #d92742; font-weight: bold;">입력해주세요</span>
+							<div class="formInput">
+							  	<input class="form-control" type="text" id="payment" onkeyup="addCommas(this)" placeholder="0">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<span class="">단계</span>
+							<div class="formInput">
                               <div class="selects">
-                                 <select class="form-control"  id="statusCode" name="statusCode">
+                                 <select class="form-control" name="statusCode">
                                     <option value="진행전">진행전</option>
                                     <option value="진행중">진행중</option>
                                     <option value="완료">완료</option>
-                                    <option value="중단">중단</option> 
+                                    <option value="중단">중단</option>
                                  </select>
                               </div>
                            </div>
-                        </div>
-                     </div>
-                      <div class="col-md-1">
-                     		<div class="form-group">
-                     		<label class="control-label"><label class="">진행률</label></label> 
-                     			<div class="formInput">
-			                          <div class="input-group unit">
-		                                 <input type="number" class="form-control" min='0' max='100' step='5'  id="realProgress" name="realProgress" value="0">
-		                                 <span class="input-group-addon">%</span>
-			                          </div>   
-		                      	</div>
-		                  </div>
-                     </div>
-                     <div class="col-md-1">
-                        <div class="form-group">
-                              <div class="formInput text-center">
-                              <label class="control-label"><label class="">보고서 포함</label></label>
-                              <div class="formInput text-center">
-                                    <input type="checkbox"  id="reportRegistFlag" name="reportRegistFlag" style="zoom:1.6;" value="1"  checked="checked"/>
-                                 </div>
-                           	   </div>
-                          </div>
-                     </div>
-                     <div class="col-md-5">
-                     	<label class="control-label mt-2"><label class="">관련 프로젝트</label></label>
-                     	<select class="form-control" id="projectId" name="projectId" >
-                     		<option value="1">기타</option>
-                     	</select>
-                     </div>
-                     <div class="col-md-2">
-                        <div class="form-group">
-                           <label class="control-label"><label class="">업무 종류</label></label>
-                           <div class="formInput">
-                              <div class="selects">
-                                 <select class="form-control"  id="taskType" name="taskType">
-                                    <option value="개발">개발</option>
-                                    <option value="업무관리">업무관리</option>
-                                    <option value="제안">제안</option>
-                                    <option value="기타">기타</option>
-                                 </select>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-md-2">
-                        <div class="form-group">
-                           <label class="control-label"><label class="">상세 업무</label></label>
-                           <div class="formInput">
-                              <div class="selects">
-                                 <select class="form-control" id="detailedTaskType" name="detailedTaskType">
-                                    <option value="개발">개발</option>
-                                    <option value="버그수정">버그수정</option>
-                                    <option value="미팅">미팅</option>
-                                    <option value="보고">보고</option>
-                                    <option value="출장">출장</option>
-                                    <option value="산출물">산출물</option>
-                                    <option value="테스트">테스트</option>
-                                    <option value="작성">작성</option>
-                                    <option value="보완">보완</option>
-                                    <option value="사업관리">사업관리</option>
-                                    <option value="신규개발">신규개발</option>
-                                    <option value="신규(분석)">신규(분석)</option>
-                                    <option value="신규(설계)">신규(설계)</option>
-                                    <option value="자기계발">자기계발</option>
-                                    <option value="건강검진">건강검진</option>
-                                    <option value="휴가">휴가</option>
-                                    <option value="기타">기타</option>
-                                 </select>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-md-2">
-                        <div class="form-group">
-                           <label class="control-label"><label class="">업무 구분</label></label>
-                           <div class="formInput">
-                              <div class="selects">
-                                 <select class="form-control"
-                                    id="divisionOfTask" name="divisionOfTask">
-                                    <option value="주 업무">주 업무</option>
-                                    <option value="지원 업무">지원 업무</option>
-                                 </select>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-md-12" style="margin-top: 10px;">
-                        <div class="form-group form-group-block">
-                           <label class="control-label"><label class="">작업 내용</label></label>
-                           <label><span id="contents_counter">(0/1000)</span></label>
-                           <div class="formInput">
-                              <textarea class="form-control" placeholder="내용을 입력해 주세요." rows="5" name="taskContents" id="taskContents" value=""></textarea>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-md-12" style="margin-top: 10px;">
-                        <div class="form-group form-group-block">
-                           <label class="control-label"><label class="">비고</label></label>
-                           <label><span id="contents_comment">(0/100)</span></label>
-                           <div class="formInput">
-                              <textarea class="form-control" placeholder="비고를 입력해 주세요." rows="2" name="remarks" id="remarks" value=""></textarea>
-                           </div>
-                        </div>
-                     </div>
-                     
-                     <div class="col-md-12 btnArea text-right">
-                 <button type="submit" class="btn btn-primary" id="save">저장</button> 
-                 <!--         <a class="btn btn-primary" onclick="save();">저장</a> -->
-                     </div>
-                      </form>
-                  </div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group form-group-block">
+							<span class="">프로젝트 내용</span>
+							<div class="formInput">
+							  <textarea class="form-control" rows="10" id="context" value="프로젝트 내용을 입력해주세요." name="taskContents" ></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12 btnArea text-right">
+						<button type="submit" id="save" class="btn btn-primary mr-3">저장</button>
+					</div>
+					 </form>
+			</div>
+			<!-- .main-section e -->
+		</div>
+	<!-- .main-section e -->
+</div>
+
     </th:block>
 </th:block>
 
