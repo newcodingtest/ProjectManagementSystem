@@ -24,5 +24,11 @@ public interface ProjectService {
 	 * 상태에 따른 프로젝트 리스트 출력
 	 * */
 	ProjectResponseDTO getProjectListByStatusCode();
+	
+	/**
+	 * 아이디로 프로젝트 정보 출력
+	 * */
+	ProjectDTO getProjectOneById(Long id);
+	
 
 }
