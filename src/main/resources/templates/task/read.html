@@ -155,7 +155,7 @@
                      </div>
                      
                      <div class="col-md-12 btnArea text-right">
-                 <button type="submit" class="btn btn-primary" id="save">저장</button> 
+                 <button type="submit" class="btn btn-primary" id="save" onclick="saveBtn()">저장</button> 
                  <button type="button" class="btn btn-primary" id="delete" onclick="deleteBtn()">삭제</button>
                      </div>
                       </form>
@@ -175,64 +175,6 @@
                         </details>
                        </div>
                   
- <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 하위 작업 등록 하는 곳 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ --> 
-  				<form class="subjob" onsubmit="return onDeleteSubjob(this);" style="display: none"> 
-                              <div class="col-md-7">
-                                   <label class="control-label"><label class="star01">하위작업명</label></label>
-                                   <label><span></span></label>
-                                <div class="form-group">
-                                       <div class="formInput">
-                                       <input type="text" maxlength="50" oninput="maxLengthCheck(this)" name="subTitle" class="form-control"  placeholder="50자 이내로 입력해주세요."/>
-                                    </div>
-                                 </div>
-                               </div>
-                               <div class="col-md-3">
-                                     <label class="control-label"><label class="star01">하위작업 기간</label></label>
-                                <div class="form-group">
-                                       <div class="formInput">
-                                        <div id="dateStart" class="dateStart">
-                                          <div class="input-group input-daterange date">
-                                               <input class="form-control date" name="subStartDate" id="sub_start_date" >
-                                               <div class="input-group-addon"> ~ </div>
-                                               <input class="form-control date"  name="subEndDate" id="sub_end_date" >
-                                          </div>
-                                       </div>
-                                     </div>
-                                  </div>
-                               </div>
-                               <div class="col-md-1">
-                                 <div class="form-group">
-                                    <label class="control-label"><label class="">진행률</label></label>
-                                       <div class="formInput text-center">
-                                          <div class="input-group unit">
-                                      		<input type="text" class="form-control" id="sub_real_progress" name="subRealProgress" value="0"/>
-                                          <span class="input-group-addon">%</span>
-                                    </div>
-                                 </div>
-                              </div>
-                               </div>
-                               <div class="col-md-1 text-center">
-                                   <!-- 주간보고서  체크 -->
-                                    <div class="form-group">
-                                       <label class="control-label"><label class="">보고서 포함</label></label>
-                                       <div class="formInput">
-                                            <input type="checkbox" name="subReportRegistFlag" id="sub_week" value="0" style="zoom:1.6;"/>
-                                      </div>
-                                   </div>
-                               </div>
-                               <div class="col-md-11">
-                                  <label class="control-label"><label class="">하위작업 내용</label></label>
-                                  <label><span id="contents_counter/>"></span></label>
-                                       <div class="form-group form-group-block">
-                                          <div class="formInput">
-                                             <textarea class="form-control" maxlength="1000" oninput="maxLengthCheck(this)"  rows="4" name="subContents" placeholder="1000자 이내로 입력해 주세요."></textarea>
-                                          </div>
-                                       </div>
-                                </div>
-                                <div class="col-md-1 text-center">
-                                   <input class="btn btn-info" type="submit" value="하위작업 삭제" style="margin-top: 40px;"/>
-                                </div>
-                          </form>                
                   
     </th:block>
 </th:block>
@@ -243,7 +185,7 @@
 
 <script th:inline="javascript">
 //하위작업 추가============================================================
-
+Count = 0;
 function onAddSubJob() {
 	var detail = document.getElementById('dt');
    	if(detail.open === false) {
@@ -251,36 +193,74 @@ function onAddSubJob() {
    	}
    	
     var subjobList = document.getElementById("subjob-list");
-    var subjobDOM = document.querySelectorAll(".subjob")[0];
-    var test1 = subjobDOM.className;
-    //alert(subjobList.style.display);
-    
-    //하위작업 추가시 none 처리 되있던 폼을 등장시킨다.
-    if(subjobDOM.style.display == "none"){
-       subjobDOM.style.display= 'block';
-       subjobDOM.sub_start_date.value= new Date().toISOString().slice(0, 10);
-       subjobDOM.sub_end_date.value= new Date().toISOString().slice(0, 10);
-    }else{
-       var cloneSubJob = subjobDOM.cloneNode(true);
-       
-       var sub_start_date_Test = document.getElementById('sub_start_date');
-       
-       //cloneSubJob.sub_project.value = "";
-       cloneSubJob.sub_project.value = "";
-       cloneSubJob.sub_contents.value = "";
-       cloneSubJob.sub_start_date.value = new Date().toISOString().slice(0, 10);
-       cloneSubJob.sub_end_date.value = new Date().toISOString().slice(0, 10); 
-       cloneSubJob.sub_real_progress.value=Number(0);
-       cloneSubJob.sub_week.checked=false;      
-       subjobList.appendChild(cloneSubJob);
-         
-       $('.dateStart .input-group.date').last().datepicker();       
-    }
+	var str ="";
+ 	var newTag = document.createElement('div');
+ 	newTag.setAttribute("id","sub"+Count);
+ 	newTag.setAttribute("class","subjob");
+ 		str+='<div class="col-md-7">'
+ 		str+=' <label class="control-label"><label class="star01">하위작업명</label></label>'
+ 		str+=' <label><span></span></label>'
+ 		str+='  <div class="form-group"> '
+ 		str+=' <div class="formInput">'
+ 		str+=' <input type="text" maxlength="50" oninput="maxLengthCheck(this)" name="subTitle" id="subTitle" class="form-control"  placeholder="50자 이내로 입력해주세요."/>'
+ 		str+=' </div>'
+ 		str+='  </div>'
+ 		str+='  </div>'
+ 		str+='<div class="col-md-3">'
+ 		str+='<label class="control-label"><label class="star01">하위작업 기간</label></label>'
+ 		str+='<div class="form-group">'
+ 		str+='<div class="formInput">'
+ 		str+=' <div id="dateStart" class="dateStart">'
+ 		str+='   <div class="input-group input-daterange date">'
+ 		str+='  <input class="form-control date" name="subStartDate" id="subStartDate" >'
+ 		str+='  <div class="input-group-addon"> ~ </div>'
+ 		str+='  <input class="form-control date"  name="subEndDate" id="subEndDate" >'
+		str+=' </div>'
+ 		str+=' </div>'
+		str+='</div>'
+		str+='</div>'
+		str+='</div>'
+		str+='<div class="col-md-1">'
+ 		str+=' <label class="control-label"><label class="">진행률</label></label>'
+ 		str+=' <div class="formInput text-center">'
+ 		str+='  <div class="input-group unit">'
+		str+='<input type="text" class="form-control" id="sub_real_progress" name="subRealProgress"  value="0"/>'
+ 		str+=' <span class="input-group-addon">%</span>'
+ 		str+=' </div>'
+ 		str+=' </div>'
+ 		str+='</div>'
+ 		str+='</div>'
+		 str+='<div class="col-md-1 text-center">'
+
+		str+='<div class="form-group">'
+ 		str+='<label class="control-label"><label class="">보고서 포함</label></label>'
+ 		str+='<div class="formInput">'
+ 		str+='<input type="checkbox" name="subReportRegistFlag" id="subReportRegistFlag" value="0" style="zoom:1.6;"/>'
+ 		str+='</div>'
+ 		str+='</div>'
+ 		str+='</div>'
+ 		str+='<div class="col-md-11">'
+ 		str+='<label class="control-label"><label class="">하위작업 내용</label></label>'
+ 		str+='<label><span id="contents_counter/>"></span></label>'
+		str+='<div class="form-group form-group-block">'
+		str+='<div class="formInput">'
+		str+='<textarea class="form-control" maxlength="1000" oninput="maxLengthCheck(this)"  rows="4" name="subContents" id="subContents" placeholder="1000자 이내로 입력해 주세요."></textarea>'
+		str+= '</div>'
+		str+='</div>'
+		str+='</div>'
+ 		str+='<div class="col-md-1 text-center">'
+	 	str+='<input class="btn btn-info" type="submit" value="하위작업 삭제" onclick="onDeleteSubjob('+Count+');" style="margin-top: 40px;"/>'
+ 		str+='</div>' ;
+ 
+ 		newTag.innerHTML = str;
+ 	subjobList.appendChild(newTag);
+ 	Count++;
   }
 
 //하위작업 삭제=========================================================
-  function onDeleteSubjob(subJob) {
-	  window.onbeforeunload = null;
+  function onDeleteSubjob(Count) {
+	
+	  /* window.onbeforeunload = null;
 	var subJobCount = document.querySelectorAll(".subjob").length;
     var subJobForm = document.querySelectorAll(".subjob");
    
@@ -294,12 +274,15 @@ function onAddSubJob() {
        var parent = subJob.parentNode;
        //parent.style.display = "none";
        subJobForm[subJobCount-1].style.display="none";
-       subJobForm[subJobCount-1].sub_project.value = "";
-       subJobForm[subJobCount-1].sub_contents.value = "";
-       subJobForm[subJobCount-1].sub_real_progress.value=Number(0);
+       subJobForm[subJobCount-1].subTitle.value = "";
+       subJobForm[subJobCount-1].subContents.value = "";
+       subJobForm[subJobCount-1].subRealProgress.value=Number(0);
        //alert("부모: ");
     }
-    return false;
+    return false; */
+    var id = "sub"+Count;
+	 var target = document.getElementById(id);
+	 target.remove();
   }
 
 
@@ -325,6 +308,11 @@ function saveBtn(){
         	document.getElementById('reportRegistFlag').value=0;
         }
         
+        var subjobDOM = document.querySelectorAll(".subjob");
+        
+      //하위작업이 없으면? 본문+하위작업 같이 보낸다.
+       if(subjobDOM.length>0){
+        
         var tid = document.getElementById('tid').value;
         var subTitle = document.getElementById('subTitle').value;
         var subContents = document.getElementById('subContents').value;
@@ -335,7 +323,7 @@ function saveBtn(){
         
 		var data = {tid: tid, subTitle: subTitle , subContents: subContents , subStartDate: subStartDate , subEndDate: subEndDate ,
 				subRealProgress: subRealProgress , subReportRegistFlag: subReportRegistFlag }		
-        $.ajax({
+/*         $.ajax({
             url: '/subtask/'+tid,
             type: "POST",
             data: JSON.stringify(data),
@@ -345,7 +333,12 @@ function saveBtn(){
                 console.log(result);
                 self.location.reload();
             }
-        });
+        }); */
+       }
+       //하위작업이 없으면? 본문만 보낸다
+       else{
+    	   
+       }
         
      });
 }
