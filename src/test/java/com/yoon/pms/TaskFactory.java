@@ -1,15 +1,53 @@
 package com.yoon.pms;
 
-import java.time.LocalDateTime; 
+import java.time.LocalDateTime;
+
+import com.yoon.pms.dto.SubTaskDTO;
 import com.yoon.pms.dto.TaskDTO;
+import com.yoon.pms.entity.SubTask;
 import com.yoon.pms.entity.Task;
  
 public class TaskFactory {
+	
 	public static Task makeTaskEntity() {
 		TaskDTO dto = makeTaskDTO();
 		
-		return dtoToEntity(dto);
+		return changeTaskEntity(dto);
 		
+	}
+	
+	public static SubTask makeSubTaskEntity() {
+		SubTaskDTO dto = makeSubTaskDTO();
+		
+		return changeSubTaskEntity(dto);
+		
+	}
+	
+	public static SubTaskDTO makeSubTaskDTO() {
+		 return SubTaskDTO.builder()
+				 	.sid(1L)
+					.tid(1L)
+					.subTitle("테스트용 제목")
+					.subContents("테스트용 내용")
+					.subStartDate("2022-03-08T10:10")
+					.subEndDate("2022-03-08T10:10")
+					.subReportRegistFlag("1")
+					.subRealProgress(10)
+					.build();
+		
+	}
+	
+	public static SubTask changeSubTaskEntity(SubTaskDTO dto) {
+		return SubTask.builder()
+				.sid(dto.getSid())
+				.task(Task.builder().tid(dto.getTid()).build())
+				.subTitle(dto.getSubTitle())
+				.subContents(dto.getSubContents())
+				.subStartDate(SubTaskDTO.stringToLocalDateTime(dto.getSubStartDate()))
+				.subEndDate(SubTaskDTO.stringToLocalDateTime(dto.getSubStartDate()))
+				.subReportRegistFlag(dto.getSubReportRegistFlag())
+				.subRealProgress(dto.getSubRealProgress())
+				.build();
 	}
 	
 	public static TaskDTO makeTaskDTO() {
@@ -31,7 +69,7 @@ public class TaskFactory {
 		
 	}
 	
-	static Task dtoToEntity(TaskDTO taskDTO){
+	static Task changeTaskEntity(TaskDTO taskDTO){
 
 		 LocalDateTime startDate = TaskDTO.stringToLocalDateTime(taskDTO.getTaskStartDate());
 		 LocalDateTime endDate = TaskDTO.stringToLocalDateTime(taskDTO.getTaskEndDate());

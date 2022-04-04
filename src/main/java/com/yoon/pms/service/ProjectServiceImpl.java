@@ -31,7 +31,9 @@ public class ProjectServiceImpl implements ProjectService {
 		Optional<Project> origin =projectRepository.findById(dto.getPid());
 		
 		origin.ifPresent(target ->{
-			Project updated = projectRepository.save(target);
+			Project updated = ProjectDTO.dtoToEntity(dto);
+			
+			projectRepository.save(updated);
 		});
 
 	}
