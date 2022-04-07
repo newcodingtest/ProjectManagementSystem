@@ -8,9 +8,10 @@
 			새작업
          </h2>
         
-        
         <div class="subConView">
 					<!-- 메인 화면  -->
+						<form th:action="@{/project/modify}" id="actionForm" th:method="post" >
+						<input type="hidden" name="pid" th:value="${dto.pid}">
 					<div class="col-md-6">
 						<div class="form-group">
 							 <span class="star01">프로젝트명</span>
@@ -36,9 +37,9 @@
 	                     <div class="formInput">
 	                        <div id="dateStart" class="dateStart">
 	                           <div class="input-group input-daterange date">
-	                              <input id="start_date" type="datetime-local" class="form-control" autocomplete="off" th:value="${dto.startDate}" required="required">
+	                              <input id="start_date" type="datetime-local" name="startDate" class="form-control" autocomplete="off" th:value="${dto.startDate}" required="required">
 	                              <div class="input-group-addon">~</div>
-	                              <input id="end_date" type="datetime-local" class="form-control" autocomplete="off" th:value="${dto.endDate}" required="required">
+	                              <input id="end_date" type="datetime-local" name="endDate" class="form-control" autocomplete="off" th:value="${dto.endDate}" required="required">
 	                           </div>
 	                        </div>
 	                     </div>
@@ -115,8 +116,10 @@
 						</div>
 					</div>
 					<div class="col-md-12 btnArea text-right">
-						<button type="submit" id="save" class="btn btn-primary mr-3">저장</button>
-				</div>
+						<button type="submit" id="save" onclick="reply_click(this.id)" class="btn btn-primary mr-3">저장</button>
+						<button type="submit" id="delete" onclick="reply_click(this.id)" class="btn btn-primary mr-3">삭제</button>
+					</div>
+					 </form>
 			</div>
 			<!-- .main-section e -->
 		</div>
@@ -132,6 +135,31 @@
 
 <script th:inline="javascript">
 
+function reply_click(clicked_id) {
+	event.preventDefault();
+	console.log(clicked_id);
+	var form = document.getElementById('actionForm');
+	form.action = "";
+	if(clicked_id= 'save'){
+		form.action = "/project/modify";
+	}else if(clicked_id= 'delete'){
+		form.action = "/project/remove";
+	}
+	console.log(form.action);
+	form.submit();
+}
+
+function commonSubmit(event) {
+	event.preventDefault();
+	
+	var clickId = reply_click();
+	if(clickId=="save"){
+		console.log("저장")
+	}else if(clickId="delete"){
+		console.log("삭제")
+	}
+
+}
 
 </script>
 
