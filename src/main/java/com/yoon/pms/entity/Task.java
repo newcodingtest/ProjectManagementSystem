@@ -1,28 +1,24 @@
 package com.yoon.pms.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
-import javax.persistence.Converter;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.yoon.pms.dto.TaskDTO;
+import com.yoon.pms.dto.SubTaskDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -72,6 +68,10 @@ public class Task extends BaseEntity {
 	private Long parent; // --> 부모 작업 /자식작업 구분 키
 	@Column
 	private String reportRegistFlag; //--> 보고서 등록 여부
+	
+	
+	@OneToMany(mappedBy = "task", fetch = FetchType.EAGER, orphanRemoval = true)
+	private List<SubTask> subTask = new ArrayList<SubTask>();
 	
 	///@ManyToOne(fetch = FetchType.LAZY)
 	//@JoinColumn(name="PROJECT_ID")

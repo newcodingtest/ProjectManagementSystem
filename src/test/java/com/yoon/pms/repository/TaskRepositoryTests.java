@@ -1,5 +1,7 @@
 package com.yoon.pms.repository;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +26,7 @@ public class TaskRepositoryTests{
 	@DisplayName("단일 읽기 테스트")
 	void findById_테스트() {
 		//given
-		Long givenId = 1L;
+		Long givenId = 2L;
 		//when
 		Optional<Task> result = repository.findById(givenId);
 		
@@ -185,6 +187,17 @@ public class TaskRepositoryTests{
 		log.info("result={}, size={}", result, result.size());
 		//then
 		Assertions.assertThat(result.size()).isGreaterThanOrEqualTo(0);
+	}
+	
+	@Test
+	@DisplayName("작업은 하위작업이랑 같이 불러온다.")
+	void getTaskListWithAll_메서드테스트() {
+		//When
+		Task result = repository.getTaskListWithAll(1L);
+		
+		log.info("result={}",result);
+		//Then
+		assertThat(result.getSubTask().size()).isGreaterThanOrEqualTo(0);
 	}
 	
 	
