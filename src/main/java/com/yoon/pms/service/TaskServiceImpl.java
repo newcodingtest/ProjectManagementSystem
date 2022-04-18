@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.yoon.pms.dto.TaskDTO;
 import com.yoon.pms.dto.TaskResponseDTO;
 import com.yoon.pms.entity.Task;
+import com.yoon.pms.repository.SubTaskRepository;
 import com.yoon.pms.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -15,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 public class TaskServiceImpl implements TaskService {
 
 	private final TaskRepository taskRepository;
+	
+	private final SubTaskRepository subTaskRepository;
 	
 	@Override
 	public long register(TaskDTO dto) {

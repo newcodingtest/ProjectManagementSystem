@@ -1,5 +1,7 @@
 package com.yoon.pms.controller;
 
+import java.util.Map;
+
 import org.springframework.http.HttpStatus; 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,12 +25,12 @@ public class SubTaskController {
 	private final SubTaskService service;
 
 	@PostMapping("/{tid}")
-	public ResponseEntity<Long>addSubTask(@RequestBody SubTaskDTO subTaskDTO){
+	public ResponseEntity<Long>addSubTask(@RequestBody Map<String, String[]> subTaskMap){
 		log.info("--------------- addSubTask ---------------");
-		log.info("subTaskDTO: " + subTaskDTO);
+		log.info("subTaskDTO: " + subTaskMap);
 		
-		Long savedSubTaskId = service.register(subTaskDTO);
+		service.register(subTaskMap);
 		
-		return new ResponseEntity<>(savedSubTaskId,HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
