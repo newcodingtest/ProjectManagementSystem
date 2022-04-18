@@ -2,7 +2,10 @@ package com.yoon.pms.dto;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import com.yoon.pms.entity.Project;
 import com.yoon.pms.entity.SubTask;
 import com.yoon.pms.entity.Task;
 
@@ -51,7 +54,7 @@ public class SubTaskDTO {
 				.build();
 	}
 	
-	public static SubTaskDTO entityToDto(SubTask entity) {
+	public static SubTaskDTO entityToDTO(SubTask entity) {
 		return SubTaskDTO.builder()
 				.sid(entity.getSid())
 				.tid(entity.getTask().getTid())
@@ -62,6 +65,18 @@ public class SubTaskDTO {
 				.subReportRegistFlag(entity.getSubReportRegistFlag())
 				.subRealProgress(entity.getSubRealProgress())
 				.build();
+	}
+	
+	public static List<SubTaskDTO> ListEntityToDto(List<SubTask> entity){
+		return entity.stream()
+				.map(SubTaskDTO::entityToDTO)
+				.collect(Collectors.toList());
+	}
+	
+	public static List<SubTask> ListDtoToEntity(List<SubTaskDTO> dto){
+		return dto.stream()
+				.map(SubTaskDTO::dtoToEntity)
+				.collect(Collectors.toList());
 	}
 	
 }

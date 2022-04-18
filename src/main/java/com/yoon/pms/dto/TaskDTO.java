@@ -2,7 +2,9 @@ package com.yoon.pms.dto;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.yoon.pms.entity.Project;
@@ -59,6 +61,9 @@ public class TaskDTO {
 
 	private LocalDateTime modDate;
 	
+	private List<SubTaskDTO> subTaskDTOList = new ArrayList<SubTaskDTO>();
+	
+	
 	//20220317T10:30
 	public static LocalDateTime stringToLocalDateTime(String inputDate) {
 		LocalDateTime dateTime = LocalDateTime.parse(inputDate,DateTimeFormatter.ISO_DATE_TIME);
@@ -87,6 +92,7 @@ public class TaskDTO {
 	              .detailedTaskType(dto.getDetailedTaskType())
 	              .divisionOfTask(dto.getDivisionOfTask())
 	              .writer(dto.getWriter())
+	              .subTask(SubTaskDTO.ListDtoToEntity(dto.getSubTaskDTOList()))
 	              .build();
 	}
 	
@@ -107,6 +113,7 @@ public class TaskDTO {
 	              .detailedTaskType(entity.getDetailedTaskType())
 	              .divisionOfTask(entity.getDivisionOfTask())
 	              .writer(entity.getWriter())
+	              .subTaskDTOList(SubTaskDTO.ListEntityToDto(entity.getSubTask()))
 				.build();
 	}
 	
