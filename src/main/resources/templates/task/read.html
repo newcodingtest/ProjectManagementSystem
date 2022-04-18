@@ -182,11 +182,16 @@
 <!-- toTop start -->
 <div id="gototop">go to top</div>
 <!--// toTop end -->
-
+<script type="text/javascript" th:inline="javascript" charset="utf-8" th:src="@{../js/subtask.js}"></script>
 <script th:inline="javascript">
-//하위작업 추가============================================================
 Count = 0;
-function onAddSubJob() {
+var data = [[${dto}]]
+console.log(data.subTaskDTOList.length);
+if(data.subTaskDTOList.length>0){
+	onAddExistSubJob(data.subTaskDTOList);
+}
+
+function onAddExistSubJob(input) {
 	var detail = document.getElementById('dt');
    	if(detail.open === false) {
    		detail.open = true;
@@ -194,6 +199,9 @@ function onAddSubJob() {
    	
     var subjobList = document.getElementById("subjob-list");
 	var str ="";
+	for(var i= 0; i<input.length; i++){
+		
+
  	var newTag = document.createElement('div');
  	newTag.setAttribute("id","sub"+Count);
  	newTag.setAttribute("class","subjob");
@@ -202,7 +210,7 @@ function onAddSubJob() {
  		str+=' <label><span></span></label>'
  		str+='  <div class="form-group"> '
  		str+=' <div class="formInput">'
- 		str+=' <input type="text" maxlength="50" oninput="maxLengthCheck(this)" name="subTitle" id="subTitle" class="form-control"  placeholder="50자 이내로 입력해주세요."/>'
+ 		str+=' <input type="text" maxlength="50"  name="subTitle" id="subTitle" class="form-control" value='+input[i].subTitle+' placeholder="50자 이내로 입력해주세요."/>'
  		str+=' </div>'
  		str+='  </div>'
  		str+='  </div>'
@@ -212,9 +220,9 @@ function onAddSubJob() {
  		str+='<div class="formInput">'
  		str+=' <div id="dateStart" class="dateStart">'
  		str+='   <div class="input-group input-daterange date">'
- 		str+='  <input class="form-control date" name="subStartDate" id="subStartDate" >'
+ 		str+='  <input class="form-control date" type="datetime-local" name="subStartDate" id="subStartDate" value='+input[i].subStartDate+' required="required" >'
  		str+='  <div class="input-group-addon"> ~ </div>'
- 		str+='  <input class="form-control date"  name="subEndDate" id="subEndDate" >'
+ 		str+='  <input class="form-control date" type="datetime-local"  name="subEndDate" id="subEndDate" value='+input[i].subEndDate+' required="required" >'
 		str+=' </div>'
  		str+=' </div>'
 		str+='</div>'
@@ -224,7 +232,7 @@ function onAddSubJob() {
  		str+=' <label class="control-label"><label class="">진행률</label></label>'
  		str+=' <div class="formInput text-center">'
  		str+='  <div class="input-group unit">'
-		str+='<input type="text" class="form-control" id="sub_real_progress" name="subRealProgress"  value="0"/>'
+		str+='<input type="text" class="form-control" id="sub_real_progress" id="subRealProgress" name="subRealProgress"  value="'+input[i].subRealProgress+'"/>'
  		str+=' <span class="input-group-addon">%</span>'
  		str+=' </div>'
  		str+=' </div>'
@@ -244,7 +252,95 @@ function onAddSubJob() {
  		str+='<label><span id="contents_counter/>"></span></label>'
 		str+='<div class="form-group form-group-block">'
 		str+='<div class="formInput">'
-		str+='<textarea class="form-control" maxlength="1000" oninput="maxLengthCheck(this)"  rows="4" name="subContents" id="subContents" placeholder="1000자 이내로 입력해 주세요."></textarea>'
+		str+='<textarea class="form-control" maxlength="1000" rows="4" name="subContents" id="subContents" placeholder="1000자 이내로 입력해 주세요.">'+input[i].subContents+'</textarea>'
+		str+= '</div>'
+		str+='</div>'
+		str+='</div>'
+ 		str+='<div class="col-md-1 text-center">'
+	 	str+='<input class="btn btn-info" type="submit" value="하위작업 삭제" onclick="onDeleteSubjob('+Count+');" style="margin-top: 40px;"/>'
+ 		str+='</div>' ;
+ 
+ 		newTag.innerHTML = str;
+ 	subjobList.appendChild(newTag);
+ 	Count++;
+	}	
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//하위작업 추가============================================================
+
+function onAddSubJob() {
+	var detail = document.getElementById('dt');
+   	if(detail.open === false) {
+   		detail.open = true;
+   	}
+   	
+    var subjobList = document.getElementById("subjob-list");
+	var str ="";
+ 	var newTag = document.createElement('div');
+ 	newTag.setAttribute("id","sub"+Count);
+ 	newTag.setAttribute("class","subjob");
+ 		str+='<div class="col-md-7">'
+ 		str+=' <label class="control-label"><label class="star01">하위작업명</label></label>'
+ 		str+=' <label><span></span></label>'
+ 		str+='  <div class="form-group"> '
+ 		str+=' <div class="formInput">'
+ 		str+=' <input type="text" maxlength="50"  name="subTitle" id="subTitle" class="form-control"  placeholder="50자 이내로 입력해주세요."/>'
+ 		str+=' </div>'
+ 		str+='  </div>'
+ 		str+='  </div>'
+ 		str+='<div class="col-md-3">'
+ 		str+='<label class="control-label"><label class="star01">하위작업 기간</label></label>'
+ 		str+='<div class="form-group">'
+ 		str+='<div class="formInput">'
+ 		str+=' <div id="dateStart" class="dateStart">'
+ 		str+='   <div class="input-group input-daterange date">'
+ 		str+='  <input class="form-control date" type="datetime-local" name="subStartDate" id="subStartDate" required="required" >'
+ 		str+='  <div class="input-group-addon"> ~ </div>'
+ 		str+='  <input class="form-control date" type="datetime-local"  name="subEndDate" id="subEndDate" required="required" >'
+		str+=' </div>'
+ 		str+=' </div>'
+		str+='</div>'
+		str+='</div>'
+		str+='</div>'
+		str+='<div class="col-md-1">'
+ 		str+=' <label class="control-label"><label class="">진행률</label></label>'
+ 		str+=' <div class="formInput text-center">'
+ 		str+='  <div class="input-group unit">'
+		str+='<input type="text" class="form-control" id="sub_real_progress" id="subRealProgress" name="subRealProgress"  value="0"/>'
+ 		str+=' <span class="input-group-addon">%</span>'
+ 		str+=' </div>'
+ 		str+=' </div>'
+ 		str+='</div>'
+ 		str+='</div>'
+		 str+='<div class="col-md-1 text-center">'
+
+		str+='<div class="form-group">'
+ 		str+='<label class="control-label"><label class="">보고서 포함</label></label>'
+ 		str+='<div class="formInput">'
+ 		str+='<input type="checkbox" name="subReportRegistFlag" id="subReportRegistFlag" value="0" style="zoom:1.6;"/>'
+ 		str+='</div>'
+ 		str+='</div>'
+ 		str+='</div>'
+ 		str+='<div class="col-md-11">'
+ 		str+='<label class="control-label"><label class="">하위작업 내용</label></label>'
+ 		str+='<label><span id="contents_counter/>"></span></label>'
+		str+='<div class="form-group form-group-block">'
+		str+='<div class="formInput">'
+		str+='<textarea class="form-control" maxlength="1000" rows="4" name="subContents" id="subContents" placeholder="1000자 이내로 입력해 주세요."></textarea>'
 		str+= '</div>'
 		str+='</div>'
 		str+='</div>'
@@ -259,27 +355,7 @@ function onAddSubJob() {
 
 //하위작업 삭제=========================================================
   function onDeleteSubjob(Count) {
-	
-	  /* window.onbeforeunload = null;
-	var subJobCount = document.querySelectorAll(".subjob").length;
-    var subJobForm = document.querySelectorAll(".subjob");
-   
-  if (subJobCount > 1 && confirm("하위작업을 삭제하시겠습니까 ?") == true) {
-      var parent = subJob.parentNode;
-      parent.removeChild(subJob);
-    //1개일때 그냥 삭제하면 =>하위작업 추가시 기존에 미리 생성되있는 폼을 복제하는형식으로 추가가되는데 그냥삭제를 진행하면 하위작업 추가버튼을 눌렀을대 기준이 되는 폼이 사리지기 때문에 추가가되지않는 문제가 발생한다. 
-    //때문에 삭제를 안하고 display를 none처리를 한다.
-    }else if(subJobCount==1 && confirm("하위작업을 삭제하시겠습니까 ?") == true){
-    	//alert(subJobCount);
-       var parent = subJob.parentNode;
-       //parent.style.display = "none";
-       subJobForm[subJobCount-1].style.display="none";
-       subJobForm[subJobCount-1].subTitle.value = "";
-       subJobForm[subJobCount-1].subContents.value = "";
-       subJobForm[subJobCount-1].subRealProgress.value=Number(0);
-       //alert("부모: ");
-    }
-    return false; */
+
     var id = "sub"+Count;
 	 var target = document.getElementById(id);
 	 target.remove();
@@ -318,12 +394,12 @@ function saveBtn(){
         var subContents = document.getElementById('subContents').value;
         var subStartDate = document.getElementById('subStartDate').value;
         var subEndDate = document.getElementById('subEndDate').value;
-        var subRealProgress = document.getElementById('subRealProgress').value;
+        var subRealProgress = document.getElementById('subRealProgress');
         var subReportRegistFlag = document.getElementById('subReportRegistFlag').value;
         
 		var data = {tid: tid, subTitle: subTitle , subContents: subContents , subStartDate: subStartDate , subEndDate: subEndDate ,
 				subRealProgress: subRealProgress , subReportRegistFlag: subReportRegistFlag }		
-/*         $.ajax({
+        $.ajax({
             url: '/subtask/'+tid,
             type: "POST",
             data: JSON.stringify(data),
@@ -333,7 +409,7 @@ function saveBtn(){
                 console.log(result);
                 self.location.reload();
             }
-        }); */
+        }); 
        }
        //하위작업이 없으면? 본문만 보낸다
        else{
