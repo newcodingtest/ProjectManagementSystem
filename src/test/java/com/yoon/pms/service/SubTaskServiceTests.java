@@ -1,8 +1,10 @@
 package com.yoon.pms.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,6 +34,23 @@ public class SubTaskServiceTests {
 		//Given
 		SubTask givenEntity = TaskFactory.makeSubTaskEntity();
 		SubTaskDTO givenDTO = TaskFactory.makeSubTaskDTO();
+		String[] tid = {"1","1"};
+		String[] title = {"첫번째제목","두번째제목"};
+		String[] contents = {"첫번째내용","두번째내용"};
+		String[] startDate = {"2022-03-08T10:10","2022-03-08T10:10"};
+		String[] endDate = {"2022-03-08T10:10","2022-03-08T10:10"};
+		String[] realProgress = {"0","0"};
+		String[] ReportRegistFlag = {"0","1"};
+		
+		Map<String, String[]> request = new HashMap();
+		
+		request.put("tid", tid);
+		request.put("subTitle", title);
+		request.put("subContents", contents);
+		request.put("subStartDate", startDate);
+		request.put("subEndDate", endDate);
+		request.put("subRealProgress", realProgress);
+		request.put("subReportRegistFlag", ReportRegistFlag);
 		
 		//Mocking
 		BDDMockito
@@ -39,11 +58,10 @@ public class SubTaskServiceTests {
 			.willReturn(givenEntity);
 			
 		//when
-		Long result = service.register(givenDTO);
+		service.register(request);
 		
 		//Then
-		BDDMockito.verify(repository, times(1)).save(any());
-		assertThat(result).isEqualTo(givenEntity.getSid());
+		BDDMockito.verify(repository, times(2)).save(any());
 		
 	}
 	

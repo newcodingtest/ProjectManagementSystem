@@ -1,6 +1,9 @@
 package com.yoon.pms.controller;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat; 
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +16,6 @@ import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yoon.pms.TaskFactory;
@@ -48,11 +50,29 @@ public class SubTaskControllerTests {
 		
 		SubTaskDTO dto = TaskFactory.makeSubTaskDTO();
 		
+		String[] tid = {"1","1"};
+		String[] title = {"첫번째제목","두번째제목"};
+		String[] contents = {"첫번째내용","두번째내용"};
+		String[] startDate = {"2022-03-08T10:10","2022-03-08T10:10"};
+		String[] endDate = {"2022-03-08T10:10","2022-03-08T10:10"};
+		String[] realProgress = {"0","0"};
+		String[] ReportRegistFlag = {"0","1"};
+		
+		Map<String, String[]> request = new HashMap();
+		
+		request.put("tid", tid);
+		request.put("subTitle", title);
+		request.put("subContents", contents);
+		request.put("subStartDate", startDate);
+		request.put("subEndDate", endDate);
+		request.put("subRealProgress", realProgress);
+		request.put("subReportRegistFlag", ReportRegistFlag);
+		
+		
 		//When
-		ResponseEntity<Long>responseEntity = this.restTemplate.postForEntity(url, dto, Long.class);
+		ResponseEntity<Long>responseEntity = this.restTemplate.postForEntity(url, request,null);
 		//then
 		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-		assertThat(responseEntity.getBody()).isEqualTo(dto.getSid());
 	}
 	
 }
