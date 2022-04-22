@@ -22,7 +22,7 @@ public class TaskController {
 	
 	@GetMapping("/list")
 	public void moveList(Model model) {
-		log.info("----------list----------");
+		//log.info("----------list----------");
 		//내가 속한 프로젝트 이름=>뷰 단 selectBox에 들어갈 값
 		//model.addAttribute("",);
 		//model.addAttribute("",);
@@ -47,7 +47,6 @@ public class TaskController {
 	@PostMapping("/register")
 	public String doRegister(TaskDTO dto,RedirectAttributes redirectAttributes) {
 		log.info("----------doRegister----------");
-		log.info("TaskDTO: "+dto);
 		Long tid = taskService.register(dto);
 		
 		redirectAttributes.addFlashAttribute("msg", tid);
@@ -58,9 +57,7 @@ public class TaskController {
 	@GetMapping("/read")
 	public void moveReadPage(long id, Model model) {
 		log.info("----------moveReadPage----------");
-		log.info("tid: "+id);
 		TaskDTO dto = taskService.getTaskOne(id);
-		log.info("dto: "+dto);
 		
 		model.addAttribute("dto",dto);
 	}
@@ -68,7 +65,6 @@ public class TaskController {
 	@PostMapping("/modify")
 	public String doModify(TaskDTO dto,RedirectAttributes redirectAttributes) {
 		log.info("----------doModify----------");
-		log.info("tid: "+dto.getTid());
 		
 		taskService.modify(dto);
 		
@@ -79,7 +75,6 @@ public class TaskController {
 	@PostMapping("/remove")
 	public String doRemove(TaskDTO dto,RedirectAttributes redirectAttributes) {
 		log.info("----------doRemove----------");
-		log.info("tid: "+dto.getTid());
 		
 		taskService.remove(dto);
 		
