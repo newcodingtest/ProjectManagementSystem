@@ -11,7 +11,7 @@ import com.yoon.pms.entity.Task;
 public interface TaskRepository extends  JpaRepository<Task, Long>, TaskRepositoryCustom{
 
 
-	@Query("select t from Task t where t.tid=:tid ")
+	@Query("select distinct t from Task t join fetch t.subTaskList where t.tid=:tid ")
 	Task getTaskListWithAll(@Param(value = "tid") Long tid);
 	
 	

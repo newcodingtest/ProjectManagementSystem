@@ -11,12 +11,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+
+import com.yoon.pms.aop.AspectAdvice;
 import com.yoon.pms.entity.Task;
 
 import lombok.extern.slf4j.Slf4j;
 
 @SpringBootTest
 @Slf4j
+@Import(AspectAdvice.class)
 public class TaskRepositoryTests{
 	
 	@Autowired
@@ -197,7 +201,10 @@ public class TaskRepositoryTests{
 		
 		log.info("result={}",result);
 		//Then
-		assertThat(result.getSubTask().size()).isGreaterThanOrEqualTo(0);
+		//assertThat(result.getSubTask().size()).isGreaterThanOrEqualTo(0);
+		
+		assertThat(result.getSubTaskList().size()).isGreaterThanOrEqualTo(0);
+		assertThat(result.getSubTaskList().get(0).getTask().getTid()).isEqualTo(1L);
 	}
 	
 	
