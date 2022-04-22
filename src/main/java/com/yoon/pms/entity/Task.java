@@ -70,8 +70,8 @@ public class Task extends BaseEntity {
 	private String reportRegistFlag; //--> 보고서 등록 여부
 	
 	
-	@OneToMany(mappedBy = "task", fetch = FetchType.EAGER, orphanRemoval = true)
-	private List<SubTask> subTask = new ArrayList<SubTask>();
+	@OneToMany(mappedBy = "task", fetch = FetchType.LAZY, orphanRemoval = true)
+	private List<SubTask> subTaskList = new ArrayList<SubTask>();
 	
 	///@ManyToOne(fetch = FetchType.LAZY)
 	//@JoinColumn(name="PROJECT_ID")
