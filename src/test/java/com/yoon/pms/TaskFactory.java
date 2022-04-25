@@ -1,6 +1,8 @@
 package com.yoon.pms;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.yoon.pms.dto.SubTaskDTO;
 import com.yoon.pms.dto.TaskDTO;
@@ -34,8 +36,14 @@ public class TaskFactory {
 					.subReportRegistFlag("1")
 					.subRealProgress(10)
 					.build();
-		
 	}
+	
+	public static List<SubTaskDTO> makeSubTaskDTOList() {
+		List<SubTaskDTO> list = new ArrayList<SubTaskDTO>();
+		list.add(makeSubTaskDTO());
+		return list;
+	}
+	
 	
 	public static SubTask changeSubTaskEntity(SubTaskDTO dto) {
 		return SubTask.builder()
@@ -52,7 +60,27 @@ public class TaskFactory {
 	
 	public static TaskDTO makeTaskDTO() {
 		 return TaskDTO.builder()
-				  .tid((long) 1)
+				  .tid(1L)
+				  .taskTitle("서비스단 테스트 제목")
+				  .taskContents("서비스단 테스트 내용")
+				  .statusCode("진행전")
+				  .realProgress(3)
+				  .reportRegistFlag("2")
+				  .pid(1L)
+				  .taskStartDate("2022-03-08T10:10")
+				  .taskEndDate("2022-03-08T10:10")
+				  .taskType("종류")
+				  .detailedTaskType("상세")
+				  .divisionOfTask("분류")
+				  .remarks("비고")
+				  .build();
+	}
+	
+	public static TaskDTO makeTaskDTOWithSubTaskDTO() {
+		List<SubTaskDTO> subList = makeSubTaskDTOList();
+		
+		 return TaskDTO.builder()
+				  .tid(1L)
 				  .taskTitle("서비스단 테스트 제목")
 				  .taskContents("서비스단 테스트 내용")
 				  .statusCode("진행전")
@@ -65,8 +93,8 @@ public class TaskFactory {
 				  .detailedTaskType("상세")
 				  .divisionOfTask("분류")
 				  .remarks("비고")
+				  .subTaskDTOList(subList)
 				  .build();
-		
 	}
 	
 	static Task changeTaskEntity(TaskDTO taskDTO){

@@ -388,17 +388,37 @@ function saveBtn(){
         
       //하위작업이 없으면? 본문+하위작업 같이 보낸다.
        if(subjobDOM.length>0){
+        var subTitleArr =[];
+        var subContentsArr =[];
+        var subStartDateArr =[];
+        var subEndDateArr =[];
+        var subRealProgressArr =[];
+        var subReportRegistFlagArr =[];
+        var parentId =[];
         
         var tid = document.getElementById('tid').value;
-        var subTitle = document.getElementById('subTitle').value;
-        var subContents = document.getElementById('subContents').value;
-        var subStartDate = document.getElementById('subStartDate').value;
-        var subEndDate = document.getElementById('subEndDate').value;
-        var subRealProgress = document.getElementById('subRealProgress');
-        var subReportRegistFlag = document.getElementById('subReportRegistFlag').value;
         
-		var data = {tid: tid, subTitle: subTitle , subContents: subContents , subStartDate: subStartDate , subEndDate: subEndDate ,
-				subRealProgress: subRealProgress , subReportRegistFlag: subReportRegistFlag }		
+        var subTitle = document.getElementsByName('subTitle');
+        var subContents = document.getElementsByName('subContents');
+        var subStartDate = document.getElementsByName('subStartDate');
+        var subEndDate = document.getElementsByName('subEndDate');
+        var subRealProgress = document.getElementsByName('subRealProgress');
+        var subReportRegistFlag = document.getElementsByName('subReportRegistFlag');
+        
+        for(var i=0; i<subTitle.length; i++){
+        	parentId.push(tid);
+        	subTitleArr.push(subTitle[i].value);
+        	subContentsArr.push(subContents[i].value);
+        	subStartDateArr.push(subStartDate[i].value);
+        	subEndDateArr.push(subEndDate[i].value);
+        	subRealProgressArr.push(subRealProgress[i].value);
+        	subReportRegistFlagArr.push(subReportRegistFlag[i].value);
+        }
+        
+
+        
+		var data = {tid: parentId, subTitle: subTitleArr , subContents: subContentsArr , subStartDate: subStartDateArr , subEndDate: subEndDateArr ,
+				subRealProgress: subRealProgressArr , subReportRegistFlag: subReportRegistFlagArr }		
         $.ajax({
             url: '/subtask/'+tid,
             type: "POST",

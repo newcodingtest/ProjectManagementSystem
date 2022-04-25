@@ -8,6 +8,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -26,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yoon.pms.TaskFactory;
 import com.yoon.pms.config.QuerydslConfig;
+import com.yoon.pms.dto.SubTaskDTO;
 import com.yoon.pms.dto.TaskDTO;
 import com.yoon.pms.repository.TaskRepository;
 import com.yoon.pms.service.TaskService;
@@ -166,10 +170,17 @@ public class TaskControllerTest {
 	  }  
 	  
 	  @Test
-	  @DisplayName("수정 테스트")
+	  @DisplayName("상위작업_하위작업_동시에_수정된다.")
 	  public void modify_수정된다() throws Exception {
-		//Given
+		  //Given
+		  List<SubTaskDTO>subList = new ArrayList<SubTaskDTO>();
+		  
 		  TaskDTO givenDTO = TaskFactory.makeTaskDTO();
+		  SubTaskDTO givenSubDto = TaskFactory.makeSubTaskDTO();
+		  
+		  subList.add(givenSubDto);
+		  subList.add(givenSubDto);
+		  subList.add(givenSubDto);
 		  
 		//When
 		  final ResultActions result = mvc.perform(post("/task/modify")
@@ -186,9 +197,10 @@ public class TaskControllerTest {
 				  .param("detailedTaskType", givenDTO.getDetailedTaskType())
 				  .param("divisionOfTask", givenDTO.getDivisionOfTask())
 				  .param("remarks", givenDTO.getRemarks())
+				  .param("subTaskDTOList", subList.toString())
 				  ).andDo(print()); 
 		//then
-		result.andExpect(redirectedUrl("/task/list"));
+		 result.andExpect(redirectedUrl("/task/list"));
 		  result.andExpect(view().name("redirect:/task/list"));
 		
 	  }

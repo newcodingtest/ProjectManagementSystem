@@ -37,8 +37,10 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yoon.pms.TaskFactory;
 import com.yoon.pms.config.QuerydslConfig;
 import com.yoon.pms.dto.ProjectDTO;
+import com.yoon.pms.dto.SubTaskDTO;
 import com.yoon.pms.repository.ProjectRepository;
 import com.yoon.pms.repository.TaskRepository;
 import com.yoon.pms.service.ProjectService;
@@ -111,6 +113,7 @@ public class ProjectControllerTests {
 	  
 	  @Test
 	  public void 프로젝트_등록한다() throws Exception {
+		  List<SubTaskDTO>list = TaskFactory.makeSubTaskDTOList();
 		  
 		  final ResultActions result = mvc.perform(post("/project/register")
 				  .param("manager", "윤주영")
@@ -121,6 +124,7 @@ public class ProjectControllerTests {
 				  .param("statusCode", "진행중")
 				  .param("startDate", "2022-03-08T10:10")
 				  .param("endDate", "2022-03-08T10:10")
+				  .param("subTaskDTOList",list.toString())
 				  .accept(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 				  ).andDo(print());
 

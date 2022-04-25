@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.lang.Nullable;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,6 +37,7 @@ public class SubTask extends BaseEntity {
 	@Column
 	private String subTitle;
 	@Column
+	@Nullable
 	private String subContents;
 	@Column
 	private LocalDateTime subStartDate;
@@ -48,5 +50,4 @@ public class SubTask extends BaseEntity {
 	
 	@ManyToOne
 	private Task task;
-	
 }
