@@ -4,6 +4,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -21,6 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.yoon.pms.ProjectFactory;
 import com.yoon.pms.TaskFactory;
 import com.yoon.pms.dto.ProjectDTO;
+import com.yoon.pms.dto.SubTaskDTO;
 import com.yoon.pms.dto.TaskDTO;
 import com.yoon.pms.entity.Project;
 import com.yoon.pms.entity.Task;
@@ -40,9 +42,8 @@ class ProjectServiceTests {
 	ProjectRepository repository;
 	
 	@Test
-	@DisplayName("register 동작 테스트")
+	@DisplayName("상_하위_같이_register 동작 테스트")
 	public void 등록_테스트(){
-		
 		//Given 
 		ProjectDTO givenDTO = ProjectFactory.makeProjectkDTO();
 		

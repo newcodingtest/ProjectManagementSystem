@@ -3,11 +3,11 @@ package com.yoon.pms.dto;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import com.yoon.pms.entity.Project;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import com.yoon.pms.entity.Task;
 
 import lombok.AllArgsConstructor;
@@ -23,44 +23,52 @@ public class TaskDTO {
 
 	private Long tid;
 	 
-	private Long pid;  //프로젝트 아이디
+	private Long pid; 
 	 
-	private String taskType; //업무 종류 --> 개발/업무제안/관리/기타
+	private String taskType; 
 	 
-	private String detailedTaskType; //상세 업무 -->개발/버그수정/산출물/테스트/휴가/기타 등등
+	private String detailedTaskType; 
 	 
-	private String divisionOfTask; //업무 구분 --> 주/지원
-	private String taskContents; // 업무 내용
-	private String taskTitle; //업무 제목
-	 
-	private String writer; //작성자 아이디
-	 
-	private String remarks; //비고
+	private String divisionOfTask; 
+	private String taskContents; 
 	
+	@NotEmpty(message = "제목은 빈 값이 될수 없습니다.")
+	@NotNull(message = "제목은 NULL 값이 될수 없습니다.")
+	private String taskTitle; 
+	 
+	private String writer; 
+	private String remarks; 
+	
+	
+	@NotEmpty(message = "시작일은 빈 값이 될수 없습니다.")
+	@NotNull(message = "시작일은 NULL 값이 될수 없습니다.")
     //@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") //get
     //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul") //post
-	//private LocalDateTime taskStartDate; //업무 시작일
+	//private LocalDateTime taskStartDate; //
 	private String taskStartDate;
-    
+	
+	@NotEmpty(message = "종료일은 빈 값이 될수 없습니다.")
+	@NotNull(message = "종료일은 NULL 값이 될수 없습니다.")
     //@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") //get
     //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul") //post
-	//private LocalDateTime taskEndDate;  //업무 종료일
+	//private LocalDateTime taskEndDate;  /
 	private String taskEndDate;
 	
-	private float realProgress; // 실제 진행률 --> 1%,50%,100%
+	private float realProgress; // 
 	 
-	private String savedWeekDate; // 배치가 돌아서 저장된 날짜
+	private String savedWeekDate; //
 	 
-	private String statusCode; //진행 상태 --> 진핸전/진행중/완료/중단
+	private String statusCode; //
 	 
-	private Long parent; // --> 부모 작업 /자식작업 구분 키
+	private Long parent; // -->
 	 
-	private String reportRegistFlag; //--> 보고서 등록 여부
+	private String reportRegistFlag; //-->
 	
 	private LocalDateTime regDate;
 
 	private LocalDateTime modDate;
 	
+	@Builder.Default
 	private List<SubTaskDTO> subTaskDTOList = new ArrayList<SubTaskDTO>();
 	
 	
@@ -92,7 +100,7 @@ public class TaskDTO {
 	              .detailedTaskType(dto.getDetailedTaskType())
 	              .divisionOfTask(dto.getDivisionOfTask())
 	              .writer(dto.getWriter())
-	              .subTask(SubTaskDTO.ListDtoToEntity(dto.getSubTaskDTOList()))
+	              .subTaskList(SubTaskDTO.ListDtoToEntity(dto.getSubTaskDTOList()))
 	              .build();
 	}
 	
@@ -113,7 +121,7 @@ public class TaskDTO {
 	              .detailedTaskType(entity.getDetailedTaskType())
 	              .divisionOfTask(entity.getDivisionOfTask())
 	              .writer(entity.getWriter())
-	              .subTaskDTOList(SubTaskDTO.ListEntityToDto(entity.getSubTask()))
+	              .subTaskDTOList(SubTaskDTO.ListEntityToDto(entity.getSubTaskList()))
 				.build();
 	}
 	

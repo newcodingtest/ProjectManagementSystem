@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.lang.Nullable;
 
 import com.yoon.pms.dto.SubTaskDTO;
 
@@ -44,6 +45,7 @@ public class Task extends BaseEntity {
 	@Column
 	private String divisionOfTask; //업무 구분 --> 주/지원
 	@Column
+	@Nullable
 	private String taskContents; // 업무 내용
 	@Column
 	private String taskTitle; //업무 제목

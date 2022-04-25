@@ -12,7 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class TaskDTOTests {
 
-
 	@Test
 	@DisplayName("TaskDTO 생성 테스트")
 	public void DTO_생성_테스트() {

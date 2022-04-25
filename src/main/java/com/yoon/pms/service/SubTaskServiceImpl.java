@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,7 @@ public class SubTaskServiceImpl implements SubTaskService {
 			SubTaskDTO dto = SubTaskDTO.builder()
 				.subTitle(subTaskMap.get("subTitle")[i])
 				.tid(Long.valueOf(subTaskMap.get("tid")[i]))
-				.subContents(subTaskMap.get("subContents")[i])
+				.subContents(Optional.ofNullable(subTaskMap.get("subContents")[i]).toString())
 				.subStartDate(subTaskMap.get("subStartDate")[i])
 				.subEndDate(subTaskMap.get("subEndDate")[i])
 				.subRealProgress(Float.parseFloat(subTaskMap.get("subRealProgress")[i]))

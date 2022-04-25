@@ -5,6 +5,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.NotFound;
+
 import com.yoon.pms.entity.Project;
 import com.yoon.pms.entity.SubTask;
 import com.yoon.pms.entity.Task;
@@ -23,13 +28,19 @@ public class SubTaskDTO {
 	private Long sid;
 
 	private Long tid;
-	
+
+	@NotEmpty(message = "제목은 빈값 일 수 없습니다.")
+	@NotNull(message = "제목는 Null 일 수 없습니다.")
 	private String subTitle;
 	
 	private String subContents;
 	
+	@NotEmpty(message = "시작일은 빈값 일 수 없습니다.")
+	@NotNull(message = "시작일은 Null 일 수 없습니다.")
 	private String subStartDate;
 	
+	@NotEmpty(message = "종료일은 빈값 일 수 없습니다.")
+	@NotNull(message = "종료일은 Null 일 수 없습니다.")
 	private String subEndDate;
 	
 	private float subRealProgress; // 실제 진행률 --> 1%,50%,100%

@@ -4,8 +4,11 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.yoon.pms.dto.TaskDTO;
 import com.yoon.pms.dto.TaskResponseDTO;
+import com.yoon.pms.entity.SubTask;
 import com.yoon.pms.entity.Task;
 import com.yoon.pms.repository.SubTaskRepository;
 import com.yoon.pms.repository.TaskRepository;
@@ -16,15 +19,21 @@ import lombok.RequiredArgsConstructor;
 public class TaskServiceImpl implements TaskService {
 
 	private final TaskRepository taskRepository;
-	
 	private final SubTaskRepository subTaskRepository;
-	
+    
+	@Transactional
 	@Override
 	public long register(TaskDTO dto) {
 		
-		Task target = TaskDTO.dtoToEntity(dto);
+		Task parentTarget = TaskDTO.dtoToEntity(dto);
+		List<SubTask> subTarget = parentTarget.getSubTaskList();
 		
-		Task savedTask = taskRepository.save(target);
+		Task savedTask = taskRepository.save(parentTarget);
+		
+		  subTarget.forEach(subTask -> {
+			  subTaskRepository.save(subTask);
+		  });
+		 
 		
 		return savedTask.getTid();
 	}
