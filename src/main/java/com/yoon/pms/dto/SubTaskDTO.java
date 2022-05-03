@@ -16,6 +16,7 @@ import com.yoon.pms.entity.Task;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Data;
 import lombok.NoArgsConstructor; 
 
@@ -43,7 +44,8 @@ public class SubTaskDTO {
 	@NotNull(message = "종료일은 Null 일 수 없습니다.")
 	private String subEndDate;
 	
-	private float subRealProgress; // 실제 진행률 --> 1%,50%,100%
+	@Builder.Default
+	private float subRealProgress = 0; // 실제 진행률 --> 1%,50%,100%
 	
 	private String subReportRegistFlag; //--> 보고서 등록 여부
 	

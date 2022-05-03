@@ -1,12 +1,14 @@
 package com.yoon.pms.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDateTime; 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import org.springframework.beans.factory.annotation.Value;
 
 import com.yoon.pms.entity.Task;
 
@@ -37,8 +39,8 @@ public class TaskDTO {
 	private String taskTitle; 
 	 
 	private String writer; 
-	private String remarks; 
 	
+	private String remarks; //비고 
 	
 	@NotEmpty(message = "시작일은 빈 값이 될수 없습니다.")
 	@NotNull(message = "시작일은 NULL 값이 될수 없습니다.")
@@ -54,14 +56,16 @@ public class TaskDTO {
 	//private LocalDateTime taskEndDate;  /
 	private String taskEndDate;
 	
-	private float realProgress; // 
+	@Builder.Default
+	private float realProgress=0; // 
 	 
 	private String savedWeekDate; //
-	 
-	private String statusCode; //
+	
+	@Builder.Default
+	private String statusCode="진행전"; //
 	 
 	private Long parent; // -->
-	 
+	
 	private String reportRegistFlag; //-->
 	
 	private LocalDateTime regDate;
@@ -81,10 +85,11 @@ public class TaskDTO {
 
 	public static Task dtoToEntity(TaskDTO dto){
 
-		 LocalDateTime startDate = dto.stringToLocalDateTime(dto.getTaskStartDate());
-		 LocalDateTime endDate = dto.stringToLocalDateTime(dto.getTaskEndDate());
+		 LocalDateTime startDate = TaskDTO.stringToLocalDateTime(dto.getTaskStartDate());
+		 LocalDateTime endDate = TaskDTO.stringToLocalDateTime(dto.getTaskEndDate());
 		 
-	     return Task.builder()
+	     return 
+	    		 Task.builder()
 	        	  .tid(dto.getTid())
 	        	  .projectId(dto.getPid())
 	              .statusCode(dto.getStatusCode())
@@ -102,7 +107,9 @@ public class TaskDTO {
 	              .writer(dto.getWriter())
 	              .subTaskList(SubTaskDTO.ListDtoToEntity(dto.getSubTaskDTOList()))
 	              .build();
+	             
 	}
+
 	
 	public static TaskDTO entityToDTO(Task entity) {
 		return TaskDTO.builder()
