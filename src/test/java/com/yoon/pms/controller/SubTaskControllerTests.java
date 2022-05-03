@@ -51,6 +51,7 @@ public class SubTaskControllerTests {
 		SubTaskDTO dto = TaskFactory.makeSubTaskDTO();
 		
 		String[] tid = {"1","1"};
+		String[] sid = {"4","5"};
 		String[] title = {"첫번째제목","두번째제목"};
 		String[] contents = {"첫번째내용","두번째내용"};
 		String[] startDate = {"2022-03-08T10:10","2022-03-08T10:10"};
@@ -61,6 +62,7 @@ public class SubTaskControllerTests {
 		Map<String, String[]> request = new HashMap();
 		
 		request.put("tid", tid);
+		request.put("sid", sid);
 		request.put("subTitle", title);
 		request.put("subContents", contents);
 		request.put("subStartDate", startDate);

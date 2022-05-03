@@ -1,19 +1,19 @@
 package com.yoon.pms.repository;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat; 
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import javax.transaction.Transactional;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-
+import org.springframework.transaction.annotation.Transactional;
 import com.yoon.pms.aop.AspectAdvice;
+import com.yoon.pms.dto.TaskDTO;
 import com.yoon.pms.entity.Task;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @SpringBootTest
 @Slf4j
 @Import(AspectAdvice.class)
+@Transactional
 public class TaskRepositoryTests{
 	
 	@Autowired
@@ -51,6 +52,23 @@ public class TaskRepositoryTests{
 		result.forEach(x->{
 			log.info("findByAll={}",x);
 		});
+	}
+	
+	@Test
+	@DisplayName("@DynamicInsert null값은 스스로 제외된다.")
+	void insertNullTest() {
+		TaskDTO given = TaskDTO.builder()
+				.taskTitle("테스트")
+				.taskContents(null)
+				.taskStartDate("2022-03-08T10:10")
+				.taskEndDate("2022-03-08T10:10")
+				.build();
+		
+		Task target = TaskDTO.dtoToEntity(given);
+		
+		 Task result = repository.save(target);
+		 
+		 assertThat(result.getTaskContents()).isEqualTo(null);
 	}
 	
 	
@@ -110,7 +128,6 @@ public class TaskRepositoryTests{
 	
 	@Test
 	@DisplayName("task 수정 테스트")
-	@Transactional
 	void task_수정_테스트() {
 		//given
 		Long givenId = 2L;
@@ -177,7 +194,7 @@ public class TaskRepositoryTests{
 		//when
 		List<Task>result = repository.getOnGoingList();
 		
-		log.info("result={}, size={}", result, result.size());
+		log.info("result={}, size={}", result.toString(), result.size());
 		//then
 		Assertions.assertThat(result.size()).isGreaterThanOrEqualTo(0);
 	}
