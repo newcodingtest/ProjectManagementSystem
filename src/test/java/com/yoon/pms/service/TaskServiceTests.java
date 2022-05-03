@@ -3,7 +3,9 @@ package com.yoon.pms.service;
 import static org.mockito.ArgumentMatchers.any; 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -16,10 +18,13 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yoon.pms.TaskFactory;
+import com.yoon.pms.dto.SubTaskDTO;
 import com.yoon.pms.dto.TaskDTO;
 import com.yoon.pms.entity.Task;
+import com.yoon.pms.repository.SubTaskRepository;
 import com.yoon.pms.repository.TaskRepository;
 
 
@@ -29,23 +34,24 @@ class TaskServiceTests {
 
 	@InjectMocks
 	TaskServiceImpl service;
-	
-	
 	//@Mock: 대체할 모듈   -> service는 repository를 호출하여 사용하기 때문
 	@Mock
 	TaskRepository repository;
+	@Mock
+	SubTaskRepository subRepository;
 	
 	@Test
 	@DisplayName("register 동작 테스트")
 	public void 등록_테스트(){
 		
 		//Given 
-		TaskDTO givenDTO = TaskFactory.makeTaskDTO();
+		TaskDTO givenDTO = TaskFactory.makeTaskDTOWithSubTaskDTO();
+		System.out.println(givenDTO.getSubTaskDTOList().size());
 		
 		//Mocking
 		BDDMockito
 			.given(repository.save(any())).
-			willReturn(givenDTO.dtoToEntity(givenDTO));
+			willReturn(TaskDTO.dtoToEntity(givenDTO));
 				
 		//When
 		Long result = service.register(givenDTO);
@@ -55,6 +61,33 @@ class TaskServiceTests {
 		Assertions.assertThat(result).isEqualTo(givenDTO.getTid());
 		//호출횟수
 		BDDMockito.verify(repository,times(1)).save(any());
+	}
+	
+	@Test
+	@DisplayName("상하위 동시 register 동작 테스트")
+	public void 등록_테스트1(){
+		
+		//Given 
+		TaskDTO givenDTO = TaskFactory.makeTaskDTOWithSubTaskDTO();
+		System.out.println(givenDTO.getSubTaskDTOList().size());
+		
+		//Mocking
+		BDDMockito
+			.given(repository.save(any())).
+			willReturn(TaskDTO.dtoToEntity(givenDTO));
+		BDDMockito
+			.given(subRepository.save(any())).
+			willReturn(TaskDTO.dtoToEntity(givenDTO).getSubTaskList().get(0));
+				
+		//When
+		Long result = service.register(givenDTO);
+		
+		//Then
+		//결과값
+		Assertions.assertThat(result).isEqualTo(givenDTO.getTid());
+		//호출횟수
+		BDDMockito.verify(repository,times(1)).save(any());
+		BDDMockito.verify(subRepository,times(TaskDTO.dtoToEntity(givenDTO).getSubTaskList().size())).save(any());
 	}
 	
 	@Test
@@ -131,6 +164,7 @@ class TaskServiceTests {
 	
 	@Test
 	@DisplayName("getStatusIngList 기능 동작 테스트")
+	@Transactional
 	public void 상태가_진행중인_Task_리스트_가져와() {
 		
 		//Given
@@ -154,6 +188,7 @@ class TaskServiceTests {
 	}
 	
 	@Test
+	@Transactional
 	@DisplayName("getStatusEndList 기능 동작 테스트")
 	public void 상태가_완료된_Task_리스트_가져와() {
 		
@@ -174,6 +209,47 @@ class TaskServiceTests {
 		Assertions.assertThat(expected.get(0).getStatusCode())
 					.isEqualTo(givenArr.get(0).getStatusCode());
 		BDDMockito.verify(repository,times(1)).getEndedList();
+	}
+	
+	@Test
+	@Transactional
+	@DisplayName("상위작업 수정시 하위작업도 같이 수정된다.")
+	public void 상위작업과_하위작업은_같이_수정된다() {
+		
+		//GIVEN
+		List<SubTaskDTO> subList = new ArrayList<SubTaskDTO>();
+						subList.add(SubTaskDTO.builder()
+								.subTitle("하위 테스트")
+								.subStartDate("2022-03-08T10:10")
+								.subEndDate("2022-03-08T10:10")
+								.build());
+		
+		TaskDTO givenParentDTO = TaskDTO.builder()
+				.tid(1L)
+				.taskTitle("테스트")
+				.taskContents("테스트")
+				.taskStartDate("2022-03-08T10:10")
+				.taskEndDate("2022-03-08T10:10")
+				.subTaskDTOList(subList)
+				.build();
+		
+		//MOCKING
+		BDDMockito
+			.given(repository.save(any()))
+			.willReturn(givenParentDTO.getTid());
+		BDDMockito
+			.given(subRepository.save(any()))
+			.willReturn(givenParentDTO.getTid());
+		//WHEN
+		Long expected = service.register(givenParentDTO);
+		
+		//THEN
+		Assertions.assertThat(expected)
+				.isEqualTo(givenParentDTO.getTid());
+		BDDMockito.verify(repository,times(1)).save(any());
+		BDDMockito.verify(subRepository,times(2)).save(any());
+		
+		
 		
 	}
 	

@@ -13,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.lang.Nullable;
 
@@ -32,6 +34,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @DynamicUpdate
+@DynamicInsert 
 public class Task extends BaseEntity {
 
 	@Id

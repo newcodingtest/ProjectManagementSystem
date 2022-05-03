@@ -24,18 +24,30 @@ public class TaskServiceImpl implements TaskService {
 	@Transactional
 	@Override
 	public long register(TaskDTO dto) {
-		
+		//1.파라미터로 들어온 상위작업을 갖고있는 하위작업들을 찾는다.
+		//2.1번 조건에 만족하는 하위작업들을 삭제한다.
+		//3.파라미터로 들어온 상위작업을 등록 또는 수정한다.
+		//4.파라미터로 들어온 새로운 하위작업들을 추가한다.
 		Task parentTarget = TaskDTO.dtoToEntity(dto);
 		List<SubTask> subTarget = parentTarget.getSubTaskList();
 		
-		Task savedTask = taskRepository.save(parentTarget);
+		Task result = taskRepository.getTaskListWithAll(dto.getTid());
 		
-		  subTarget.forEach(subTask -> {
-			  subTaskRepository.save(subTask);
+		//(1)
+		if(!result.getSubTaskList().isEmpty()) {
+			result.getSubTaskList().forEach(subtask->{
+				//(2)
+				subTaskRepository.deleteById(subtask.getSid());
+			});
+		}
+		//(3)
+		Task savedParentTask = taskRepository.save(parentTarget);
+		
+		//(4)
+		parentTarget.getSubTaskList().forEach(subtask->{
+			  subTaskRepository.save(subtask);
 		  });
-		 
-		
-		return savedTask.getTid();
+		return savedParentTask.getTid();
 	}
 
 	@Override

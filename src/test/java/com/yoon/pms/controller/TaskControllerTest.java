@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -56,9 +57,9 @@ public class TaskControllerTest {
 	
 	private ModelAndView mv;
 	
-	  @Test
-	  @DisplayName("list 페이지 테스트")
-	  public void list_페이지_이동() throws Exception{
+	@Test
+	@DisplayName("list 페이지 테스트")
+	public void list_페이지_이동() throws Exception{
 	      //andExpect
 	      mvc.perform(get("/task/list").content("application/json"))
 	         .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
@@ -68,7 +69,7 @@ public class TaskControllerTest {
 	      	 .andExpect(MockMvcResultMatchers.model().attributeExists("beforeCnt"))
 	      	 .andExpect(MockMvcResultMatchers.model().attributeExists("ingCnt"))
 	      	 .andExpect(MockMvcResultMatchers.model().attributeExists("endCnt"));
-	   }
+	 }
 	  
 	  
 	  @Test
@@ -79,6 +80,26 @@ public class TaskControllerTest {
 	      mvc.perform(get("/task/list"))
 	         .andExpect(status().isOk());    
 	   }
+	  
+	  @Test
+	  @DisplayName("글 등록시 DTO타입 파라미터 @valid로 NULL 검증하기.")
+	  public void 파라미터_널값_테스트() throws Exception {
+		  //GIVEN
+		  String taskTitle = null;
+		  String taskStartDate = null;
+		  String taskEndDate = null;
+		  
+		  
+		  //WHEN
+		  final ResultActions result =  mvc.perform(post("/task/register").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+					 .param("taskTitle", taskTitle)
+					 .param("taskStartDate", taskStartDate)
+					 .param("taskEndDate", taskEndDate));
+			
+		  //THEN
+		  result.andExpect(status().isBadRequest());
+			
+	  }
 	  
 	  @Test
 	  @DisplayName("register 페이지 테스트")
