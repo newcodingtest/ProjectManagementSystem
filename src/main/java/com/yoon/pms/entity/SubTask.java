@@ -50,4 +50,8 @@ public class SubTask extends BaseEntity {
 	
 	@ManyToOne
 	private Task task;
+	
+	public void setTask(Task task) {
+		this.task = task;
+	}
 }

@@ -84,10 +84,11 @@ public class TaskServiceImpl implements TaskService {
 	}
 	
 
+	@Transactional
 	@Override
 	public long modify(TaskDTO dto) {
 		
-		Optional<Task> origin =taskRepository.findById(dto.getTid());
+		Optional<Task> origin =taskRepository.findById(dto.getTid()); //Eager
 		origin.orElseThrow(NoSuchElementException::new);
 		
 		Task target = TaskDTO.dtoToEntity(dto);
@@ -98,7 +99,7 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public void remove(TaskDTO dto) {
-		Optional<Task> origin =taskRepository.findById(dto.getTid());
+		Optional<Task> origin =taskRepository.findById(dto.getTid()); 
 		origin.orElseThrow(NoSuchElementException::new);
 		
 		Task target =  TaskDTO.dtoToEntity(dto);
