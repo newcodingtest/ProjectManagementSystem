@@ -186,17 +186,16 @@ S<!DOCTYPE html>
 <script th:inline="javascript">
 var count = 0;
 var data = [[${dto}]]
-console.log(data.subTaskDTOList.length);
 if(data.subTaskDTOList.length>0){
 	onAddExistSubJob(data.subTaskDTOList);
 }
 
+//상위작업에 존재하는 하위작업을 표현하는 함수======================================================================================================================
 function onAddExistSubJob(input) {
 	var detail = document.getElementById('dt');
    	if(detail.open === false) {
    		detail.open = true;
    	}
-   	
     var subjobList = document.getElementById("subjob-list");
    
 	for(var i= 0; i<input.length; i++){
@@ -262,13 +261,11 @@ function onAddExistSubJob(input) {
  		str+='</div>';
  		newTag.innerHTML = str;
  		subjobList.appendChild(newTag);
- 	//subjobList.remove();
 	}	
  	
   }
 
-//하위작업 추가============================================================
-
+//하위작업 추가======================================================================================================================
 function onAddSubJob() {
 	var detail = document.getElementById('dt');
    	if(detail.open === false) {
@@ -339,7 +336,7 @@ function onAddSubJob() {
  	count++;
   }
 
-//하위작업 삭제=========================================================
+//하위작업 삭제======================================================================================================================
   function onDeleteSubjob(count) {
 
     var id = "sub"+count;
@@ -347,7 +344,7 @@ function onAddSubJob() {
 	 target.remove();
   }
 
-//[시작일], [종료일]의 Default는 현재 시간 =====================================================	
+//[시작일], [종료일]의 Default는 현재 시간 ======================================================================================================================
 	
 //저장전 유효성 체크
 function saveBtn(){
@@ -368,55 +365,77 @@ function saveBtn(){
         
         var subjobDOM = document.querySelectorAll(".subjob");
         
-      //하위작업이 없으면? 본문+하위작업 같이 보낸다.
-       if(subjobDOM.length>0){
-        var subTitleArr =[];
-        var subContentsArr =[];
-        var subStartDateArr =[];
-        var subEndDateArr =[];
-        var subRealProgressArr =[];
-        var subReportRegistFlagArr =[];
-        var parentId =[];
-        
+        var taskTitle = document.getElementById('taskTitle');
+        var taskContents = document.getElementById('taskContents');
+        var taskStartDate = document.getElementById('taskStartDate');
+        var taskEndDate = document.getElementById('taskEndDate');
+        var realProgress = document.getElementById('realProgress');
+        var reportRegistFlag = document.getElementById('reportRegistFlag');
+        var taskType = document.getElementById('taskType');
+        var detailedTaskType = document.getElementById('detailedTaskType');
+        var divisionOfTask = document.getElementById('divisionOfTask');
+        var statusCode = document.getElementById('statusCode');
         var tid = document.getElementById('tid').value;
         
-        var subTitle = document.getElementsByName('subTitle');
-        var subContents = document.getElementsByName('subContents');
-        var subStartDate = document.getElementsByName('subStartDate');
-        var subEndDate = document.getElementsByName('subEndDate');
-        var subRealProgress = document.getElementsByName('subRealProgress');
-        var subReportRegistFlag = document.getElementsByName('subReportRegistFlag');
-        
-        for(var i=0; i<subTitle.length; i++){
-        	parentId.push(tid);
-        	subTitleArr.push(subTitle[i].value);
-        	subContentsArr.push(subContents[i].value);
-        	subStartDateArr.push(subStartDate[i].value);
-        	subEndDateArr.push(subEndDate[i].value);
-        	subRealProgressArr.push(subRealProgress[i].value);
-        	subReportRegistFlagArr.push(subReportRegistFlag[i].value);
-        }
-        
+      //하위작업이 존재하면? 본문+하위작업 같이 수정한다.
+     
+	        var subTitleArr =[];
+	        var subContentsArr =[];
+	        var subStartDateArr =[];
+	        var subEndDateArr =[];
+	        var subRealProgressArr =[];
+	        var subReportRegistFlagArr =[];
+	        var parentId =[];
+	        
+	      
+	        var subTitle = document.getElementsByName('subTitle');
+	        var subContents = document.getElementsByName('subContents');
+	        var subStartDate = document.getElementsByName('subStartDate');
+	        var subEndDate = document.getElementsByName('subEndDate');
+	        var subRealProgress = document.getElementsByName('subRealProgress');
+	        var subReportRegistFlag = document.getElementsByName('subReportRegistFlag');
+	        
+	        var subTaskList = [];
 
-        
-		var data = { tid: parentId,  subTitle: subTitleArr , subContents: subContentsArr , subStartDate: subStartDateArr , subEndDate: subEndDateArr ,
-				subRealProgress: subRealProgressArr , subReportRegistFlag: subReportRegistFlagArr }		
-        $.ajax({
-            url: '/subtask/'+tid,
-            type: "POST",
-            data: JSON.stringify(data),
-            contentType: "application/json; charset=utf-8",
-            dataType: "text",
-            success: function (result){
-                console.log(result);
-                self.location.reload();
-            }
-        }); 
-       }
-       //하위작업이 없으면? 본문만 보낸다
-       else{
-    	   
-       }
+	        for(var i=0; i<subTitle.length; i++){
+	        	var subMap = new Map();
+	        	subMap.set("subTitle",subTitle[i].value );
+	        	subMap.set("tid",tid );
+	        	subMap.set("subContents",subContents[i].value );
+	        	subMap.set("subStartDate",subStartDate[i].value );
+	        	subMap.set("subEndDate",subEndDate[i].value );
+	        	subMap.set("subRealProgress",subRealProgress[i].value );
+	        	subMap.set("subReportRegistFlag",subReportRegistFlag[i].value );
+	        	subTaskList.push(Object.fromEntries(testMap));
+	        }
+	        
+	        var data = null;
+	        
+	        if(subjobDOM.length>0){
+		         
+		         data = { tid: tid, taskTitle: taskTitle.value , taskContents: taskContents.value, taskStartDate: taskStartDate.value, taskEndDate: taskEndDate.value,
+							realProgress: realProgress.value, reportRegistFlag: reportRegistFlag.value, taskType: taskType.value, detailedTaskType: detailedTaskType.value, divisionOfTask: divisionOfTask.value, statusCode: statusCode.value
+							, subTaskDTOList: subTaskList}
+	        }else{
+	             data = { tid: tid, taskTitle: taskTitle.value , taskContents: taskContents.value, taskStartDate: taskStartDate.value, taskEndDate: taskEndDate.value,
+						realProgress: realProgress.value, reportRegistFlag: reportRegistFlag.value, taskType: taskType.value, detailedTaskType: detailedTaskType.value, divisionOfTask: divisionOfTask.value, statusCode: statusCode.value
+						}
+	        }
+
+		       
+				$.ajax({
+		            url: '/task/'+tid,
+		            type: "POST",
+		            data: JSON.stringify(data),
+		            contentType: "application/json; charset=utf-8",
+		            dataType: "text",
+		            success: function (result){
+		                self.location.reload();
+		            }
+		        }); 
+       
+       //하위작업이 없으면? 상위만 수정한다.
+
         
      });
 }

@@ -1,6 +1,7 @@
 package com.yoon.pms.controller;
 
-import static org.assertj.core.api.Assertions.assertThat; 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,13 +15,16 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yoon.pms.TaskFactory;
 import com.yoon.pms.config.QuerydslConfig;
 import com.yoon.pms.dto.SubTaskDTO;
+import com.yoon.pms.dto.TaskDTO;
 import com.yoon.pms.service.SubTaskService;
 
 @RunWith(SpringRunner.class)
@@ -31,6 +35,9 @@ public class SubTaskControllerTests {
     @LocalServerPort
     private int port;
 
+	@Autowired
+	private MockMvc mvc;
+    
 	@Autowired
 	private TestRestTemplate restTemplate;
 	
@@ -48,7 +55,8 @@ public class SubTaskControllerTests {
 		//Given
 		String url = "http://localhost:"+this.port+"/subtask/1";
 		
-		SubTaskDTO dto = TaskFactory.makeSubTaskDTO();
+	
+		SubTaskDTO subDto = TaskFactory.makeSubTaskDTO();
 		
 		String[] tid = {"1","1"};
 		String[] sid = {"4","5"};
@@ -76,5 +84,38 @@ public class SubTaskControllerTests {
 		//then
 		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 	}
+	
+	/*
+	 * @Test public void 서브테스트_상위작업과함께_post가_된다() throws Exception { //Given String
+	 * url = "http://localhost:"+this.port+"/subtask/1";
+	 * 
+	 * TaskDTO parentDto = TaskFactory.makeTaskDTO(); SubTaskDTO subDto =
+	 * TaskFactory.makeSubTaskDTO();
+	 * 
+	 * String[] tid = {"1","1"}; String[] sid = {"4","5"}; String[] title =
+	 * {"첫번째제목","두번째제목"}; String[] contents = {"첫번째내용","두번째내용"}; String[] startDate
+	 * = {"2022-03-08T10:10","2022-03-08T10:10"}; String[] endDate =
+	 * {"2022-03-08T10:10","2022-03-08T10:10"}; String[] realProgress = {"0","0"};
+	 * String[] ReportRegistFlag = {"0","1"};
+	 * 
+	 * Map<String, String[]> request = new HashMap();
+	 * 
+	 * request.put("tid", tid); request.put("sid", sid); request.put("subTitle",
+	 * title); request.put("subContents", contents); request.put("subStartDate",
+	 * startDate); request.put("subEndDate", endDate);
+	 * request.put("subRealProgress", realProgress);
+	 * request.put("subReportRegistFlag", ReportRegistFlag); request.put("dto",
+	 * parentDto);
+	 * 
+	 * ObjectMapper mapper = new ObjectMapper();
+	 * 
+	 * 
+	 * //When mvc.perform(post("/subtask/1")
+	 * .contentType(MediaType.APPLICATION_JSON_UTF8) .content(null))
+	 * 
+	 * //then
+	 * 
+	 * }
+	 */
 	
 }

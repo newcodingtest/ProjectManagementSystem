@@ -12,8 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.yoon.pms.TaskFactory;
 import com.yoon.pms.aop.AspectAdvice;
+import com.yoon.pms.dto.SubTaskDTO;
 import com.yoon.pms.dto.TaskDTO;
+import com.yoon.pms.entity.SubTask;
 import com.yoon.pms.entity.Task;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @SpringBootTest
 @Slf4j
 @Import(AspectAdvice.class)
-@Transactional
+//@Transactional
 public class TaskRepositoryTests{
 	
 	@Autowired
@@ -224,6 +228,29 @@ public class TaskRepositoryTests{
 		assertThat(result.getSubTaskList().get(0).getTask().getTid()).isEqualTo(1L);
 	}
 	
+	@Test
+	@DisplayName("부무엔티티(Task)와 자식엔티티(SubTask) 삭제")
+	@Transactional
+	void deleteTaskWithSubTask() {
+		
+		repository.deleteById(5L);
+	}
 	
+	@Test
+	@DisplayName("부모엔티티(Task)와 자식엔티티(SubTask) 등록")
+	@Transactional
+	void updateTaskWithSubTask() {
+		//GIVEN
+		Task task = TaskFactory.makeTaskEntity();
+		SubTask subTask = TaskFactory.makeSubTaskEntity();
+		
+		task.addSubTaskList(subTask);
+		
+		//WHEN
+		Task result = repository.save(task);
+		
+		//THEN
+		assertThat(result.getSubTaskList()).hasSize(1);
 	
+	}
 }

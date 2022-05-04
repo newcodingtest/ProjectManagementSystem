@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -75,7 +76,12 @@ public class Task extends BaseEntity {
 	private String reportRegistFlag; //--> 보고서 등록 여부
 	
 	
-	@OneToMany(mappedBy = "task", fetch = FetchType.LAZY, orphanRemoval = true)
+	/*
+		자식 엔티티의 변경이 있다면, JPA에서 자식엔티티 수정은 
+		insert -> update -> delete 순으로 이어지는데,  변경된 자식을 먼저 insert하고, 기존 자식을 NULL로 update 한다.
+		여기서 , orphanRemoval = true로 설정하면 NULL로 처리된 자식을 DELETE 한다.
+	 */
+	@OneToMany(mappedBy = "task", fetch = FetchType.LAZY,  cascade = {CascadeType.ALL}, orphanRemoval = true)
 	private List<SubTask> subTaskList = new ArrayList<SubTask>();
 	
 	///@ManyToOne(fetch = FetchType.LAZY)
@@ -83,6 +89,11 @@ public class Task extends BaseEntity {
 	@Column
 	private Long projectId; 
 
+	
+	public void addSubTaskList(SubTask subTask) {
+		subTaskList.add(subTask);
+		subTask.setTask(this);
+	}
 	/*
 	 * public void setProject(Project projects) { if(this.projects!=null) {
 	 * this.projects.getTask().remove(this); } this.projects = projects;

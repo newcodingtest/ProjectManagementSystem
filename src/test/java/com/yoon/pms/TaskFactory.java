@@ -27,8 +27,6 @@ public class TaskFactory {
 	
 	public static SubTaskDTO makeSubTaskDTO() {
 		 return SubTaskDTO.builder()
-				 	.sid(1L)
-					.tid(1L)
 					.subTitle("테스트용 제목")
 					.subContents("테스트용 내용")
 					.subStartDate("2022-03-08T10:10")
@@ -60,7 +58,6 @@ public class TaskFactory {
 	
 	public static TaskDTO makeTaskDTO() {
 		 return TaskDTO.builder()
-				  .tid(1L)
 				  .taskTitle("서비스단 테스트 제목")
 				  .taskContents("서비스단 테스트 내용")
 				  .statusCode("진행전")
@@ -103,7 +100,7 @@ public class TaskFactory {
 		 LocalDateTime endDate = TaskDTO.stringToLocalDateTime(taskDTO.getTaskEndDate());
 		 
 	        Task task = Task.builder()
-	        	  .projectId((long)1)
+	        	  .projectId(taskDTO.getPid())
 	              .statusCode(taskDTO.getStatusCode())
 	              .parent(taskDTO.getParent())
 	              .projectId(taskDTO.getPid())
