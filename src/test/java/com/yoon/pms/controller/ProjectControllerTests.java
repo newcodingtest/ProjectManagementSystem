@@ -24,13 +24,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yoon.pms.TaskFactory;
 import com.yoon.pms.config.QuerydslConfig;
+import com.yoon.pms.config.TestConfig;
 import com.yoon.pms.dto.ProjectDTO;
 import com.yoon.pms.dto.SubTaskDTO;
 import com.yoon.pms.repository.ProjectRepository;
 import com.yoon.pms.service.ProjectService;
 
 @ExtendWith(SpringExtension.class)
-//@RunWith(SpringRunner.class) 
 @WebMvcTest(controllers = {ProjectController.class})
 @MockBean(JpaMetamodelMappingContext.class) //JPA 테스트 추가
 public class ProjectControllerTests {
@@ -48,7 +48,7 @@ public class ProjectControllerTests {
 	private ProjectRepository projectRepository;
 	
 	@MockBean
-	private QuerydslConfig config;
+	private TestConfig config;
 	
 	
 	  @Test

@@ -1,5 +1,6 @@
 package com.yoon.pms.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any; 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
@@ -215,44 +216,42 @@ class TaskServiceTests {
 	@Transactional
 	@DisplayName("상위작업 수정시 하위작업도 같이 수정된다.")
 	public void 상위작업과_하위작업은_같이_수정된다() {
-		
 		//GIVEN
-		List<SubTaskDTO> subList = new ArrayList<SubTaskDTO>();
-						subList.add(SubTaskDTO.builder()
-								.subTitle("하위 테스트")
-								.subStartDate("2022-03-08T10:10")
-								.subEndDate("2022-03-08T10:10")
-								.build());
+		SubTaskDTO dto = SubTaskDTO.builder()
+				.subTitle("테스트")
+				.subStartDate("2022-03-08T10:10")
+				.subEndDate("2022-03-08T10:10")
+				.build();
 		
-		TaskDTO givenParentDTO = TaskDTO.builder()
-				.tid(1L)
+		List<SubTaskDTO> list = new ArrayList<SubTaskDTO>();
+		list.add(dto);
+		
+		TaskDTO target = TaskDTO.builder()
+				.tid(13L)
 				.taskTitle("테스트")
 				.taskContents("테스트")
 				.taskStartDate("2022-03-08T10:10")
 				.taskEndDate("2022-03-08T10:10")
-				.subTaskDTOList(subList)
+				.subTaskDTOList(list)
 				.build();
 		
-		//MOCKING
+		//Mocking
 		BDDMockito
-			.given(repository.save(any()))
-			.willReturn(givenParentDTO.getTid());
+		.given(repository.getById(anyLong()))
+		.willReturn(TaskDTO.dtoToEntity(target));
+		
 		BDDMockito
-			.given(subRepository.save(any()))
-			.willReturn(givenParentDTO.getTid());
+		.given(repository.save(any()))
+		.willReturn(TaskDTO.dtoToEntity(target));
+		
 		//WHEN
-		Long expected = service.register(givenParentDTO);
+		Long expectedId = service.modify(target);
 		
 		//THEN
-		Assertions.assertThat(expected)
-				.isEqualTo(givenParentDTO.getTid());
+		assertThat(expectedId).isEqualTo(target.getTid());
+		BDDMockito.verify(repository,times(1)).getById(anyLong());
 		BDDMockito.verify(repository,times(1)).save(any());
-		BDDMockito.verify(subRepository,times(2)).save(any());
-		
-		
-		
 	}
-	
 	
 	
 	

@@ -1,6 +1,7 @@
 package com.yoon.pms.controller;
 
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;   
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -10,76 +11,73 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.web.servlet.ModelAndView;
-
+import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yoon.pms.TaskFactory;
-import com.yoon.pms.config.QuerydslConfig;
+import com.yoon.pms.config.TestConfig;
 import com.yoon.pms.dto.SubTaskDTO;
 import com.yoon.pms.dto.TaskDTO;
+import com.yoon.pms.entity.Task;
+import com.yoon.pms.repository.SubTaskRepository;
 import com.yoon.pms.repository.TaskRepository;
-import com.yoon.pms.service.TaskService;
 
-@RunWith(SpringRunner.class) 
-@WebMvcTest(controllers = {TaskController.class}) 
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @MockBean(JpaMetamodelMappingContext.class)
+@AutoConfigureMockMvc // https://we1cometomeanings.tistory.com/65
 public class TaskControllerTest {
 
 	@Autowired
+	private TestRestTemplate restTemplate;
+	
+    @LocalServerPort
+    private int port;
+    
+	@Autowired
 	private MockMvc mvc;
 	
-	@MockBean //spring-boot-test 에서 제공하는 어노테이션, 개발자가 직접 반환값을 컨트롤이 가능
-	private TaskService taskService;
-	
-	@MockBean
+	@Autowired
 	private TaskRepository taskRepository;
 	
+	@Autowired
+	private SubTaskRepository subTaskRepository;
+	
 	@MockBean
-	private QuerydslConfig config;
+	private TestConfig config;
 	
 	@Autowired
 	protected ObjectMapper objectMapper;
 	
-	private ModelAndView mv;
-	
 	@Test
 	@DisplayName("list 페이지 테스트")
+	@Transactional
 	public void list_페이지_이동() throws Exception{
 	      //andExpect
-	      mvc.perform(get("/task/list").content("application/json"))
-	         .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
-	      	 .andExpect(MockMvcResultMatchers.model().attributeExists("beforeList"))
-	      	 .andExpect(MockMvcResultMatchers.model().attributeExists("ingList"))
-	      	 .andExpect(MockMvcResultMatchers.model().attributeExists("endList"))
-	      	 .andExpect(MockMvcResultMatchers.model().attributeExists("beforeCnt"))
-	      	 .andExpect(MockMvcResultMatchers.model().attributeExists("ingCnt"))
-	      	 .andExpect(MockMvcResultMatchers.model().attributeExists("endCnt"));
-	 }
-	  
-	  
-	  @Test
-	  @DisplayName("list 페이지 테스트1")
-	  public void list_페이지_이동1() throws Exception{
-	        
-	      //andExpect
 	      mvc.perform(get("/task/list"))
-	         .andExpect(status().isOk());    
-	   }
-	  
+	      .andDo(print())
+	         .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()));
+
+	}
+
 	  @Test
 	  @DisplayName("글 등록시 DTO타입 파라미터 @valid로 NULL 검증하기.")
 	  public void 파라미터_널값_테스트() throws Exception {
@@ -87,7 +85,6 @@ public class TaskControllerTest {
 		  String taskTitle = null;
 		  String taskStartDate = null;
 		  String taskEndDate = null;
-		  
 		  
 		  //WHEN
 		  final ResultActions result =  mvc.perform(post("/task/register").contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -110,7 +107,7 @@ public class TaskControllerTest {
 	   }
 	  
 	  @Test
-	  @DisplayName("formData post 테스트")
+	  @DisplayName("등록 v1.0 formData post 테스트")
 	  public void Posts_등록된다() throws Exception {
 		//Given
 		String test = "2022-03-08";
@@ -154,7 +151,7 @@ public class TaskControllerTest {
 	  }
 	  
 	  @Test
-	  @DisplayName("JSON post 테스트")
+	  @DisplayName("등록 v1.1 JSON post 테스트")
 	  public void Posts_등록된다1() throws Exception {
 		 
 		String test = "2022-03-08";
@@ -190,7 +187,7 @@ public class TaskControllerTest {
 	  }  
 	  
 	  @Test
-	  @DisplayName("상위작업_하위작업_동시에_수정된다.")
+	  @DisplayName("수정 v1.0 상위작업_하위작업_동시에_수정된다.")
 	  public void modify_수정된다() throws Exception {
 		  //Given
 		  List<SubTaskDTO>subList = new ArrayList<SubTaskDTO>();
@@ -220,10 +217,54 @@ public class TaskControllerTest {
 				  .param("subTaskDTOList", subList.toString())
 				  ).andDo(print()); 
 		//then
-		 result.andExpect(redirectedUrl("/task/list"));
+		  result.andExpect(redirectedUrl("/task/list"));
 		  result.andExpect(view().name("redirect:/task/list"));
-		
 	  }
+	  
+	   @Test
+	   @DisplayName("수정 v1.1 상위작업_하위작업_동시에_수정된다.")
+		public void 상위작업과_하위작업이_Rest_api형태로_수정된다() throws Exception {
+			//Given
+			List<SubTaskDTO>requestSubList = new ArrayList<SubTaskDTO>();
+			SubTaskDTO requestSubDto = TaskFactory.makeSubTaskDTO();
+			
+			
+			Task saveTask = taskRepository.save(TaskFactory.makeTaskEntity());
+			
+			Long updateId = saveTask.getTid();
+			String expectedTitle = "title 수정";
+			String expectedContent = "content 수정";
+			
+			String url = "http://localhost:"+this.port+"/task/"+updateId;
+		
+			
+			TaskDTO requestTaskDto = 
+					TaskDTO.builder()
+						.tid(updateId)
+						.taskTitle(expectedTitle)
+						.taskContents(expectedContent)
+						.taskStartDate("2022-03-08T10:10")
+						.taskEndDate("2022-03-08T10:10")
+						.realProgress(10f)
+						.subTaskDTOList(requestSubList)
+						.build();
+			
+			System.out.println(new ObjectMapper().writeValueAsString(requestTaskDto));
+			
+			HttpEntity<TaskDTO>requestEntity = new HttpEntity<>(requestTaskDto);
+			//When
+			ResponseEntity<Long>responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, Long.class);
+			
+
+			responseEntity.status(HttpStatus.OK);
+				//then
+			  Optional<Task> result = taskRepository.findById(updateId);
+			  result.ifPresent(resultTask->{
+			  assertThat(resultTask.getTaskTitle()).isEqualTo(expectedTitle);
+			  
+			  });
+			  assertThat(responseEntity.getBody()).isEqualTo(updateId);
+		}
 	  
 	  @Test
 	  @DisplayName("삭제 테스트")
@@ -251,6 +292,8 @@ public class TaskControllerTest {
 		  result.andExpect(redirectedUrl("/task/list"));
 		  result.andExpect(view().name("redirect:/task/list"));
 	  }
+	  
+	  
 	  
 
 }
