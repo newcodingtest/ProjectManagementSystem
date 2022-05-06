@@ -1,25 +1,23 @@
 package com.yoon.pms.repository;
 
-import static org.assertj.core.api.Assertions.assertThat; 
-
+import static org.assertj.core.api.Assertions.assertThat;  
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.yoon.pms.TaskFactory;
 import com.yoon.pms.aop.AspectAdvice;
 import com.yoon.pms.dto.SubTaskDTO;
 import com.yoon.pms.dto.TaskDTO;
 import com.yoon.pms.entity.SubTask;
 import com.yoon.pms.entity.Task;
-
 import lombok.extern.slf4j.Slf4j;
 
 @SpringBootTest
@@ -229,7 +227,7 @@ public class TaskRepositoryTests{
 	}
 	
 	@Test
-	@DisplayName("부무엔티티(Task)와 자식엔티티(SubTask) 삭제")
+	@DisplayName(" CascadeType.ALL 부모엔티티(Task)와 자식엔티티(SubTask) 삭제")
 	@Transactional
 	void deleteTaskWithSubTask() {
 		
@@ -237,20 +235,87 @@ public class TaskRepositoryTests{
 	}
 	
 	@Test
-	@DisplayName("부모엔티티(Task)와 자식엔티티(SubTask) 등록")
+	@DisplayName(" CascadeType.ALL 부모엔티티(Task)와 자식엔티티(SubTask) 등록")
 	@Transactional
-	void updateTaskWithSubTask() {
+	void insertTaskWithSubTask() {
 		//GIVEN
-		Task task = TaskFactory.makeTaskEntity();
-		SubTask subTask = TaskFactory.makeSubTaskEntity();
+		TaskDTO task = TaskDTO.builder()
+				.taskTitle("테스트")
+				.taskContents("테스트")
+				.taskStartDate("2022-03-08T10:10")
+				.taskEndDate("2022-03-08T10:10")
+				.build();
+		SubTaskDTO subTask1 = SubTaskDTO.builder()
+				.subTitle("테스트")
+				.subStartDate("2022-03-08T10:10")
+				.subEndDate("2022-03-08T10:10")
+				.build();
 		
-		task.addSubTaskList(subTask);
+		SubTaskDTO subTask2 = SubTaskDTO.builder()
+				.subTitle("테스트")
+				.subStartDate("2022-03-08T10:10")
+				.subEndDate("2022-03-08T10:10")
+				.build();
+		
+		Task entity = TaskDTO.dtoToEntity(task);
+		SubTask subEntity1 = SubTaskDTO.dtoToEntity(subTask1);
+		SubTask subEntity2 = SubTaskDTO.dtoToEntity(subTask2);
+		
+		entity.addSubTaskList(subEntity1);
+		entity.addSubTaskList(subEntity2);
 		
 		//WHEN
-		Task result = repository.save(task);
+		Task result = repository.save(entity);
 		
 		//THEN
-		assertThat(result.getSubTaskList()).hasSize(1);
-	
+		assertThat(result.getSubTaskList()).hasSize(2);
 	}
+	
+	@Test
+	@DisplayName(" CascadeType.ALL 부모엔티티(Task)에서 연관관계 삭제시 고아가된 SubTask는 삭제된다.")
+	@Transactional
+	void 고아객체는_삭제된다() {
+		//GIVEN
+		Optional<Task> target = repository.findById(13L);
+		
+		//WHEN - THEN
+		target.ifPresent(task->{
+			assertThat(task.getSubTaskList()).hasSize(2);
+			
+			task.getSubTaskList().clear();
+			assertThat(task.getSubTaskList()).hasSize(0);
+		});
+	}
+	
+	@Test
+	@DisplayName(" CascadeType.ALL 자식엔티티만 수정되는 경우 clear를 사용하자")
+	@Transactional
+	void 자식엔티티만_수정하는방법() {
+		//GIVEN
+		SubTaskDTO subTask1 = SubTaskDTO.builder()
+				.subTitle("테스트")
+				.subStartDate("2022-03-08T10:10")
+				.subEndDate("2022-03-08T10:10")
+				.build();
+		
+		SubTask subEntity1 = SubTaskDTO.dtoToEntity(subTask1);
+		
+		Task target = repository.getById(13L);
+		
+		int beforeSize = target.getSubTaskList().size();
+		
+		//WHEN
+		target.getSubTaskList().clear();
+		int ingSize = target.getSubTaskList().size();
+		
+		target.getSubTaskList().add(subEntity1);
+		int EndSize =  target.getSubTaskList().size();
+		
+		//THEN
+		assertThat(beforeSize).isEqualTo(2);
+		assertThat(ingSize).isEqualTo(0);
+		assertThat(EndSize).isEqualTo(1);
+	}
+	
+	
 }
