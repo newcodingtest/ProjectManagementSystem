@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller; 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -87,13 +88,14 @@ public class TaskController {
 	}
 	
 	@PostMapping("/{tid}")
-	public ResponseEntity<Long>addSubTask(@RequestBody TaskDTO TaskWithSubTaskDto){
+	public ResponseEntity<Long>addSubTask(@RequestBody TaskDTO requestDto){
 		log.info("--------------- addSubTask ---------------");
-		log.info("subTaskDTO: " + TaskWithSubTaskDto);
+		log.info("subTaskDTO: " + requestDto);
 		
+		Long savedId = taskService.modifyTaskWithSub(requestDto);
 		//service.register(subTaskMap);
 		
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(savedId,HttpStatus.OK);
 	}
 	
 	

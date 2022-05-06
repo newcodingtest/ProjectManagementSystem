@@ -4,9 +4,9 @@ import java.util.List;
 import com.yoon.pms.dto.TaskDTO;
 
 public interface TaskService {
-	long register(TaskDTO dto);
+	Long register(TaskDTO dto);
 	TaskDTO getTaskOne(Long id);
-	long modify(TaskDTO dto);
+	Long modify(TaskDTO dto);
 	void remove(TaskDTO dto);
 	
 	List<TaskDTO> getStatusBeforeList();
@@ -14,5 +14,7 @@ public interface TaskService {
 	List<TaskDTO> getStatusIngList();
 	
 	List<TaskDTO> getStatusEndList();
+	
+	Long modifyTaskWithSub(TaskDTO requestDto);
 	
 }
