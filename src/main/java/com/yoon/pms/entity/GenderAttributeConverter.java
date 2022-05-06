@@ -1,6 +1,6 @@
 package com.yoon.pms.entity;
 
-import javax.persistence.AttributeConverter;
+import javax.persistence.AttributeConverter; 
 import javax.persistence.Converter;
 
 @Converter

@@ -59,7 +59,7 @@ dependencies {
    implementation 'com.querydsl:querydsl-apt'
 }
 
-//querydsl 추가  
+//querydsl 추가   
 //def querydslDir = 'src/main/generated'
 def querydslDir = "$buildDir/generated/querydsl"
 
