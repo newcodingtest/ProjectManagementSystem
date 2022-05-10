@@ -14,6 +14,7 @@ import com.yoon.pms.entity.Project;
 import com.yoon.pms.entity.SubTask;
 import com.yoon.pms.entity.Task;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Builder.Default;
@@ -22,7 +23,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
 public class SubTaskDTO {
 

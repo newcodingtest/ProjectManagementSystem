@@ -1,6 +1,8 @@
 package com.yoon.pms.entity;
 
-import java.time.LocalDateTime; 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +12,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.lang.Nullable;
+
+import com.yoon.pms.dto.SubTaskDTO;
+
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,7 +25,7 @@ import lombok.ToString;
 @Table
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @Getter
 @ToString(exclude = "task")

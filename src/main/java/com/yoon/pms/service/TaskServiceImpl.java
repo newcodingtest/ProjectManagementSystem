@@ -107,13 +107,11 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	@Transactional
-	public void remove(TaskDTO dto) {
-		Optional<Task> origin =taskRepository.findById(dto.getTid()); 
+	public void remove(Long tid) {
+		Optional<Task> origin =taskRepository.findById(tid); 
 		origin.orElseThrow(NoSuchElementException::new);
 		
-		Task target =  TaskDTO.dtoToEntity(dto);
-		taskRepository.delete(target);
-		
+		taskRepository.deleteById(tid);
 	}
 
 	@Override
