@@ -227,11 +227,16 @@ public class TaskRepositoryTests{
 	}
 	
 	@Test
-	@DisplayName(" CascadeType.ALL 부모엔티티(Task)와 자식엔티티(SubTask) 삭제")
+	@DisplayName(" CascadeType.ALL 부모엔티티(Task)가 삭제되면 자식엔티티(SubTask)도 삭제된다.")
 	@Transactional
 	void deleteTaskWithSubTask() {
+		//GIVEN
+		Optional<Task> given = repository.findById(3L);
 		
-		repository.deleteById(5L);
+		//WHEN
+		given.ifPresent(target ->{
+			repository.deleteById(given.get().getTid());
+		});
 	}
 	
 	@Test

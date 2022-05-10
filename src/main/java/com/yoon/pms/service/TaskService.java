@@ -7,7 +7,7 @@ public interface TaskService {
 	Long register(TaskDTO dto);
 	TaskDTO getTaskOne(Long id);
 	Long modify(TaskDTO dto);
-	void remove(TaskDTO dto);
+	void remove(Long tid);
 	
 	List<TaskDTO> getStatusBeforeList();
 	

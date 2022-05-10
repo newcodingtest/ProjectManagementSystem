@@ -79,10 +79,10 @@ public class TaskController {
 	}
 	
 	@PostMapping("/remove")
-	public String doRemove(TaskDTO dto,RedirectAttributes redirectAttributes) {
+	public String doRemove(Long tid, RedirectAttributes redirectAttributes) {
 		log.info("----------doRemove----------");
 		
-		taskService.remove(dto);
+		taskService.remove(tid);
 		
 		return "redirect:/task/list";
 	}
