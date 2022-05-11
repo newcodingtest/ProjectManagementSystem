@@ -62,7 +62,7 @@ public class SubTaskDTO {
 				.subTitle(dto.getSubTitle())
 				.subContents(dto.getSubContents())
 				.subStartDate(SubTaskDTO.stringToLocalDateTime(dto.getSubStartDate()))
-				.subEndDate(SubTaskDTO.stringToLocalDateTime(dto.getSubStartDate()))
+				.subEndDate(SubTaskDTO.stringToLocalDateTime(dto.getSubEndDate()))
 				.subReportRegistFlag(dto.getSubReportRegistFlag())
 				.subRealProgress(dto.getSubRealProgress())
 				.build();

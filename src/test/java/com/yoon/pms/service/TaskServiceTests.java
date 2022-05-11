@@ -219,7 +219,7 @@ class TaskServiceTests {
 		//GIVEN
 		SubTaskDTO dto = SubTaskDTO.builder()
 				.subTitle("테스트")
-				.subStartDate("2022-03-08T10:10")
+				.subStartDate("2022-03-06T10:10")
 				.subEndDate("2022-03-08T10:10")
 				.build();
 		
@@ -230,8 +230,8 @@ class TaskServiceTests {
 				.tid(13L)
 				.taskTitle("테스트")
 				.taskContents("테스트")
-				.taskStartDate("2022-03-08T10:10")
-				.taskEndDate("2022-03-08T10:10")
+				.taskStartDate("2022-03-07T10:10")
+				.taskEndDate("2022-03-07T10:10")
 				.subTaskDTOList(list)
 				.build();
 		
