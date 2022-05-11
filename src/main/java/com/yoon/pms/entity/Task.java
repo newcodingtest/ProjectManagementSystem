@@ -37,7 +37,7 @@ import lombok.ToString;
 @DynamicUpdate
 @DynamicInsert 
 public class Task extends BaseEntity {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="TASK_ID")
@@ -75,7 +75,6 @@ public class Task extends BaseEntity {
 	@Column
 	private String reportRegistFlag; //--> 보고서 등록 여부
 	
-	
 	/*
 		자식 엔티티의 변경이 있다면, JPA에서 자식엔티티 수정은 
 		insert -> update -> delete 순으로 이어지는데,  변경된 자식을 먼저 insert하고, 기존 자식을 NULL로 update 한다.
@@ -90,7 +89,7 @@ public class Task extends BaseEntity {
 	private Long projectId; 
 
 	public void deleteSubTask() {
-		this.getSubTaskList().remove(0);
+		this.getSubTaskList().clear();
 	}
 	
 	public void addSubTaskList(SubTask subTask) {

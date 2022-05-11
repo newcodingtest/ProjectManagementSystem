@@ -67,7 +67,7 @@ S<!DOCTYPE html>
                               <div class="formInput text-center">
                               <label class="control-label"><label class="">보고서 포함</label></label>
                               <div class="formInput text-center">
-                                    <input type="checkbox"  id="reportRegistFlag" name="reportRegistFlag" style="zoom:1.6;" value="1"  checked="checked"/>
+                                    <input type="checkbox"  id="reportRegistFlag" name="reportRegistFlag" onclick="changeCheckBoxValue(this);"  style="zoom:1.6;" th:checked="${dto.reportRegistFlag}==1" th:value="${dto.reportRegistFlag}"/>
                                  </div>
                            	   </div>
                           </div>
@@ -242,7 +242,11 @@ function onAddExistSubJob(input) {
 		str+='	<div class="form-group">'
  		str+='	<label class="control-label"><label class="">보고서 포함</label></label>'
  		str+='	<div class="formInput">'
- 		str+='		<input type="checkbox" name="subReportRegistFlag" id="subReportRegistFlag" value="0" style="zoom:1.6;"/>'
+ 		if(input[i].subReportRegistFlag==1){
+ 			str+='		<input type="checkbox" name="subReportRegistFlag" id="subReportRegistFlag"  onclick="changeCheckBoxValue(this);" checked="checked" value="'+input[i].subReportRegistFlag+'" style="zoom:1.6;" checked="checked"/>'
+ 		}else{
+ 			str+='		<input type="checkbox" name="subReportRegistFlag" id="subReportRegistFlag"  onclick="changeCheckBoxValue(this);" value="'+input[i].subReportRegistFlag+'" style="zoom:1.6;"/>'
+ 		}
  		str+='	</div>'
  		str+='	</div>'
  		str+='</div>'
@@ -314,7 +318,7 @@ function onAddSubJob() {
 		str+='	<div class="form-group">'
  		str+='		<label class="control-label"><label class="">보고서 포함</label></label>'
  		str+='		<div class="formInput">'
- 		str+='			<input type="checkbox" name="subReportRegistFlag" id="subReportRegistFlag" value="0" style="zoom:1.6;"/>'
+ 		str+='			<input type="checkbox" name="subReportRegistFlag" id="subReportRegistFlag" value="0"  onclick="changeCheckBoxValue(this);"  style="zoom:1.6;"/>'
  		str+='		</div>'
  		str+='	</div>'
  		str+='</div>'
@@ -343,6 +347,16 @@ function onAddSubJob() {
 	 var target = document.getElementById(id);
 	 target.remove();
   }
+
+ function changeCheckBoxValue(target){
+	 if(target.checked==true){
+		 target.value=1;
+	 }else{
+		 target.value=0;
+	 }
+ }
+
+
 
 //[시작일], [종료일]의 Default는 현재 시간 ======================================================================================================================
 	
@@ -413,6 +427,7 @@ function saveBtn(){
 	        var data = null;
 	        //하위작업이 있다면 상-하위 같이 등록
 	        if(subjobDOM.length>0){
+	        	alert(reportRegistFlag.value);
 		         data = { tid: tid, taskTitle: taskTitle.value , taskContents: taskContents.value, taskStartDate: taskStartDate.value, taskEndDate: taskEndDate.value,
 							realProgress: realProgress.value, reportRegistFlag: reportRegistFlag.value, taskType: taskType.value, detailedTaskType: detailedTaskType.value, divisionOfTask: divisionOfTask.value, statusCode: statusCode.value
 							, subTaskDTOList: subTaskList}
