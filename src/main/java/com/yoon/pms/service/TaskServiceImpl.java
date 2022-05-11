@@ -1,5 +1,7 @@
 package com.yoon.pms.service;
 
+import java.time.LocalDateTime;
+import java.util.Iterator;
 import java.util.List;  
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -13,9 +15,11 @@ import com.yoon.pms.entity.Task;
 import com.yoon.pms.repository.SubTaskRepository;
 import com.yoon.pms.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TaskServiceImpl implements TaskService {
 
 	private final TaskRepository taskRepository;
@@ -86,6 +90,7 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public TaskDTO getTaskOne(Long id) {
 		Optional<Task> target = taskRepository.findById(id);
+		target.orElseThrow(NoSuchElementException::new);
 		
 		return TaskDTO.entityToDTO(target.get());
 	}
@@ -117,12 +122,52 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	@Transactional
 	public Long modifyTaskWithSub(TaskDTO requestDto) {
+		System.out.println("받은dto: "+requestDto);
 		Task target = taskRepository.getById(requestDto.getTid());
 		
-		target.getSubTaskList().clear();
+		//target.getSubTaskList().clear();
+		target.deleteSubTask();
 		
+		System.out.println();
+		//(1) DTO 에서 하위 정보를 가져온다.
+		//(2) 하위작업들의 최소 시작일 최대 종료일을 상위 작업의 시작,종료일로 반영하자
+		//(3) 하위작업들의 진행률의 평균값을 계산하여 상위작업 진행률에 반영하자
+	
 		Task updated = TaskDTO.dtoToEntity(requestDto);
+		System.out.println("변환후: "+updated);
+		//(1)
+		List<SubTask>subTask = updated.getSubTaskList();
 		
+		int length = subTask.size();
+		LocalDateTime minStartDate = subTask.get(0).getSubStartDate();
+		LocalDateTime maxEndDate = subTask.get(0).getSubEndDate();
+		float sum = 0.0f;
+		
+		subTask.stream().forEach(x -> {
+			System.out.println("시작일: "+x.getSubStartDate());
+			System.out.println("종료일: "+x.getSubEndDate());
+		});
+		
+		//(2)
+		for (int i = 1; i < length; i++) {
+		
+			
+			if(minStartDate.compareTo(subTask.get(i).getSubStartDate())>0) {
+				minStartDate = subTask.get(i).getSubStartDate();
+			}
+			if(maxEndDate.compareTo(subTask.get(i).getSubEndDate())<0) {
+				maxEndDate = subTask.get(i).getSubEndDate();
+			}
+			//(3)
+			sum+=subTask.get(i).getSubRealProgress();
+		}
+		log.info("시작일={}",minStartDate);
+		log.info("종료일={}",maxEndDate);
+		
+		updated.changeStartDate(minStartDate);
+		updated.changeEndDate(maxEndDate);
+		updated.changeRealProgress(sum/length);
+	    
 		taskRepository.save(updated);
 		
 		return requestDto.getTid();

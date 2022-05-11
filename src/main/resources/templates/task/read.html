@@ -413,7 +413,6 @@ function saveBtn(){
 	        var data = null;
 	        //하위작업이 있다면 상-하위 같이 등록
 	        if(subjobDOM.length>0){
-		         
 		         data = { tid: tid, taskTitle: taskTitle.value , taskContents: taskContents.value, taskStartDate: taskStartDate.value, taskEndDate: taskEndDate.value,
 							realProgress: realProgress.value, reportRegistFlag: reportRegistFlag.value, taskType: taskType.value, detailedTaskType: detailedTaskType.value, divisionOfTask: divisionOfTask.value, statusCode: statusCode.value
 							, subTaskDTOList: subTaskList}
@@ -428,8 +427,9 @@ function saveBtn(){
 		            type: "POST",
 		            data: JSON.stringify(data),
 		            contentType: "application/json; charset=utf-8",
-		            dataType: "text",
+		            dataType: "json",
 		            success: function (result){
+		            	alert(result);
 		                self.location.reload();
 		            }
 		        }); 

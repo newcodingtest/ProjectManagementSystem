@@ -89,10 +89,25 @@ public class Task extends BaseEntity {
 	@Column
 	private Long projectId; 
 
+	public void deleteSubTask() {
+		this.getSubTaskList().remove(0);
+	}
 	
 	public void addSubTaskList(SubTask subTask) {
 		subTaskList.add(subTask);
 		subTask.setTask(this);
+	}
+	
+	public void changeStartDate(LocalDateTime startDate) {
+		this.taskStartDate = startDate;
+	}
+	
+	public void changeEndDate(LocalDateTime endDate) {
+		this.taskEndDate = endDate;
+	}
+	
+	public void changeRealProgress(float realProgress) {
+		this.realProgress = realProgress;
 	}
 	/*
 	 * public void setProject(Project projects) { if(this.projects!=null) {
