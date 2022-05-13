@@ -17,6 +17,10 @@ import com.yoon.pms.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 프로젝트 관련 클래스
+ * @author 윤주영
+ * */
 @Controller
 @Slf4j
 @RequiredArgsConstructor

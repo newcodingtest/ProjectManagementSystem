@@ -29,6 +29,4 @@ public interface ProjectService {
 	 * 아이디로 프로젝트 정보 출력
 	 * */
 	ProjectDTO getProjectOneById(Long id);
-	
-
 }

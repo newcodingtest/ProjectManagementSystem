@@ -11,6 +11,11 @@ import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 스프링 AOP 사용
+ * Request, Reponse 파악 용도
+ * @author 윤주영
+ * */
 @Slf4j
 @Aspect
 @Component

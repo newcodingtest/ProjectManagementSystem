@@ -9,6 +9,10 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import lombok.Getter;
 
+/**
+ * 엔티티 등록일, 수정일 자동등록 엔티티
+ * @author 윤주영
+ * */
 @MappedSuperclass
 @EntityListeners(value= {AuditingEntityListener.class})
 @Getter

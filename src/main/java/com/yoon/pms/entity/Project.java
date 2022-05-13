@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.lang.Nullable;
@@ -39,9 +40,11 @@ public class Project extends BaseEntity{
 	private Long id;
 	
 	@Column
+	@Comment("프로젝트 제목")
 	private String projectTitle;
 	
 	@Column
+	@Comment("프로젝트 별칭")
 	private String projectNickname;
 	
 	@Column
@@ -54,6 +57,7 @@ public class Project extends BaseEntity{
 	private String contents;
 	
 	@Column
+	@Comment("비고")
 	private String remarks;
 	
 	@Column(nullable = false)
@@ -61,6 +65,7 @@ public class Project extends BaseEntity{
 	private String statusCode; //진행 상태 --> 진행전/진행중/완료/중단
 	
 	@Column
+	@Comment("프로젝트 매니저/관리자")
 	private String manager;
 	
 	/*

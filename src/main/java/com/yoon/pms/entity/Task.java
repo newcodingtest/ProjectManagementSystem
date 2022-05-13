@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.lang.Nullable;
@@ -42,38 +43,63 @@ public class Task extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="TASK_ID")
 	private Long tid;
+	
 	@Column
-	private String taskType; //업무 종류 --> 개발/업무제안/관리/기타
+	@Comment("업무 종류 --> 개발/업무제안/관리/기타")
+	private String taskType; 
+	
 	@Column
-	private String detailedTaskType; //상세 업무 -->개발/버그수정/산출물/테스트/휴가/기타 등등
+	@Comment("상세 업무 -->개발/버그수정/산출물/테스트/휴가/기타 등등")
+	private String detailedTaskType; 
+	
 	@Column
-	private String divisionOfTask; //업무 구분 --> 주/지원
+	@Comment("업무 구분 --> 주/지원")
+	private String divisionOfTask; 
+	
 	@Column
 	@Nullable
-	private String taskContents; // 업무 내용
+	@Comment("업무 내용")
+	private String taskContents; 
+	
 	@Column
-	private String taskTitle; //업무 제목
+	@Comment("업무 제목")
+	private String taskTitle; 
+	
 	@Column
-	private String writer; //작성자 아이디
+	@Comment("작성자 아이디")
+	private String writer; 
+	
 	@Column
+	@Comment("비고")
 	private String remarks; //비고
 	
 	@Column
-	private LocalDateTime taskStartDate; //업무 시작일
+	@Comment("업무 시작일")
+	private LocalDateTime taskStartDate; 
+	
 	@Column
-	private LocalDateTime taskEndDate;  //업무 종료일
+	@Comment("업무 종료일")
+	private LocalDateTime taskEndDate;  
+	
 	@Column
-	private float realProgress; // 실제 진행률 --> 1%,50%,100%
+	@Comment(" 실제 진행률 --> 1%,50%,100%짜")
+	private float realProgress; // 
+	
 	@Column
-	private LocalDateTime savedWeekDate; // 배치가 돌아서 저장된 날짜
+	@Comment(" 배치가 돌아서 저장된 날짜")
+	private LocalDateTime savedWeekDate; 
 	
 	@Column(nullable = false)
 	@Convert(converter = GenderAttributeConverter.class)
-	private String statusCode; //진행 상태 --> 진핸전/진행중/완료/중단
+	@Comment("진행 상태 --> 진핸전/진행중/완료/중단")
+	private String statusCode; 
+	
 	@Column
 	private Long parent; // --> 부모 작업 /자식작업 구분 키
+	
 	@Column
-	private String reportRegistFlag; //--> 보고서 등록 여부
+	@Comment("보고서 등록 여부")
+	private String reportRegistFlag;
 	
 	/*
 		자식 엔티티의 변경이 있다면, JPA에서 자식엔티티 수정은 
