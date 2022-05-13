@@ -23,7 +23,15 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 	QProject project = QProject.project;
 
 	@Override
-	public List<Project> getProjectListByStatusCode() {
+	public List<Project> getProjectListByStatusCode(String status) {
+		return queryFactory.select(project)
+				.from(project)
+				.where(project.statusCode.eq(status))
+				.fetch();
+	}
+	
+	@Override
+	public List<Project> getProjectListAll() {
 	
 		return queryFactory.select(project)
 				.from(project)

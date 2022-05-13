@@ -1,11 +1,15 @@
 package com.yoon.pms.repository;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.List; 
 import java.util.Optional; 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.yoon.pms.ProjectFactory;
 import com.yoon.pms.dto.ProjectDTO;
 import com.yoon.pms.entity.Project;
@@ -59,14 +63,23 @@ public class ProjectRepositoryTests {
 	@Test
 	void 모든_프로젝트_리스트_가져오기() {
 		//Given, When
-		List<Project> target = repository.getProjectListByStatusCode();
+		String statusCode = "진행중";
+		
+		List<Project> target = repository.getProjectListByStatusCode(statusCode);
+		
+		List<Project> target1 = repository.getProjectListAll();
 		
 		//Then
 		target.forEach(x->{
-			Project result = x;
-			log.info("result = {}", target);
+			log.info("result = {}", x);
 			
 		});
+		
+		target1.forEach(x->{
+			log.info("result1 = {}", x);
+			
+		});
+		assertThat(target.size()).isGreaterThanOrEqualTo(1);
 	}
 	
 	@Test

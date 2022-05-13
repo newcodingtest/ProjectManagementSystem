@@ -14,11 +14,11 @@
 							<div class="selects">
 								<select onchange="onBtnClick()" class="state" name="selectState"
 									id="selectState">
-									<option value="0">전체</option>
-									<option value="111">진행전</option>
-									<option value="112" selected="selected">진행중</option>
-									<option value="113">완료</option>
-									<option value="110">중단</option>
+									<option value="전체">전체</option>
+									<option value=진행전>진행전</option>
+									<option value="진행중" selected="selected">진행중</option>
+									<option value="완료">완료</option>
+									<option value="중단">중단</option>
 								</select>
 							</div>
 						</div>
@@ -148,6 +148,13 @@ if(msg){
 			mySheet.DoSearch("/project/sheet/list");
 			
 	}
+	
+	function onBtnClick() {
+		var state = $('#selectState').val();
+		var param = 'status=' + state
+	
+        mySheet.DoSearch("/project/sheet/list?" + param);
+    }
 	
 	function doAction(sAction) {
 				switch (sAction) {

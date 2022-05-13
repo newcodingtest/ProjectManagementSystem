@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -31,9 +32,10 @@ public class ProjectController {
 	
 	 @PostMapping(value = "/sheet/list")
 	 @ResponseBody
-	 public ProjectResponseDTO sendData(){
+	 public ProjectResponseDTO sendData(@RequestParam(value = "status", defaultValue = "진행중")String status){
+		 log.info("상태코드: " +status);
 		 
-		 return service.getProjectListByStatusCode();
+		 return service.getProjectListByStatusCode(status);
 	 }
 	   
 	   @GetMapping(value = "/register")
@@ -54,6 +56,7 @@ public class ProjectController {
 	   @PostMapping(value="modify")
 	   public String doModify(ProjectDTO dto, RedirectAttributes rttr) {
 		   log.info("----project->doModify------");
+		   
 		   service.modify(dto);
 		   
 		   return "redirect:/project/list";

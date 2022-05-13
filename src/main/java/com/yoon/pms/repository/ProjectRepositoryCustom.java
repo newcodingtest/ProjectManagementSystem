@@ -6,6 +6,8 @@ import com.yoon.pms.entity.Project;
 
 public interface ProjectRepositoryCustom{
 	
-	List<Project> getProjectListByStatusCode();
+	List<Project> getProjectListByStatusCode(String status);
+	
+	List<Project> getProjectListAll();
 
 }

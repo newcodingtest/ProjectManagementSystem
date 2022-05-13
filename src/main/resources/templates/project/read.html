@@ -17,7 +17,7 @@
 							 <span class="star01">프로젝트명</span>
 							 <span id="project_title-no" style="display: none; color: #d92742; font-weight: bold;">입력해주세요</span>
 							<div class="formInput">
-								<input id="project_title" type="text" class="form-control" th:value="${dto.projectTitle}" required="required" >
+								<input id="project_title" type="text" class="form-control" name="projectTitle" th:value="${dto.projectTitle}" required="required" >
 							</div>
 						</div>
 					</div>
@@ -26,7 +26,7 @@
 							  <span class="star01">프로젝트 별칭</span>
 							  <span id="project_nickname-no" style="display: none; color: #d92742; font-weight: bold;">입력해주세요</span>
 							<div class="formInput"> 
-							  <input id="project_nickname" type="text" class="form-control" th:value="${dto.projectNickname}" required="required">
+							  <input id="project_nickname" type="text" class="form-control" name="projectNickname" th:value="${dto.projectNickname}" required="required">
 							</div>
 						</div>
 					</div>
