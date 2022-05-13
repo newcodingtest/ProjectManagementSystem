@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.lang.Nullable;
 
@@ -38,18 +40,29 @@ public class SubTask extends BaseEntity {
 	private Long sid;
 	
 	@Column
+	@Comment("하위 작업 제목")
 	private String subTitle;
+	
 	@Column
 	@Nullable
+	@Comment("하위 작업 내용")
 	private String subContents;
+	
 	@Column
+	@Comment("하위 작업 시작일")
 	private LocalDateTime subStartDate;
+	
 	@Column
+	@Comment("하위 작업 종료일")
 	private LocalDateTime subEndDate;
+	
 	@Column
-	private float subRealProgress; // 실제 진행률 --> 1%,50%,100%
+	@Comment("실제 진행률 --> 1%,50%,100%")
+	private float subRealProgress; 
+	
 	@Column
-	private String subReportRegistFlag; //--> 보고서 등록 여부
+	@Comment("보고서 등록 여부")
+	private String subReportRegistFlag;
 	
 	@ManyToOne
 	private Task task;

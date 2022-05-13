@@ -3,6 +3,10 @@ package com.yoon.pms.entity;
 import javax.persistence.AttributeConverter; 
 import javax.persistence.Converter;
 
+/**
+ * 엔티티 컨버터 클래스
+ * @author 윤주영
+ * */
 @Converter
 public class GenderAttributeConverter implements AttributeConverter<String, Integer> {
  

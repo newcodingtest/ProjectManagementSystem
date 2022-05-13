@@ -9,6 +9,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
+/**
+ * QueryDsl Config 파일
+ * @author 윤주영
+ * */
 @Configuration
 public class QuerydslConfig {
 

@@ -13,6 +13,10 @@ import com.yoon.pms.service.WeekReportService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 주간보고서 클래스
+ * @author 윤주영
+ * */
 @RestController
 @Slf4j
 @RequestMapping("report")

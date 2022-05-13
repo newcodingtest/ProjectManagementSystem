@@ -18,6 +18,10 @@ import com.yoon.pms.service.SubTaskService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 하위작업 클래스
+ * @author 윤주영
+ * */
 @RestController
 @Slf4j
 @RequiredArgsConstructor
