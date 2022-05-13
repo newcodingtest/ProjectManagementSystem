@@ -63,7 +63,6 @@ public class Project extends BaseEntity{
 	@Column
 	private String manager;
 	
-	
 	/*
 	 * @OneToMany(mappedBy = "projects") private List<Task> task = new ArrayList();
 	 */
