@@ -28,30 +28,12 @@ public class TaskServiceImpl implements TaskService {
 	@Transactional
 	@Override
 	public Long register(TaskDTO dto) {
-		//1.파라미터로 들어온 상위작업을 갖고있는 하위작업들을 찾는다.
-		//2.1번 조건에 만족하는 하위작업들을 삭제한다.
-		//3.파라미터로 들어온 상위작업을 등록 또는 수정한다.
-		//4.파라미터로 들어온 새로운 하위작업들을 추가한다.
-		Task parentTarget = TaskDTO.dtoToEntity(dto);
-		List<SubTask> subTarget = parentTarget.getSubTaskList();
-		
-		Task result = taskRepository.getTaskListWithAll(dto.getTid());
-		
-		//(1)
-		if(!result.getSubTaskList().isEmpty()) {
-			result.getSubTaskList().forEach(subtask->{
-				//(2)
-				subTaskRepository.deleteById(subtask.getSid());
-			});
-		}
-		//(3)
-		Task savedParentTask = taskRepository.save(parentTarget);
-		
-		//(4)
-		parentTarget.getSubTaskList().forEach(subtask->{
-			  subTaskRepository.save(subtask);
-		  });
-		return savedParentTask.getTid();
+
+		Task target = TaskDTO.dtoToEntity(dto);
+	
+		Task saved = taskRepository.save(target);
+
+		return saved.getTid();
 	}
 	
 	// readOnly = true : 트랜잭션 범위는 유지하면서 조회 기능만 남겨두어 조회 속도가 개선되어, 등록/수정/삭제 기능이 없는 메소드에 사용하는 것을 추천되어진다.
@@ -128,7 +110,6 @@ public class TaskServiceImpl implements TaskService {
 		//target.getSubTaskList().clear();
 		target.deleteSubTask();
 		
-		System.out.println();
 		//(1) DTO 에서 하위 정보를 가져온다.
 		//(2) 하위작업들의 최소 시작일 최대 종료일을 상위 작업의 시작,종료일로 반영하자
 		//(3) 하위작업들의 진행률의 평균값을 계산하여 상위작업 진행률에 반영하자
@@ -143,11 +124,6 @@ public class TaskServiceImpl implements TaskService {
 		LocalDateTime maxEndDate = subTask.get(0).getSubEndDate();
 		float sum = 0.0f;
 		
-		subTask.stream().forEach(x -> {
-			System.out.println("시작일: "+x.getSubStartDate());
-			System.out.println("종료일: "+x.getSubEndDate());
-		});
-		
 		//(2)
 		for (int i = 1; i < length; i++) {
 		
@@ -161,8 +137,6 @@ public class TaskServiceImpl implements TaskService {
 			//(3)
 			sum+=subTask.get(i).getSubRealProgress();
 		}
-		log.info("시작일={}",minStartDate);
-		log.info("종료일={}",maxEndDate);
 		
 		updated.changeStartDate(minStartDate);
 		updated.changeEndDate(maxEndDate);

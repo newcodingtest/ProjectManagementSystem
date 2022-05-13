@@ -93,7 +93,6 @@ public class TaskController {
 		log.info("subTaskDTO: " + requestDto);
 		
 		Long savedId = taskService.modifyTaskWithSub(requestDto);
-		//service.register(subTaskMap);
 		
 		return new ResponseEntity<>(savedId,HttpStatus.OK);
 	}

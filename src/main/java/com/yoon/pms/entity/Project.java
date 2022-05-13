@@ -1,6 +1,8 @@
 package com.yoon.pms.entity;
 
-import java.time.LocalDateTime; 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -8,6 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.lang.Nullable;
+
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,10 +25,12 @@ import lombok.ToString;
 @Table
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @ToString
 @Getter
+@DynamicUpdate
+@DynamicInsert 
 public class Project extends BaseEntity{
 	
 	@Id
@@ -48,7 +58,7 @@ public class Project extends BaseEntity{
 	
 	@Column(nullable = false)
 	@Convert(converter = GenderAttributeConverter.class)
-	private String statusCode; //진행 상태 --> 진핸전/진행중/완료/중단
+	private String statusCode; //진행 상태 --> 진행전/진행중/완료/중단
 	
 	@Column
 	private String manager;

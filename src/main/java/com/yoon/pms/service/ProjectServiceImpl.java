@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.yoon.pms.dto.ProjectDTO;
 import com.yoon.pms.dto.ProjectResponseDTO;
 import com.yoon.pms.entity.Project;
@@ -27,6 +29,7 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
+	@Transactional
 	public void modify(ProjectDTO dto) {
 		Optional<Project> origin =projectRepository.findById(dto.getPid());
 		
@@ -39,6 +42,7 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
+	@Transactional
 	public void remove(Long id) {
 		Optional<Project> origin =projectRepository.findById(id);
 		origin.orElseThrow(NoSuchElementException::new);
@@ -48,10 +52,16 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public ProjectResponseDTO getProjectListByStatusCode() {
+	public ProjectResponseDTO getProjectListByStatusCode(String status) {
 		
 		ProjectResponseDTO dto = new ProjectResponseDTO();
-		List<Project> target = projectRepository.getProjectListByStatusCode();
+		List<Project> target = null;
+		
+		if(status.equals("전체")) {
+			target = projectRepository.getProjectListAll();
+		}else {
+			target = projectRepository.getProjectListByStatusCode(status);
+		}
 		
 		List<ProjectDTO> result =  ProjectResponseDTO.ListEntityToDto(target);
 		dto.setData(result);

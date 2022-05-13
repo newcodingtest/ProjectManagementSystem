@@ -2,7 +2,14 @@ package com.yoon.pms.dto;
 
 import java.time.LocalDateTime; 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import com.yoon.pms.entity.Project;
+
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +17,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
 public class ProjectDTO {
 	
@@ -18,8 +25,12 @@ public class ProjectDTO {
 
 	private String manager;
 	
+	@NotEmpty(message = "제목은 빈 값이 될수 없습니다.")
+	@NotNull(message = "제목은 NULL 값이 될수 없습니다.")
 	private String projectTitle;
 	
+	@NotEmpty(message = "별칭은 빈 값이 될수 없습니다.")
+	@NotNull(message = "별칭은 NULL 값이 될수 없습니다.")
 	private String projectNickname;
 	
 	private String contents;
@@ -27,9 +38,11 @@ public class ProjectDTO {
 	private String remarks;
 	
 	private String statusCode; //진행 상태 --> 진핸전/진행중/완료/중단
-	
+	@NotEmpty(message = "시작일은 빈 값이 될수 없습니다.")
+	@NotNull(message = "시작일은 NULL 값이 될수 없습니다.")
 	private String startDate;
-	
+	@NotEmpty(message = "종료일은 빈 값이 될수 없습니다.")
+	@NotNull(message = "종료일은 NULL 값이 될수 없습니다.")
 	private String endDate;
 	
 	public static LocalDateTime stringToLocalDateTime(String inputDate) {
