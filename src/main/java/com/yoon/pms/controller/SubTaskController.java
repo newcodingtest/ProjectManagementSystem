@@ -30,17 +30,6 @@ public class SubTaskController {
 	
 	private final SubTaskService service;
 
-	/*
-	 * @PostMapping("/{tid}") public ResponseEntity<Long>addSubTask(@RequestBody
-	 * Map<String, String[]> subTaskMap){
-	 * log.info("--------------- addSubTask ---------------");
-	 * log.info("subTaskDTO: " + subTaskMap);
-	 * 
-	 * service.register(subTaskMap);
-	 * 
-	 * return new ResponseEntity<>(HttpStatus.OK); }
-	 */
-	
 	@PostMapping("/{tid}")
 	public ResponseEntity<Long>addSubTask(@RequestBody TaskDTO TaskWithSubTaskDto){
 		log.info("--------------- addSubTask ---------------");

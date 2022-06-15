@@ -73,7 +73,7 @@ public class TaskController {
 	}
 	
 	@PostMapping("/modify")
-	public String doModify(TaskDTO dto,RedirectAttributes redirectAttributes) {
+	public String doModify(@Valid TaskDTO dto,RedirectAttributes redirectAttributes) {
 		log.info("----------doModify----------");
 		
 		taskService.modify(dto);
