@@ -4,7 +4,7 @@
 ## 리펙토링 + 새로운 기술 적용
 Spring(레거시)+mybatis  =>  SpringBoot + JPA 
 
-###변환과정에서의 공부List
+### 변환과정에서의 공부List
 
 1. exception 처리
 2. validation 처리
