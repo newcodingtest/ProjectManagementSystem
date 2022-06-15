@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import com.yoon.pms.entity.Task;
@@ -31,23 +33,26 @@ public class TaskDTO {
 	private String divisionOfTask; 
 	private String taskContents; 
 	
-	@NotEmpty(message = "제목은 빈 값이 될수 없습니다.")
+	@NotEmpty(message = "제목은 NULL,\"\" 값이 될수 없습니다.")
 	@NotNull(message = "제목은 NULL 값이 될수 없습니다.")
+	@NotBlank(message ="제목은 빈값, NULL, 단순 공백으로 들어올수 없습니다.")
 	private String taskTitle; 
 	 
 	private String writer; 
 	
 	private String remarks; //비고 
 	
-	@NotEmpty(message = "시작일은 빈 값이 될수 없습니다.")
+	@NotEmpty(message = "시작일은 NULL, \"\" 값이 될수 없습니다.")
 	@NotNull(message = "시작일은 NULL 값이 될수 없습니다.")
+	@NotBlank(message ="시작일은 빈값, NULL, 단순 공백으로 들어올수 없습니다.")
     //@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") //get
     //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul") //post
 	//private LocalDateTime taskStartDate; //
 	private String taskStartDate;
 	
-	@NotEmpty(message = "종료일은 빈 값이 될수 없습니다.")
+	@NotEmpty(message = "종료일은 NULL, \"\" 값이 될수 없습니다.")
 	@NotNull(message = "종료일은 NULL 값이 될수 없습니다.")
+	@NotBlank(message ="종료일은 빈값, NULL, 단순 공백으로 들어올수 없습니다.")
     //@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") //get
     //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul") //post
 	//private LocalDateTime taskEndDate;  /
