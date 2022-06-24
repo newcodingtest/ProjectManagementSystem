@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yoon.pms.dto.SubTaskDTO;
 import com.yoon.pms.dto.TaskDTO;
+import com.yoon.pms.security.filter.ApiCheckFilter;
 import com.yoon.pms.service.SubTaskService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -23,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author 윤주영
  * */
 @RestController
-@Slf4j
+@Log4j2
 @RequiredArgsConstructor
 @RequestMapping("/subtask")
 public class SubTaskController {

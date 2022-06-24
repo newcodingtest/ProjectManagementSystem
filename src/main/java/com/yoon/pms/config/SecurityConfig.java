@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.yoon.pms.security.handler.LoginSuccessHandler;
 import com.yoon.pms.service.LoginDetailsService;
 
 @Configuration
@@ -34,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		http.oauth2Login().successHandler(successHandler());
 		http.rememberMe().tokenValiditySeconds(60*60*27*7)
-				.userDetailsService(userDetailsService);
+				.userDetailsService(loginDetailsService);
 				
 		http.addFilterBefore(apiCheckFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
