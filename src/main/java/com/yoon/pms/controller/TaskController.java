@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.yoon.pms.dto.TaskDTO;
+import com.yoon.pms.security.filter.ApiCheckFilter;
 import com.yoon.pms.service.TaskService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -23,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author 윤주영
  * */
 @Controller
-@Slf4j
+@Log4j2
 @RequiredArgsConstructor
 @RequestMapping("/task")
 public class TaskController {

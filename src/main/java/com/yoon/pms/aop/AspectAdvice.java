@@ -9,6 +9,9 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
+import com.yoon.pms.security.filter.ApiCheckFilter;
+
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -16,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
  * Request, Reponse 파악 용도
  * @author 윤주영
  * */
-@Slf4j
+@Log4j2
 @Aspect
 @Component
 public class AspectAdvice {  
